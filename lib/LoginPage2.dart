@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'LoginPage2.dart';
+import 'LoginPage.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class LoginPage2 extends StatefulWidget {
+  const LoginPage2({super.key});
   @override
-  _LoginPageState createState() => new _LoginPageState();
+  _LoginPageState2 createState() => new _LoginPageState2();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState2 extends State<LoginPage2> {
   @override
   void _showToast(BuildContext context) {
     final scaffold = ScaffoldMessenger.of(context);
@@ -45,14 +45,13 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
     final loginButton = TextButton(
-      child: const Text('Đăng nhập'),
+      child: const Text('Đăng xuất'),
       style: TextButton.styleFrom(
           primary: Color.fromARGB(255, 255, 255, 255),
           backgroundColor: Color.fromARGB(255, 70, 139, 241)),
       onPressed: () {
         //_showToast(context);
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const LoginPage2()));
+        Navigator.pop(context);
       },
     );
     final forgotLabel = TextButton(
@@ -64,18 +63,20 @@ class _LoginPageState extends State<LoginPage> {
 
     return SafeArea(
         child: Scaffold(
+            appBar: AppBar(
+              title: const Text('Main'),
+            ),
             backgroundColor: Colors.white,
             body: Center(
               child: ListView(
                 shrinkWrap: true,
-                padding: const EdgeInsets.only(left: 24.0, right: 24.0),
+                padding: EdgeInsets.only(left: 24.0, right: 24.0),
                 children: [
-                  logo,
-                  const SizedBox(height: 45.0),
+                  SizedBox(height: 45.0),
                   username,
-                  const SizedBox(height: 10.0),
+                  SizedBox(height: 10.0),
                   password,
-                  const SizedBox(height: 15.0),
+                  SizedBox(height: 15.0),
                   loginButton,
                   forgotLabel,
                 ],
