@@ -1,3 +1,4 @@
+import 'package:cms_flutter/HomePage.dart';
 import 'package:flutter/material.dart';
 import 'LoginPage2.dart';
 
@@ -51,8 +52,8 @@ class _LoginPageState extends State<LoginPage> {
           backgroundColor: Color.fromARGB(255, 70, 139, 241)),
       onPressed: () {
         //_showToast(context);
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const LoginPage2()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => const HomePage()));
       },
     );
     final forgotLabel = TextButton(
