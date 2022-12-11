@@ -1,3 +1,4 @@
+import 'package:cms_flutter/model/Album.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -8,6 +9,32 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   @override
+  int _selectedIndex = 0;
+  static const TextStyle optionStyle =
+      TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
+  static const List<Widget> _widgetOptions = <Widget>[
+    AlbumWidget(),
+    Text(
+      'Trang 2',
+      style: optionStyle,
+    ),
+    Text(
+      'Trang 3',
+      style: optionStyle,
+    ),
+    Text(
+      'Trang 4',
+      style: optionStyle,
+    ),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+      print(_selectedIndex);
+    });
+  }
+
   void _showToast(BuildContext context) {
     final scaffold = ScaffoldMessenger.of(context);
     scaffold.showSnackBar(SnackBar(
@@ -23,136 +50,116 @@ class _HomePageState extends State<HomePage> {
       'assets/images/cmslogo.jpg',
     ));
 
-    final username = TextFormField(
-      keyboardType: TextInputType.emailAddress,
-      autofocus: false,
-      initialValue: '',
-      decoration: InputDecoration(
-        hintText: 'Tên đăng nhập.....',
-        contentPadding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
-      ),
-    );
-    final password = TextFormField(
-      autofocus: false,
-      initialValue: '',
-      obscureText: true,
-      decoration: InputDecoration(
-        hintText: 'Mật khẩu',
-        contentPadding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
-      ),
-    );
-    final loginButton = TextButton(
-      child: const Text('Đăng xuất'),
-      style: TextButton.styleFrom(
-          primary: Color.fromARGB(255, 255, 255, 255),
-          backgroundColor: Color.fromARGB(255, 70, 139, 241)),
-      onPressed: () {
-        Navigator.pop(context);
-      },
-    );
-    final forgotLabel = TextButton(
-      child: const Text('Quên mật khẩu?'),
-      onPressed: () {
-        //_showToast(context);
-      },
-    );
-
     return SafeArea(
         child: Scaffold(
-            appBar: AppBar(
-              title: const Text('Main'),
-            ),
-            backgroundColor: Color.fromARGB(255, 231, 247, 190),
-            drawer: Drawer(
-              // Add a ListView to the drawer. This ensures the user can scroll
-              // through the options in the drawer if there isn't enough vertical
-              // space to fit everything.
+      appBar: AppBar(
+        title: const Text('Main'),
+      ),
+      backgroundColor: Color.fromARGB(255, 222, 250, 253),
+      drawer: Drawer(
+        // Add a ListView to the drawer. This ensures the user can scroll
+        // through the options in the drawer if there isn't enough vertical
+        // space to fit everything.
 
-              child: ListView(
-                // Important: Remove any padding from the ListView.
-                padding: EdgeInsets.zero,
-                children: [
-                  const DrawerHeader(
-                    decoration: BoxDecoration(
-                      color: Colors.blue,
-                    ),
-                    child: Text('Drawer Header'),
-                  ),
-                  ListTile(
-                    title: const Text('R&D'),
-                    onTap: () {
-                      Navigator.pop(context);
-                      // Update the state of the app.
-                      // ...
-                    },
-                  ),
-                  ListTile(
-                    title: const Text('Kinh Doanh'),
-                    onTap: () {
-                      Navigator.pop(context);
-                      // Update the state of the app.
-                      // ...
-                    },
-                  ),
-                  ListTile(
-                    title: const Text('QLSX'),
-                    onTap: () {
-                      Navigator.pop(context);
-                      // Update the state of the app.
-                      // ...
-                    },
-                  ),
-                  ListTile(
-                    title: const Text('Sản Xuất'),
-                    onTap: () {
-                      Navigator.pop(context);
-                      // Update the state of the app.
-                      // ...
-                    },
-                  ),
-                  ListTile(
-                    title: const Text('QC'),
-                    onTap: () {
-                      Navigator.pop(context);
-                      // Update the state of the app.
-                      // ...
-                    },
-                  ),
-                  ListTile(
-                    title: const Text('Kiểm Tra'),
-                    onTap: () {
-                      Navigator.pop(context);
-                      // Update the state of the app.
-                      // ...
-                    },
-                  ),
-                  ListTile(
-                    title: const Text('Kho'),
-                    onTap: () {
-                      Navigator.pop(context);
-                      // Update the state of the app.
-                      // ...
-                    },
-                  ),
-                ],
+        child: ListView(
+          // Important: Remove any padding from the ListView.
+          padding: EdgeInsets.zero,
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
               ),
+              child: Text('Drawer Header'),
             ),
-            body: Center(
-              child: ListView(
-                shrinkWrap: true,
-                padding: EdgeInsets.only(left: 24.0, right: 24.0),
-                children: [
-                  SizedBox(height: 45.0),
-                  username,
-                  SizedBox(height: 10.0),
-                  password,
-                  SizedBox(height: 15.0),
-                  loginButton,
-                  forgotLabel,
-                ],
-              ),
-            )));
+            ListTile(
+              title: const Text('R&D'),
+              onTap: () {
+                Navigator.pop(context);
+                // Update the state of the app.
+                // ...
+              },
+            ),
+            ListTile(
+              title: const Text('Kinh Doanh'),
+              onTap: () {
+                Navigator.pop(context);
+                // Update the state of the app.
+                // ...
+              },
+            ),
+            ListTile(
+              title: const Text('QLSX'),
+              onTap: () {
+                Navigator.pop(context);
+                // Update the state of the app.
+                // ...
+              },
+            ),
+            ListTile(
+              title: const Text('Sản Xuất'),
+              onTap: () {
+                Navigator.pop(context);
+                // Update the state of the app.
+                // ...
+              },
+            ),
+            ListTile(
+              title: const Text('QC'),
+              onTap: () {
+                Navigator.pop(context);
+                // Update the state of the app.
+                // ...
+              },
+            ),
+            ListTile(
+              title: const Text('Kiểm Tra'),
+              onTap: () {
+                Navigator.pop(context);
+                // Update the state of the app.
+                // ...
+              },
+            ),
+            ListTile(
+              title: const Text('Kho'),
+              onTap: () {
+                Navigator.pop(context);
+                // Update the state of the app.
+                // ...
+              },
+            ),
+          ],
+        ),
+      ),
+      body: Center(
+        child: _widgetOptions.elementAt(_selectedIndex),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+            backgroundColor: Colors.red,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.business),
+            label: 'Business',
+            backgroundColor: Colors.green,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.school),
+            label: 'School',
+            backgroundColor: Colors.purple,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Settings',
+            backgroundColor: Colors.pink,
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.amber[400],
+        onTap: _onItemTapped,
+      ),
+    ));
   }
 }

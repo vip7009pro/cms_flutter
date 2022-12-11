@@ -24,7 +24,6 @@ class _LoginPageState extends State<LoginPage> {
         child: Image.asset(
       'assets/images/cmslogo.jpg',
     ));
-
     final username = TextFormField(
       keyboardType: TextInputType.emailAddress,
       autofocus: false,
@@ -62,7 +61,6 @@ class _LoginPageState extends State<LoginPage> {
         //_showToast(context);
       },
     );
-
     return SafeArea(
         child: Scaffold(
             backgroundColor: Colors.white,
