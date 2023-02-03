@@ -1,4 +1,6 @@
-import 'package:cms_flutter/model/Album.dart';
+import 'package:cms_flutter/components/Album.dart';
+import 'package:cms_flutter/components/UserInfo.dart';
+import 'package:cms_flutter/model/UserData.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -13,7 +15,7 @@ class _HomePageState extends State<HomePage> {
   static const TextStyle optionStyle =
       TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
-    AlbumWidget(),
+    UserInfo(),
     Text(
       'Trang 2',
       style: optionStyle,
