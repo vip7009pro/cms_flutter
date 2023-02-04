@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cms_flutter/controller/network_request.dart';
 import 'package:cms_flutter/model/UserData.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,12 +21,14 @@ class _UserInfoState extends State<UserInfo> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    NetWorkRequestAPI.fetchUserData().then((value) => {
-          setState(() {
-            userDatas = value;
-          })
+    var postData = {'user': 'nhu1903', 'pass': 'dauxanhrauma'};
+    NetWorkRequestAPI.generalQuery('login3', postData).then((value) => {
+          setState((() {
+            var list = json.decode(value) as List<dynamic>;
+            userDatas =
+                list.map((element) => UserData.fromJson(element)).toList();
+          }))
         });
   }
 

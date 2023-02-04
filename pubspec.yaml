@@ -12,6 +12,7 @@ dependencies:
   english_words: ^4.0.0
   font_awesome_flutter: ^10.2.1
   http: ^0.13.5
+  shared_preferences: ^2.0.17
 
 dev_dependencies:
   flutter_test:

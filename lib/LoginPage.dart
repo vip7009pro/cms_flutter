@@ -1,6 +1,6 @@
 import 'package:cms_flutter/HomePage.dart';
 import 'package:flutter/material.dart';
-import 'LoginPage2.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -9,7 +9,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  @override
   void _showToast(BuildContext context) {
     final scaffold = ScaffoldMessenger.of(context);
     scaffold.showSnackBar(SnackBar(
@@ -17,6 +16,19 @@ class _LoginPageState extends State<LoginPage> {
       action:
           SnackBarAction(label: 'OK', onPressed: scaffold.hideCurrentSnackBar),
     ));
+  }
+
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  late Future<String> _token;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    super.initState();
+    _token = _prefs.then((SharedPreferences prefs) {
+      return prefs.getString('token') ?? 'reset';
+    });
   }
 
   Widget build(BuildContext context) {
