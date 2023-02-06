@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:cms_flutter/HomePage.dart';
+import 'package:cms_flutter/controller/network_request.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -26,9 +29,6 @@ class _LoginPageState extends State<LoginPage> {
     // TODO: implement initState
 
     super.initState();
-    _token = _prefs.then((SharedPreferences prefs) {
-      return prefs.getString('token') ?? 'reset';
-    });
   }
 
   Widget build(BuildContext context) {
@@ -59,7 +59,6 @@ class _LoginPageState extends State<LoginPage> {
     final loginButton = TextButton(
       child: const Text('Đăng nhập'),
       style: TextButton.styleFrom(
-          primary: Color.fromARGB(255, 255, 255, 255),
           backgroundColor: Color.fromARGB(255, 70, 139, 241)),
       onPressed: () {
         //_showToast(context);

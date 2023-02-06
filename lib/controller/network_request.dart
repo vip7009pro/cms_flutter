@@ -16,23 +16,6 @@ class NetWorkRequestAPI {
     return users;
   }
 
-  /*  static Future<List<UserData>> fetchUserData() async {
-    final body = {
-      'command': 'login3',
-      'DATA': {'user': 'nhu1903', 'pass': 'dauxanhrauma'}
-    };
-    final response = await http.post(Uri.parse(url),
-        body: jsonEncode(body), headers: headers1);
-    if (response.statusCode == 200) {
-      print(response.body);
-      return parseUserData(response.body);
-    } else if (response.statusCode == 404) {
-      throw Exception('Not Found');
-    } else {
-      throw Exception('Can\'t get post');
-    }
-  } */
-
   static Future<dynamic> generalQuery(String command, dynamic data) async {
     final body = {'command': command, 'DATA': data};
     final response = await http.post(Uri.parse(url),
