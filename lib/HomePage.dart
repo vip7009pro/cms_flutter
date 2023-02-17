@@ -74,6 +74,14 @@ class _HomePageState extends State<HomePage> {
               child: Text('Drawer Header'),
             ),
             ListTile(
+              title: const Text('Nhân sự'),
+              onTap: () {
+                Navigator.pop(context);
+                // Update the state of the app.
+                // ...
+              },
+            ),
+            ListTile(
               title: const Text('R&D'),
               onTap: () {
                 Navigator.pop(context);

@@ -1,6 +1,7 @@
 import 'dart:convert';
-
+import 'dart:developer';
 import 'package:cms_flutter/HomePage.dart';
+import 'package:cms_flutter/controller/APIRequest.dart';
 import 'package:cms_flutter/controller/network_request.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,22 +13,85 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  void _showToast(BuildContext context) {
+  void _showToast(BuildContext context, String message) {
     final scaffold = ScaffoldMessenger.of(context);
     scaffold.showSnackBar(SnackBar(
-      content: const Text('Đăng nhập thành công !'),
+      content: Text('$message '),
       action:
           SnackBarAction(label: 'OK', onPressed: scaffold.hideCurrentSnackBar),
     ));
   }
 
+  String _user = '';
+  String _pass = '';
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-  late Future<String> _token;
+
+  Future<String> _getToken() async {
+    print('vao get token');
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    final savedToken = _prefs.getString('token') ?? 'reset';
+    log(savedToken);
+    return savedToken;
+  }
+
+  Future _saveToken(String token_string) async {
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    _prefs.setString('token', token_string);
+  }
+
+  void _login(BuildContext context) {
+    API_Request.api_query('login2', {
+      'user': _user,
+      'pass': _pass
+    }).then((value) => {
+          setState((() {
+            if (value['tk_status'] == 'ok') {
+              print('dang nhap thanh cong');
+              _saveToken(value['token_content']);
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const HomePage()));
+            } else {
+              _showToast(context, 'Đăng nhập thất bại, xem lại user or pass');
+              print('dang nhap that bai');
+              _saveToken('reset');
+            }
+          }))
+        });
+  }
+
+  void _checklogin(BuildContext context) async {
+    String savedTokenString = '';
+    await _getToken().then((value) => {savedTokenString = value});
+
+    API_Request.api_query('checklogin', {
+      'token_string': savedTokenString,
+      'user': _user,
+      'pass': _pass
+    }).then((value) => {
+          setState((() {
+            if (value['tk_status'] == 'ok') {
+              print('dang nhap thanh cong');
+              _saveToken(value['token_content']);
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const HomePage()));
+            } else {
+              _showToast(context, 'Đăng nhập thất bại, xem lại user or pass');
+              print('dang nhap that bai');
+              _saveToken('reset');
+            }
+          }))
+        });
+  }
+
+  void _logout() async {
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    _prefs.setString('token', 'reset');
+  }
 
   @override
   void initState() {
-    // TODO: implement initState
-
+    print('bat dau render');
+    //_checklogin(context);
     super.initState();
   }
 
@@ -37,6 +101,7 @@ class _LoginPageState extends State<LoginPage> {
       'assets/images/cmslogo.jpg',
     ));
     final username = TextFormField(
+      onChanged: (value) => {_user = value},
       keyboardType: TextInputType.emailAddress,
       autofocus: false,
       initialValue: '',
@@ -47,6 +112,7 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
     final password = TextFormField(
+      onChanged: (value) => {_pass = value},
       autofocus: false,
       initialValue: '',
       obscureText: true,
@@ -57,14 +123,16 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
     final loginButton = TextButton(
-      child: const Text('Đăng nhập'),
       style: TextButton.styleFrom(
-          backgroundColor: Color.fromARGB(255, 70, 139, 241)),
+          backgroundColor: Color.fromARGB(255, 245, 242, 59)),
       onPressed: () {
+        _login(context);
+        //_logout();
         //_showToast(context);
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => const HomePage()));
+        /* Navigator.push(
+            context, MaterialPageRoute(builder: (context) => const HomePage())); */
       },
+      child: const Text(style: TextStyle(color: Colors.red), 'Đăng nhập'),
     );
     final forgotLabel = TextButton(
       child: const Text('Quên mật khẩu?'),
@@ -72,6 +140,7 @@ class _LoginPageState extends State<LoginPage> {
         //_showToast(context);
       },
     );
+
     return SafeArea(
         child: Scaffold(
             backgroundColor: Colors.white,
