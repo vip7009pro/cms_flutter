@@ -1,7 +1,9 @@
+import 'package:cms_flutter/LoginPage.dart';
 import 'package:cms_flutter/components/Album.dart';
 import 'package:cms_flutter/components/UserInfo.dart';
 import 'package:cms_flutter/model/UserData.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -29,6 +31,11 @@ class _HomePageState extends State<HomePage> {
       style: optionStyle,
     ),
   ];
+
+  void _logout() async {
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    _prefs.setString('token', 'reset');
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -137,6 +144,18 @@ class _HomePageState extends State<HomePage> {
                 // ...
               },
             ),
+            ListTile(
+              title: const Text('Logout'),
+              onTap: () {
+                Navigator.pop(context);
+                _logout();
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const LoginPage()));
+
+                // Update the state of the app.
+                // ...
+              },
+            ),
           ],
         ),
       ),
@@ -163,6 +182,11 @@ class _HomePageState extends State<HomePage> {
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
             label: 'Settings',
+            backgroundColor: Colors.pink,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Logout',
             backgroundColor: Colors.pink,
           ),
         ],

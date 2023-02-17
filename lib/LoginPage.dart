@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:ffi';
 import 'package:cms_flutter/HomePage.dart';
 import 'package:cms_flutter/controller/APIRequest.dart';
 import 'package:cms_flutter/controller/network_request.dart';
@@ -39,6 +40,11 @@ class _LoginPageState extends State<LoginPage> {
     _prefs.setString('token', token_string);
   }
 
+  Future _saveVariable(String key, String value) async {
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    _prefs.setString(key, value);
+  }
+
   void _login(BuildContext context) {
     API_Request.api_query('login2', {
       'user': _user,
@@ -59,11 +65,12 @@ class _LoginPageState extends State<LoginPage> {
         });
   }
 
-  void _checklogin(BuildContext context) async {
+  Future<int> _checklogin(BuildContext context) async {
     String savedTokenString = '';
+    int result = 0;
     await _getToken().then((value) => {savedTokenString = value});
 
-    API_Request.api_query('checklogin', {
+    await API_Request.api_query('checklogin', {
       'token_string': savedTokenString,
       'user': _user,
       'pass': _pass
@@ -71,16 +78,21 @@ class _LoginPageState extends State<LoginPage> {
           setState((() {
             if (value['tk_status'] == 'ok') {
               print('dang nhap thanh cong');
-              _saveToken(value['token_content']);
+              print(value);
+              result = 1;
+
+              _saveVariable('userData', value['data'].toString());
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => const HomePage()));
             } else {
               _showToast(context, 'Đăng nhập thất bại, xem lại user or pass');
               print('dang nhap that bai');
               _saveToken('reset');
+              result = 0;
             }
           }))
         });
+    return result;
   }
 
   void _logout() async {
@@ -91,7 +103,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     print('bat dau render');
-    //_checklogin(context);
+    _checklogin(context);
     super.initState();
   }
 
