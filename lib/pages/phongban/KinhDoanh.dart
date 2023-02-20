@@ -1,0 +1,25 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
+class KinhDoanh extends StatefulWidget {
+  const KinhDoanh({Key? key}) : super(key: key);
+
+  @override
+  _KinhDoanhState createState() => _KinhDoanhState();
+}
+
+class _KinhDoanhState extends State<KinhDoanh> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Kinh Doanh'),
+        ),
+        body: Container(
+          child: const Text('Màn hình bộ phận Kinh Doanh'),
+        ),
+      ),
+    );
+  }
+}

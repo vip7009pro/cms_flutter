@@ -1,9 +1,8 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:ffi';
-import 'package:cms_flutter/HomePage.dart';
 import 'package:cms_flutter/controller/APIRequest.dart';
-import 'package:cms_flutter/controller/network_request.dart';
+import 'package:cms_flutter/controller/LocalDataAccess.dart';
+import 'package:cms_flutter/pages/HomePage.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -25,24 +24,12 @@ class _LoginPageState extends State<LoginPage> {
 
   String _user = '';
   String _pass = '';
-  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   Future<String> _getToken() async {
-    print('vao get token');
-    SharedPreferences _prefs = await SharedPreferences.getInstance();
-    final savedToken = _prefs.getString('token') ?? 'reset';
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final savedToken = prefs.getString('token') ?? 'reset';
     log(savedToken);
     return savedToken;
-  }
-
-  Future _saveToken(String token_string) async {
-    SharedPreferences _prefs = await SharedPreferences.getInstance();
-    _prefs.setString('token', token_string);
-  }
-
-  Future _saveVariable(String key, String value) async {
-    SharedPreferences _prefs = await SharedPreferences.getInstance();
-    _prefs.setString(key, value);
   }
 
   void _login(BuildContext context) {
@@ -52,14 +39,12 @@ class _LoginPageState extends State<LoginPage> {
     }).then((value) => {
           setState((() {
             if (value['tk_status'] == 'ok') {
-              print('dang nhap thanh cong');
-              _saveToken(value['token_content']);
-              Navigator.push(context,
+              LocalDataAccess.saveVariable('token', value['token_content']);
+              Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (context) => const HomePage()));
             } else {
               _showToast(context, 'Đăng nhập thất bại, xem lại user or pass');
-              print('dang nhap that bai');
-              _saveToken('reset');
+              LocalDataAccess.saveVariable('token', 'reset');
             }
           }))
         });
@@ -77,17 +62,14 @@ class _LoginPageState extends State<LoginPage> {
     }).then((value) => {
           setState((() {
             if (value['tk_status'] == 'ok') {
-              print('dang nhap thanh cong');
-              print(value);
               result = 1;
-
-              _saveVariable('userData', value['data'].toString());
-              Navigator.push(context,
+              LocalDataAccess.saveVariable(
+                  'userData', jsonEncode(value['data']));
+              Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (context) => const HomePage()));
             } else {
-              _showToast(context, 'Đăng nhập thất bại, xem lại user or pass');
-              print('dang nhap that bai');
-              _saveToken('reset');
+              //_showToast(context, 'Đăng nhập thất bại, xem lại user or pass');
+              LocalDataAccess.saveVariable('token', 'reset');
               result = 0;
             }
           }))
@@ -95,14 +77,8 @@ class _LoginPageState extends State<LoginPage> {
     return result;
   }
 
-  void _logout() async {
-    SharedPreferences _prefs = await SharedPreferences.getInstance();
-    _prefs.setString('token', 'reset');
-  }
-
   @override
   void initState() {
-    print('bat dau render');
     _checklogin(context);
     super.initState();
   }
@@ -134,18 +110,37 @@ class _LoginPageState extends State<LoginPage> {
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
       ),
     );
-    final loginButton = TextButton(
-      style: TextButton.styleFrom(
-          backgroundColor: Color.fromARGB(255, 245, 242, 59)),
-      onPressed: () {
-        _login(context);
-        //_logout();
-        //_showToast(context);
-        /* Navigator.push(
-            context, MaterialPageRoute(builder: (context) => const HomePage())); */
-      },
-      child: const Text(style: TextStyle(color: Colors.red), 'Đăng nhập'),
+    final loginButton = SizedBox(
+      height: 50,
+      width: 150,
+      child: TextButton(
+        style: TextButton.styleFrom(
+            backgroundColor: const Color.fromARGB(255, 10, 97, 179)),
+        onPressed: () {
+          _login(context);
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          // ignore: prefer_const_literals_to_create_immutables
+          children: [
+            // ignore: prefer_const_constructors
+            Icon(
+              Icons.login,
+              color: Colors.white,
+            ),
+            const SizedBox(
+              height: 100,
+              width: 10,
+            ),
+            const Text(
+                style: TextStyle(
+                    color: Color.fromARGB(255, 255, 255, 255), fontSize: 15),
+                'Đăng nhập'),
+          ],
+        ),
+      ),
     );
+
     final forgotLabel = TextButton(
       child: const Text('Quên mật khẩu?'),
       onPressed: () {
