@@ -221,10 +221,37 @@ class _HomePageState extends State<HomePage> {
               ),
               title: const Text('Logout'),
               onTap: () {
-                Navigator.pop(context);
+                showDialog<String>(
+                  context: context,
+                  builder: (BuildContext context) => AlertDialog(
+                    title: const Text('Logout'),
+                    content: const Text('Bạn thực sự muốn Logout'),
+                    actions: <Widget>[
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context, 'Cancel');
+                        },
+                        child: const Text('Cancel'),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                          GlobalFunction.logout();
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const LoginPage()));
+                        },
+                        child: const Text('Ok'),
+                      ),
+                    ],
+                  ),
+                );
+
+                /*  Navigator.pop(context);
                 GlobalFunction.logout();
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const LoginPage()));
+                    MaterialPageRoute(builder: (context) => const LoginPage())); */
               },
             ),
           ],
