@@ -2,11 +2,13 @@ import 'package:cms_flutter/components/UserInfo.dart';
 import 'package:cms_flutter/controller/GetXController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
   @override
-  _HomePageState createState() => new _HomePageState();
+  // ignore: library_private_types_in_public_api
+  _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
@@ -89,165 +91,6 @@ class _HomePageState extends State<HomePage> {
         child: Scaffold(
       appBar: AppBar(title: const Text("Home")),
       backgroundColor: const Color.fromARGB(255, 222, 250, 253),
-      /* drawer: Drawer(
-        // Add a ListView to the drawer. This ensures the user can scroll
-        // through the options in the drawer if there isn't enough vertical
-        // space to fit everything.
-        child: ListView(
-          // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.zero,
-          children: [
-            const DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                ),
-                child: UserInfo()),
-            ListTile(
-              visualDensity: const VisualDensity(vertical: -3),
-              leading: const Icon(
-                Icons.person,
-                color: Colors.green,
-              ),
-              title: const Text('Nhân sự'),
-              iconColor: Colors.red,
-              onTap: () {
-                _onItemTapped(0);
-                //Navigator.pop(context);
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const NhanSu()));
-              },
-            ),
-            ListTile(
-              visualDensity: const VisualDensity(vertical: -3),
-              leading: const Icon(
-                Icons.run_circle,
-                color: Colors.orangeAccent,
-              ),
-              title: const Text('R&D'),
-              onTap: () {
-                _onItemTapped(1);
-                //Navigator.pop(context);
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const RnD()));
-              },
-            ),
-            ListTile(
-              visualDensity: const VisualDensity(vertical: -3),
-              leading: const Icon(
-                Icons.business,
-                color: Colors.blueAccent,
-              ),
-              title: const Text('Kinh Doanh'),
-              onTap: () {
-                _onItemTapped(2);
-                //Navigator.pop(context);
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const KinhDoanh()));
-              },
-            ),
-            ListTile(
-              visualDensity: const VisualDensity(vertical: -3),
-              leading: const Icon(
-                Icons.settings_display,
-                color: Colors.redAccent,
-              ),
-              title: const Text('QLSX'),
-              onTap: () {
-                _onItemTapped(3);
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              visualDensity: const VisualDensity(vertical: -3),
-              leading: const Icon(
-                Icons.settings,
-                color: Colors.pinkAccent,
-              ),
-              title: const Text('Sản Xuất'),
-              onTap: () {
-                _onItemTapped(4);
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              visualDensity: const VisualDensity(vertical: -3),
-              leading: const Icon(
-                Icons.high_quality,
-                color: Colors.greenAccent,
-              ),
-              title: const Text('QC'),
-              onTap: () {
-                _onItemTapped(5);
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              visualDensity: const VisualDensity(vertical: -3),
-              leading: const Icon(
-                Icons.check,
-                color: Colors.orangeAccent,
-              ),
-              title: const Text('Kiểm Tra'),
-              onTap: () {
-                _onItemTapped(6);
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              visualDensity: const VisualDensity(vertical: -3),
-              leading: const Icon(
-                Icons.warehouse,
-                color: Colors.purpleAccent,
-              ),
-              title: const Text('Kho'),
-              onTap: () {
-                _onItemTapped(7);
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              visualDensity: const VisualDensity(vertical: -3),
-              leading: const Icon(
-                Icons.logout_outlined,
-                color: Colors.black,
-              ),
-              title: const Text('Logout'),
-              onTap: () {
-                showDialog<String>(
-                  context: context,
-                  builder: (BuildContext context) => AlertDialog(
-                    title: const Text('Logout'),
-                    content: const Text('Bạn thực sự muốn Logout'),
-                    actions: <Widget>[
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context, 'Cancel');
-                        },
-                        child: const Text('Cancel'),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                          GlobalFunction.logout();
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const LoginPage()));
-                        },
-                        child: const Text('Ok'),
-                      ),
-                    ],
-                  ),
-                );
-                /*  Navigator.pop(context);
-                GlobalFunction.logout();
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const LoginPage())); */
-              },
-            ),
-          ],
-        ),
-      ), */
       drawer: Drawer(
         child: SafeArea(
             child: ListView(
@@ -268,8 +111,8 @@ class _HomePageState extends State<HomePage> {
               children: [
                 ListTile(
                   visualDensity: const VisualDensity(vertical: -3),
-                  leading: const Icon(
-                    Icons.check,
+                  leading: const FaIcon(
+                    FontAwesomeIcons.check,
                     color: Colors.green,
                   ),
                   title: const Text("Điểm danh nhóm"),
