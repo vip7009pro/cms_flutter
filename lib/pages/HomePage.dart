@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:cms_flutter/components/HomeDrawerHeader.dart';
 import 'package:cms_flutter/components/UserInfo.dart';
 import 'package:cms_flutter/controller/GetXController.dart';
+import 'package:cms_flutter/controller/GlobalFunction.dart';
 import 'package:cms_flutter/controller/LocalDataAccess.dart';
+import 'package:cms_flutter/pages/LoginPage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -366,6 +368,21 @@ class _HomePageState extends State<HomePage> {
                 ),
                 //more child menu
               ],
+            ),
+            ListTile(
+              visualDensity: const VisualDensity(vertical: -3),
+              leading: const Icon(
+                Icons.logout,
+                color: Color.fromARGB(255, 0, 0, 0),
+              ),
+              title: const Text("Logout"),
+              onTap: () {
+                GlobalFunction.logout();
+                Get.to(const LoginPage());
+                /*  Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => const LoginPage())); */
+                //action on press
+              },
             ),
           ],
         )),
