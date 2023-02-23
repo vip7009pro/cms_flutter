@@ -1,5 +1,9 @@
+import 'dart:convert';
+
+import 'package:cms_flutter/components/HomeDrawerHeader.dart';
 import 'package:cms_flutter/components/UserInfo.dart';
 import 'package:cms_flutter/controller/GetXController.dart';
+import 'package:cms_flutter/controller/LocalDataAccess.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -83,23 +87,42 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget build(BuildContext context) {
-    final logo = Container(
-        child: Image.asset(
-      'assets/images/cmslogo.jpg',
-    ));
     return SafeArea(
         child: Scaffold(
-      appBar: AppBar(title: const Text("Home")),
-      backgroundColor: const Color.fromARGB(255, 222, 250, 253),
+      appBar: AppBar(
+          title: const Text("Home"),
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                  colors: [
+                    Color.fromARGB(255, 161, 209, 49),
+                    Color.fromARGB(255, 0, 255, 191),
+                  ],
+                  begin: FractionalOffset(0.0, 0.0),
+                  end: FractionalOffset(1.0, 0.0),
+                  stops: [0.0, 1.0],
+                  tileMode: TileMode.clamp),
+            ),
+          )),
+      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       drawer: Drawer(
+        backgroundColor: const Color.fromARGB(255, 242, 243, 245),
         child: SafeArea(
             child: ListView(
           children: [
             const DrawerHeader(
                 decoration: BoxDecoration(
-                  color: Colors.blue,
+                  gradient: LinearGradient(
+                      colors: [
+                        Color.fromARGB(255, 253, 253, 253),
+                        Color.fromARGB(255, 255, 255, 255),
+                      ],
+                      begin: FractionalOffset(0.0, 0.0),
+                      end: FractionalOffset(1.0, 0.0),
+                      stops: [0.0, 1.0],
+                      tileMode: TileMode.clamp),
                 ),
-                child: UserInfo()),
+                child: HomeDrawerHeader()),
             ExpansionTile(
               title: const Text("Nhân Sự"),
               leading: const Icon(
@@ -347,9 +370,17 @@ class _HomePageState extends State<HomePage> {
           ],
         )),
       ),
-      body: Center(
-          //child: _widgetOptions.elementAt(_selectedIndex),
-          child: Obx(() => Text("Clicks: ${c.count}"))),
+      body: Container(
+        decoration: const BoxDecoration(
+            gradient: LinearGradient(
+          colors: [
+            Color.fromARGB(255, 241, 241, 241),
+            Color.fromARGB(255, 93, 192, 231),
+          ],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+        )),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
