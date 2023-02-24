@@ -1,11 +1,10 @@
-import 'dart:convert';
-
 import 'package:cms_flutter/components/HomeDrawerHeader.dart';
-import 'package:cms_flutter/components/UserInfo.dart';
 import 'package:cms_flutter/controller/GetXController.dart';
 import 'package:cms_flutter/controller/GlobalFunction.dart';
-import 'package:cms_flutter/controller/LocalDataAccess.dart';
 import 'package:cms_flutter/pages/LoginPage.dart';
+import 'package:cms_flutter/pages/phongban/nhansu/DangKy.dart';
+import 'package:cms_flutter/pages/phongban/nhansu/DiemDanhNhom.dart';
+import 'package:cms_flutter/pages/phongban/nhansu/DieuChuyenTeam.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -24,63 +23,6 @@ class _HomePageState extends State<HomePage> {
   static const TextStyle optionStyle =
       TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
   final GlobalController c = Get.put(GlobalController());
-  static const List<Widget> _bottomWidgets = <Widget>[
-    Text(
-      'Bottom1',
-      style: optionStyle,
-    ),
-    Text(
-      'Bottom2',
-      style: optionStyle,
-    ),
-    Text(
-      'Bottom3',
-      style: optionStyle,
-    ),
-    Text(
-      'Bottom4',
-      style: optionStyle,
-    ),
-  ];
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Nhân sự',
-      style: optionStyle,
-    ),
-    Text(
-      'R&D',
-      style: optionStyle,
-    ),
-    Text(
-      'Kinh Doanh',
-      style: optionStyle,
-    ),
-    Text(
-      'QLSX',
-      style: optionStyle,
-    ),
-    Text(
-      'Sản Xuất',
-      style: optionStyle,
-    ),
-    Text(
-      'QC',
-      style: optionStyle,
-    ),
-    Text(
-      'Kiểm Tra',
-      style: optionStyle,
-    ),
-    Text(
-      'Kho',
-      style: optionStyle,
-    ),
-  ];
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
 
   void _onBottomItemTapped(int index) {
     setState(() {
@@ -88,6 +30,7 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
@@ -143,6 +86,7 @@ class _HomePageState extends State<HomePage> {
                   title: const Text("Điểm danh nhóm"),
                   onTap: () {
                     //action on press
+                    Get.to(const DiemDanhNhom());
                   },
                 ),
                 ListTile(
@@ -154,6 +98,7 @@ class _HomePageState extends State<HomePage> {
                   title: const Text("Điều chuyển Team"),
                   onTap: () {
                     //action on press
+                    Get.to(const DieuChuyenTeam());
                   },
                 ),
                 ListTile(
@@ -165,6 +110,7 @@ class _HomePageState extends State<HomePage> {
                   title: const Text("Đăng ký"),
                   onTap: () {
                     //action on press
+                    Get.to(const DangKy());
                   },
                 ),
                 ListTile(
@@ -176,6 +122,7 @@ class _HomePageState extends State<HomePage> {
                   title: const Text("Phê duyệt nghỉ"),
                   onTap: () {
                     //action on press
+                    Get.to(const DangKy());
                   },
                 ),
                 ListTile(
@@ -187,6 +134,7 @@ class _HomePageState extends State<HomePage> {
                   title: const Text("Lịch sử đi làm"),
                   onTap: () {
                     //action on press
+                    Get.to(const DangKy());
                   },
                 ),
                 ListTile(
@@ -198,6 +146,7 @@ class _HomePageState extends State<HomePage> {
                   title: const Text("Quản lý cấp cao"),
                   onTap: () {
                     //action on press
+                    Get.to(const DangKy());
                   },
                 ),
                 ListTile(
@@ -209,6 +158,19 @@ class _HomePageState extends State<HomePage> {
                   title: const Text("Báo cáo nhân sự"),
                   onTap: () {
                     //action on press
+                    Get.to(const DangKy());
+                  },
+                ),
+                ListTile(
+                  visualDensity: const VisualDensity(vertical: -3),
+                  leading: const Icon(
+                    Icons.manage_accounts,
+                    color: Color.fromARGB(255, 77, 88, 77),
+                  ),
+                  title: const Text("Quản lý phòng ban-nhân sự"),
+                  onTap: () {
+                    //action on press
+                    Get.to(const DangKy());
                   },
                 ),
                 //more child menu
@@ -397,6 +359,7 @@ class _HomePageState extends State<HomePage> {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         )),
+        child: Obx(() => Center(child: Text('${c.count}'))),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[

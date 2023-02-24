@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:cms_flutter/controller/APIRequest.dart';
+import 'package:cms_flutter/controller/GetXController.dart';
 import 'package:cms_flutter/controller/LocalDataAccess.dart';
 import 'package:cms_flutter/pages/HomePage.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
@@ -13,6 +15,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final GlobalController c = Get.put(GlobalController());
   void _showToast(BuildContext context, String message) {
     final scaffold = ScaffoldMessenger.of(context);
     scaffold.showSnackBar(SnackBar(
@@ -24,7 +27,6 @@ class _LoginPageState extends State<LoginPage> {
 
   String _user = '';
   String _pass = '';
-
   Future<String> _getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final savedToken = prefs.getString('token') ?? 'reset';
@@ -33,28 +35,27 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _login(BuildContext context) {
-    API_Request.api_query('login2', {
-      'user': _user,
-      'pass': _pass
-    }).then((value) => {
-          setState((() {
-            if (value['tk_status'] == 'ok') {
-              LocalDataAccess.saveVariable('token', value['token_content']);
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => const HomePage()));
-            } else {
-              _showToast(context, 'Đăng nhập thất bại, xem lại user or pass');
-              LocalDataAccess.saveVariable('token', 'reset');
-            }
-          }))
-        });
+    API_Request.api_query('login2', {'user': _user, 'pass': _pass})
+        .then((value) => {
+              setState((() {
+                if (value['tk_status'] == 'ok') {
+                  LocalDataAccess.saveVariable('token', value['token_content']);
+                  _checklogin(context);
+                  /* Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => const HomePage())); */
+                } else {
+                  _showToast(
+                      context, 'Đăng nhập thất bại, xem lại user or pass');
+                  LocalDataAccess.saveVariable('token', 'reset');
+                }
+              }))
+            });
   }
 
   Future<int> _checklogin(BuildContext context) async {
     String savedTokenString = '';
     int result = 0;
     await _getToken().then((value) => {savedTokenString = value});
-
     await API_Request.api_query('checklogin', {
       'token_string': savedTokenString,
       'user': _user,
@@ -65,6 +66,7 @@ class _LoginPageState extends State<LoginPage> {
               result = 1;
               LocalDataAccess.saveVariable(
                   'userData', jsonEncode(value['data']));
+              c.changeLoggedInUser(jsonEncode(value['data']));
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (context) => const HomePage()));
             } else {
@@ -140,14 +142,12 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
-
     final forgotLabel = TextButton(
       child: const Text('Quên mật khẩu?'),
       onPressed: () {
         //_showToast(context);
       },
     );
-
     return SafeArea(
         child: Scaffold(
             backgroundColor: Colors.white,

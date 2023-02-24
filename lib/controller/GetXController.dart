@@ -9,4 +9,9 @@ class GlobalController extends GetxController {
   decrement() {
     count--;
   }
+
+  String loggedinUser = '';
+  void changeLoggedInUser(String newUser) {
+    loggedinUser = newUser;
+  }
 }
