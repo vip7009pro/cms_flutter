@@ -1,3 +1,4 @@
+import 'package:cms_flutter/components/DataTable.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -15,7 +16,8 @@ class _DiemDanhNhomState extends State<DiemDanhNhom> {
         appBar: AppBar(
           title: const Text('Điểm danh nhóm'),
         ),
-        body: Form(
+        body: BangData());
+    /* Form(
           key: _formKey,
           child: Container(
             margin: const EdgeInsets.only(left: 20.0, right: 20.0),
@@ -57,10 +59,10 @@ class _DiemDanhNhomState extends State<DiemDanhNhom> {
                             const SnackBar(content: Text('Xử lý dữ liệu')));
                       }
                     },
-                    child: const Text('Submit'))
+                    child: const Text('Submit')),
               ],
             ),
           ),
-        ));
+        )); */
   }
 }

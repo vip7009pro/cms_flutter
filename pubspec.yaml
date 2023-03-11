@@ -17,6 +17,7 @@ dependencies:
   dio_cookie_manager: ^2.0.0
   cookie_jar: ^3.0.1
   get: ^4.6.5
+  syncfusion_flutter_datagrid: ^20.4.51
 
 dev_dependencies:
   flutter_test:
