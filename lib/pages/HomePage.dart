@@ -5,6 +5,9 @@ import 'package:cms_flutter/pages/LoginPage.dart';
 import 'package:cms_flutter/pages/phongban/nhansu/DangKy.dart';
 import 'package:cms_flutter/pages/phongban/nhansu/DiemDanhNhom.dart';
 import 'package:cms_flutter/pages/phongban/nhansu/DieuChuyenTeam.dart';
+import 'package:cms_flutter/pages/phongban/sx/BarcodeScanner.dart';
+import 'package:cms_flutter/pages/phongban/sx/BarcodeScanner2.dart';
+import 'package:cms_flutter/pages/phongban/sx/InputLieu.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -86,7 +89,7 @@ class _HomePageState extends State<HomePage> {
                   title: const Text("Điểm danh nhóm"),
                   onTap: () {
                     //action on press
-                    Get.to(const DiemDanhNhom());
+                    Get.to(() => const DiemDanhNhom());
                   },
                 ),
                 ListTile(
@@ -98,7 +101,7 @@ class _HomePageState extends State<HomePage> {
                   title: const Text("Điều chuyển Team"),
                   onTap: () {
                     //action on press
-                    Get.to(const DieuChuyenTeam());
+                    Get.to(() => const DieuChuyenTeam());
                   },
                 ),
                 ListTile(
@@ -110,7 +113,7 @@ class _HomePageState extends State<HomePage> {
                   title: const Text("Đăng ký"),
                   onTap: () {
                     //action on press
-                    Get.to(const DangKy());
+                    Get.to(() => const DangKy());
                   },
                 ),
                 ListTile(
@@ -122,7 +125,7 @@ class _HomePageState extends State<HomePage> {
                   title: const Text("Phê duyệt nghỉ"),
                   onTap: () {
                     //action on press
-                    Get.to(const DangKy());
+                    Get.to(() => const DangKy());
                   },
                 ),
                 ListTile(
@@ -134,7 +137,7 @@ class _HomePageState extends State<HomePage> {
                   title: const Text("Lịch sử đi làm"),
                   onTap: () {
                     //action on press
-                    Get.to(const DangKy());
+                    Get.to(() => const DangKy());
                   },
                 ),
                 ListTile(
@@ -146,7 +149,7 @@ class _HomePageState extends State<HomePage> {
                   title: const Text("Quản lý cấp cao"),
                   onTap: () {
                     //action on press
-                    Get.to(const DangKy());
+                    Get.to(() => const QRViewExample2());
                   },
                 ),
                 ListTile(
@@ -158,7 +161,7 @@ class _HomePageState extends State<HomePage> {
                   title: const Text("Báo cáo nhân sự"),
                   onTap: () {
                     //action on press
-                    Get.to(const DangKy());
+                    Get.to(() => const QRViewExample());
                   },
                 ),
                 ListTile(
@@ -170,7 +173,7 @@ class _HomePageState extends State<HomePage> {
                   title: const Text("Quản lý phòng ban-nhân sự"),
                   onTap: () {
                     //action on press
-                    Get.to(const DangKy());
+                    Get.to(() => const InputLieu());
                   },
                 ),
                 //more child menu

@@ -1,4 +1,5 @@
 import 'package:cms_flutter/components/DataTable.dart';
+import 'package:cms_flutter/components/DiemDanhNhomTable.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,55 +15,8 @@ class _DiemDanhNhomState extends State<DiemDanhNhom> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Điểm danh nhóm'),
+          title: const Text('Điểm danh nhóm table'),
         ),
-        body: BangData());
-    /* Form(
-          key: _formKey,
-          child: Container(
-            margin: const EdgeInsets.only(left: 20.0, right: 20.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TextFormField(
-                  decoration: const InputDecoration(
-                      border: InputBorder.none,
-                      hintText: 'Nhập tên người dùng'),
-                  style: const TextStyle(
-                    color: Colors.blue,
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Nhập giá trị vào';
-                    }
-                    return null;
-                  },
-                ),
-                TextFormField(
-                  obscureText: true,
-                  decoration: const InputDecoration(
-                      border: InputBorder.none, hintText: 'Nhập mật khẩu'),
-                  style: const TextStyle(
-                    color: Colors.blue,
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Nhập giá trị vào';
-                    }
-                    return null;
-                  },
-                ),
-                ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Xử lý dữ liệu')));
-                      }
-                    },
-                    child: const Text('Submit')),
-              ],
-            ),
-          ),
-        )); */
+        body: DiemDanhNhomTable());
   }
 }

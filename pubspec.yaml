@@ -18,6 +18,8 @@ dependencies:
   cookie_jar: ^3.0.1
   get: ^4.6.5
   syncfusion_flutter_datagrid: ^20.4.51
+  flutter_barcode_scanner: ^2.0.0
+  qr_code_scanner: ^1.0.1
 
 dev_dependencies:
   flutter_test:

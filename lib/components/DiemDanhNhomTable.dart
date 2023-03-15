@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 /// The home page of the application which hosts the datagrid.
-class BangData extends StatefulWidget {
+class DiemDanhNhomTable extends StatefulWidget {
   /// Creates the home page.
   // ignore: prefer_const_constructors_in_immutables
-  BangData({Key? key}) : super(key: key);
+  DiemDanhNhomTable({Key? key}) : super(key: key);
   @override
   // ignore: library_private_types_in_public_api
-  _BangDataState createState() => _BangDataState();
+  _DiemDanhNhomTableState createState() => _DiemDanhNhomTableState();
 }
 
-class _BangDataState extends State<BangData> {
+class _DiemDanhNhomTableState extends State<DiemDanhNhomTable> {
   List<Employee> employees = <Employee>[];
   late EmployeeDataSource employeeDataSource;
   @override
