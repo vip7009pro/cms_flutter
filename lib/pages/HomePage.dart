@@ -334,6 +334,129 @@ class _HomePageState extends State<HomePage> {
                 //more child menu
               ],
             ),
+            ExpansionTile(
+              title: const Text("Sản Xuất"),
+              leading: const Icon(
+                Icons.precision_manufacturing,
+                color: Colors.red,
+              ), //add icon
+              childrenPadding:
+                  const EdgeInsets.only(left: 10), //children padding
+              children: [
+                ListTile(
+                  visualDensity: const VisualDensity(vertical: -3),
+                  leading: const Icon(
+                    Icons.settings,
+                    color: Color.fromARGB(255, 70, 18, 255),
+                  ),
+                  title: const Text("Quản lý YCSX"),
+                  onTap: () {
+                    //action on press
+                  },
+                ),
+                ListTile(
+                  visualDensity: const VisualDensity(vertical: -3),
+                  leading: const Icon(
+                    Icons.info,
+                    color: Color.fromARGB(255, 117, 141, 247),
+                  ),
+                  title: const Text("Thông tin sản phẩm"),
+                  onTap: () {
+                    //action on press
+                  },
+                ),
+                ListTile(
+                  visualDensity: const VisualDensity(vertical: -3),
+                  leading: const FaIcon(
+                    FontAwesomeIcons.database,
+                    color: Color.fromARGB(255, 225, 103, 250),
+                  ),
+                  title: const Text("Data Sản Xuất"),
+                  onTap: () {
+                    //action on press
+                  },
+                ),
+                ListTile(
+                  visualDensity: const VisualDensity(vertical: -3),
+                  leading: const Icon(
+                    Icons.search,
+                    color: Colors.blueAccent,
+                  ),
+                  title: const Text("Data Kiểm tra"),
+                  onTap: () {
+                    //action on press
+                  },
+                ),
+                ListTile(
+                  visualDensity: const VisualDensity(vertical: -3),
+                  leading: const FaIcon(
+                    FontAwesomeIcons.pallet,
+                    color: Color.fromARGB(255, 32, 192, 125),
+                  ),
+                  title: const Text("Plan Status"),
+                  onTap: () {
+                    //action on press
+                  },
+                ),
+                ListTile(
+                  visualDensity: const VisualDensity(vertical: -3),
+                  leading: const Icon(
+                    Icons.wifi,
+                    color: Color.fromARGB(255, 0, 43, 236),
+                  ),
+                  title: const Text("Trạng thái máy"),
+                  onTap: () {
+                    //action on press
+                  },
+                ),
+                ListTile(
+                  visualDensity: const VisualDensity(vertical: -3),
+                  leading: const FaIcon(
+                    FontAwesomeIcons.warehouse,
+                    color: Color.fromARGB(255, 9, 243, 60),
+                  ),
+                  title: const Text("Kho thật"),
+                  onTap: () {
+                    //action on press
+                  },
+                ),
+                ListTile(
+                  visualDensity: const VisualDensity(vertical: -3),
+                  leading: const FaIcon(
+                    FontAwesomeIcons.warehouse,
+                    color: Color.fromARGB(255, 234, 17, 253),
+                  ),
+                  title: const Text("Kho ảo"),
+                  onTap: () {
+                    //action on press
+                  },
+                ),
+                ListTile(
+                  visualDensity: const VisualDensity(vertical: -3),
+                  leading: const Icon(
+                    Icons.history,
+                    color: Colors.black,
+                  ),
+                  title: const Text("Lịch sử bắn lot liệu"),
+                  onTap: () {
+                    //action on press
+                  },
+                ),
+                ListTile(
+                  visualDensity: const VisualDensity(vertical: -3),
+                  leading: const Icon(
+                    Icons.input,
+                    color: Color.fromARGB(255, 7, 166, 172),
+                  ),
+                  title: const Text("Bắn Lot Liệu Sản Xuất"),
+                  onTap: () {
+                    Get.to(() => const InputLieu());
+                    //action on press
+                  },
+                ),
+                //more child menu
+              ],
+            ),
             ListTile(
               visualDensity: const VisualDensity(vertical: -3),
               leading: const Icon(

@@ -34,7 +34,7 @@ class _QRViewExample2State extends State<QRViewExample2> {
                 borderRadius: 10,
                 borderLength: 30,
                 borderWidth: 10,
-                cutOutSize: 400,
+                cutOutSize: 120,
               ),
             ),
           ),
@@ -51,7 +51,8 @@ class _QRViewExample2State extends State<QRViewExample2> {
                       overflow: TextOverflow.fade,
                       textAlign: TextAlign.justify,
                       style: TextStyle(
-                          fontSize: 10,
+                          color: Colors.red,
+                          fontSize: 12,
                           fontWeight: FontWeight.bold,
                           letterSpacing: 2)),
                   Row(
@@ -155,7 +156,7 @@ class _QRViewExample2State extends State<QRViewExample2> {
   void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
-      controller.pauseCamera();
+      //controller.pauseCamera();
       setState(() {
         qrText = scanData.format.toString() + ':' + scanData.code.toString();
         print(qrText);
