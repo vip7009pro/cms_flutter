@@ -467,9 +467,6 @@ class _HomePageState extends State<HomePage> {
               onTap: () {
                 GlobalFunction.logout();
                 Get.to(const LoginPage());
-                /*  Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => const LoginPage())); */
-                //action on press
               },
             ),
           ],

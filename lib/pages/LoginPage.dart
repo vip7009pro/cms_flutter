@@ -4,6 +4,7 @@ import 'package:cms_flutter/controller/APIRequest.dart';
 import 'package:cms_flutter/controller/GetXController.dart';
 import 'package:cms_flutter/controller/LocalDataAccess.dart';
 import 'package:cms_flutter/pages/HomePage.dart';
+import 'package:cms_flutter/pages/phongban/sx/InputLieu.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -68,7 +69,9 @@ class _LoginPageState extends State<LoginPage> {
                   'userData', jsonEncode(value['data']));
               c.changeLoggedInUser(jsonEncode(value['data']));
               Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => const HomePage()));
+                  MaterialPageRoute(builder: (context) => const InputLieu()));
+              /*  Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => const HomePage())); */
             } else {
               //_showToast(context, 'Đăng nhập thất bại, xem lại user or pass');
               LocalDataAccess.saveVariable('token', 'reset');
