@@ -21,25 +21,22 @@ class InputLieu extends StatefulWidget {
 }
 
 class _InputLieuState extends State<InputLieu> {
+  bool _useScanner = true;
   String _token = "reset";
   String _scanBarcode = '';
   String _PLAN_ID = '';
   String _EMPL_NO = '';
   String _M_LOT_NO = '';
   String _MACHINE_NO = '';
-
   String _G_NAME = '';
   String _M_NAME = '';
   String _M_SIZE = '';
   String _PLAN_EQ = '';
-
   String _EMPL_NAME = '';
-
   final TextEditingController _controller_PLAN_ID = TextEditingController();
   final TextEditingController _controller_EMPL_NO = TextEditingController();
   final TextEditingController _controller_M_LOT_NO = TextEditingController();
   final TextEditingController _controller_MACHINE_NO = TextEditingController();
-
   Future<String> _getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final savedToken = prefs.getString('token') ?? 'reset';
@@ -67,11 +64,11 @@ class _InputLieuState extends State<InputLieu> {
         });
   }
 
-  Future<void> checkM_LOT_NO_INFO(String M_LOT_NO, String PLAN_ID) async {
+  Future<void> checkM_LOT_NO_INFO(String mLotNo, String planId) async {
     API_Request.api_query('check_xuat_kho_ao_mobile', {
       'token_string': _token,
-      'PLAN_ID': PLAN_ID,
-      'M_LOT_NO': M_LOT_NO,
+      'PLAN_ID': planId,
+      'M_LOT_NO': mLotNo,
     }).then((value) => {
           setState((() {
             if (value['tk_status'] == 'OK') {
@@ -88,10 +85,10 @@ class _InputLieuState extends State<InputLieu> {
         });
   }
 
-  Future<void> check_EMPL_NO(String EMPL_NO) async {
+  Future<void> check_EMPL_NO(String emplNo) async {
     API_Request.api_query('checkEMPL_NO_mobile', {
       'token_string': _token,
-      'EMPL_NO': EMPL_NO,
+      'EMPL_NO': emplNo,
     }).then((value) => {
           setState((() {
             if (value['tk_status'] == 'OK') {
@@ -116,7 +113,6 @@ class _InputLieuState extends State<InputLieu> {
     _controller_PLAN_ID.text = '';
     _controller_M_LOT_NO.text = '';
     _controller_MACHINE_NO.text = '';
-
     LocalDataAccess.getVariable('userData').then(
       (value) {
         setState(() {
@@ -200,11 +196,23 @@ class _InputLieuState extends State<InputLieu> {
   }
 
   final _formKey = GlobalKey<FormState>();
+  Color getColor(Set<MaterialState> states) {
+    const Set<MaterialState> interactiveStates = <MaterialState>{
+      MaterialState.pressed,
+      MaterialState.hovered,
+      MaterialState.focused,
+    };
+    if (states.any(interactiveStates.contains)) {
+      return Colors.blue;
+    }
+    return Colors.red;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Scan Lieu Input'),
+          title: const Text('CMS VINA: Scan Input Material'),
         ),
         body: Container(
             alignment: Alignment.center,
@@ -221,7 +229,9 @@ class _InputLieuState extends State<InputLieu> {
                           hintText: "Quét EMPL_NO",
                         ),
                         onTap: () {
-                          scanBarcodeNormal("EMPL_NO");
+                          if (_useScanner) {
+                            scanBarcodeNormal("EMPL_NO");
+                          }
                         },
                         // The validator receives the text that the user has entered.
                         validator: (value) {
@@ -247,7 +257,7 @@ class _InputLieuState extends State<InputLieu> {
                           hintText: "Quét MACHINE",
                         ),
                         onTap: () {
-                          scanBarcodeNormal("MACHINE_NO");
+                          if (_useScanner) scanBarcodeNormal("MACHINE_NO");
                         },
                         // The validator receives the text that the user has entered.
                         validator: (value) {
@@ -266,7 +276,7 @@ class _InputLieuState extends State<InputLieu> {
                           hintText: "Quét PLAN_ID",
                         ),
                         onTap: () {
-                          scanBarcodeNormal("PLAN_ID");
+                          if (_useScanner) scanBarcodeNormal("PLAN_ID");
                         },
                         // The validator receives the text that the user has entered.
                         validator: (value) {
@@ -295,7 +305,7 @@ class _InputLieuState extends State<InputLieu> {
                           hintText: "Quét M_LOT_NO",
                         ),
                         onTap: () {
-                          scanBarcodeNormal("M_LOT_NO");
+                          if (_useScanner) scanBarcodeNormal("M_LOT_NO");
                         },
                         // The validator receives the text that the user has entered.
                         validator: (value) {
@@ -313,30 +323,52 @@ class _InputLieuState extends State<InputLieu> {
                         style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
-                            color: Colors.red),
+                            color: Color.fromARGB(255, 10, 176, 226)),
                       ),
-                      ElevatedButton(
-                          onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                              Get.snackbar('Thông báo',
-                                  'PLAN_ID: $_PLAN_ID, M_LOT_NO: $_M_LOT_NO, EMPL_NO: $_EMPL_NO, MACHINE_NO: $_MACHINE_NO',
-                                  duration: const Duration(milliseconds: 800));
-
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Checkbox(
+                            checkColor: Colors.green,
+                            fillColor:
+                                MaterialStateProperty.resolveWith(getColor),
+                            value: _useScanner,
+                            onChanged: (bool? value) {
                               setState(() {
-                                _controller_M_LOT_NO.text = '';
-                                _M_LOT_NO = '';
-                                _M_NAME = '';
-                                _M_SIZE = '';
+                                _useScanner = value!;
                               });
-                            }
-                          },
-                          child: const Text('Input')),
-                      ElevatedButton(
-                          onPressed: () {
-                            GlobalFunction.logout();
-                            Get.to(const LoginPage());
-                          },
-                          child: const Text('Logout')),
+                            },
+                          ),
+                          Text('Dùng camera')
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          ElevatedButton(
+                              onPressed: () {
+                                if (_formKey.currentState!.validate()) {
+                                  Get.snackbar('Thông báo',
+                                      'PLAN_ID: $_PLAN_ID, M_LOT_NO: $_M_LOT_NO, EMPL_NO: $_EMPL_NO, MACHINE_NO: $_MACHINE_NO',
+                                      duration:
+                                          const Duration(milliseconds: 800));
+                                  setState(() {
+                                    _controller_M_LOT_NO.text = '';
+                                    _M_LOT_NO = '';
+                                    _M_NAME = '';
+                                    _M_SIZE = '';
+                                  });
+                                }
+                              },
+                              child: const Text('Input')),
+                          ElevatedButton(
+                              onPressed: () {
+                                GlobalFunction.logout();
+                                Get.to(const LoginPage());
+                              },
+                              child: const Text('Back')),
+                        ],
+                      ),
                     ]),
               ),
             ])));
