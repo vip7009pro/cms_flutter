@@ -11,6 +11,7 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:get/get.dart';
 import 'package:flutter_beep/flutter_beep.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:ota_update/ota_update.dart';
 
 const defaultPlayerCount = 4;
 
@@ -33,6 +34,10 @@ class _InputLieuState extends State<InputLieu> {
   String _M_SIZE = '';
   String _PLAN_EQ = '';
   String _EMPL_NAME = '';
+
+  var _plan_info;
+  var _user_info;
+
   final TextEditingController _controller_PLAN_ID = TextEditingController();
   final TextEditingController _controller_EMPL_NO = TextEditingController();
   final TextEditingController _controller_M_LOT_NO = TextEditingController();
@@ -43,6 +48,30 @@ class _InputLieuState extends State<InputLieu> {
     return savedToken;
   }
 
+/*   late OtaEvent currentEvent;
+ */
+/*   Future<void> tryOtaUpdate() async {
+    try {
+      //LINK CONTAINS APK OF FLUTTER HELLO WORLD FROM FLUTTER SDK EXAMPLES
+      OtaUpdate()
+          .execute(
+        'http://14.160.33.94:3010/update/cmsflutter.apk',
+        destinationFilename: 'cmsflutter.apk',
+        //FOR NOW ANDROID ONLY - ABILITY TO VALIDATE CHECKSUM OF FILE:
+        /* sha256checksum:
+            'd6da28451a1e15cf7a75f2c3f151befad3b80ad0bb232ab15c20897e54f21478', */
+      )
+          .listen(
+        (OtaEvent event) {
+          setState(() => currentEvent = event);
+        },
+      );
+      // ignore: avoid_catches_without_on_clauses
+    } catch (e) {
+      print('Failed to make OTA update. Details: $e');
+    }
+  }
+ */
   Future<void> checkPLAN_ID_INFO(String planId) async {
     API_Request.api_query('checkPLAN_ID', {
       'token_string': _token,
@@ -55,6 +84,7 @@ class _InputLieuState extends State<InputLieu> {
               _G_NAME = response['G_NAME'];
               _PLAN_EQ = response['PLAN_EQ'];
               _controller_MACHINE_NO.text = response['PLAN_EQ'];
+              _plan_info = response;
             } else {
               _controller_PLAN_ID.text = '-1';
               Get.snackbar('Thông báo', 'Có lỗi: + ${value['message']}',
@@ -96,6 +126,7 @@ class _InputLieuState extends State<InputLieu> {
               _EMPL_NO = response['EMPL_NO'].toString();
               _EMPL_NAME =
                   '${response['MIDLAST_NAME']} ${response['FIRST_NAME']}';
+              _user_info = response;
             } else {
               _controller_EMPL_NO.text = '-1';
               _EMPL_NAME = '';
@@ -109,6 +140,8 @@ class _InputLieuState extends State<InputLieu> {
   @override
   void initState() {
     super.initState();
+
+    /*    tryOtaUpdate(); */
     _controller_EMPL_NO.text = '';
     _controller_PLAN_ID.text = '';
     _controller_M_LOT_NO.text = '';
@@ -120,6 +153,7 @@ class _InputLieuState extends State<InputLieu> {
           _EMPL_NO = rawJson['EMPL_NO'];
           _controller_EMPL_NO.text = rawJson['EMPL_NO'];
           _EMPL_NAME = rawJson['MIDLAST_NAME'] + ' ' + rawJson['FIRST_NAME'];
+          _user_info = rawJson;
         });
       },
     );
@@ -245,30 +279,11 @@ class _InputLieuState extends State<InputLieu> {
                         controller: _controller_EMPL_NO,
                       ),
                       Text(
-                        'PIC: $_EMPL_NAME',
+                        'PIC: ${_user_info?['MIDLAST_NAME'].toString() ?? ''} ${_user_info?['FIRST_NAME'].toString() ?? ''}',
                         style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                             color: Color.fromARGB(255, 30, 7, 233)),
-                      ),
-                      TextFormField(
-                        decoration: const InputDecoration(
-                          labelText: "MACHINE:",
-                          hintText: "Quét MACHINE",
-                        ),
-                        onTap: () {
-                          if (_useScanner) scanBarcodeNormal("MACHINE_NO");
-                        },
-                        // The validator receives the text that the user has entered.
-                        validator: (value) {
-                          if (value == null ||
-                              value.isEmpty ||
-                              value.toString() == '-1') {
-                            return 'Phải quét mã vạch';
-                          }
-                          return null;
-                        },
-                        controller: _controller_MACHINE_NO,
                       ),
                       TextFormField(
                         decoration: const InputDecoration(
@@ -292,8 +307,27 @@ class _InputLieuState extends State<InputLieu> {
                           Get.snackbar('Thông báo', value);
                         },
                       ),
+                      TextFormField(
+                        decoration: const InputDecoration(
+                          labelText: "MACHINE:",
+                          hintText: "Quét MACHINE",
+                        ),
+                        onTap: () {
+                          if (_useScanner) scanBarcodeNormal("MACHINE_NO");
+                        },
+                        // The validator receives the text that the user has entered.
+                        validator: (value) {
+                          if (value == null ||
+                              value.isEmpty ||
+                              value.toString() == '-1') {
+                            return 'Phải quét mã vạch';
+                          }
+                          return null;
+                        },
+                        controller: _controller_MACHINE_NO,
+                      ),
                       Text(
-                        'CODE: ${_G_NAME}',
+                        'CODE: ${_plan_info?['G_NAME'].toString() ?? ''}',
                         style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -369,6 +403,8 @@ class _InputLieuState extends State<InputLieu> {
                               child: const Text('Back')),
                         ],
                       ),
+                      /*  Text(
+                          'OTA status: ${currentEvent.status} : ${currentEvent.value} \n'), */
                     ]),
               ),
             ])));

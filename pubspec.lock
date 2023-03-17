@@ -288,6 +288,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.8.0"
+  ota_update:
+    dependency: "direct main"
+    description:
+      name: ota_update
+      sha256: b99d4ae3f745ca313c44d823f684155439513dd60e7faa74c654c6342da69265
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.3"
   path:
     dependency: transitive
     description:
