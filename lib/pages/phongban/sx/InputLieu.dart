@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 import 'package:cms_flutter/controller/APIRequest.dart';
+import 'package:cms_flutter/controller/GetXController.dart';
 import 'package:cms_flutter/controller/GlobalFunction.dart';
 import 'package:cms_flutter/controller/LocalDataAccess.dart';
 import 'package:cms_flutter/pages/LoginPage.dart';
@@ -12,8 +13,7 @@ import 'package:get/get.dart';
 import 'package:flutter_beep/flutter_beep.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ota_update/ota_update.dart';
-
-const defaultPlayerCount = 4;
+import 'package:awesome_dialog/awesome_dialog.dart';
 
 class InputLieu extends StatefulWidget {
   const InputLieu({Key? key}) : super(key: key);
@@ -38,6 +38,8 @@ class _InputLieuState extends State<InputLieu> {
   var _plan_info;
   var _user_info;
 
+  final GlobalController c = Get.put(GlobalController());
+
   final TextEditingController _controller_PLAN_ID = TextEditingController();
   final TextEditingController _controller_EMPL_NO = TextEditingController();
   final TextEditingController _controller_M_LOT_NO = TextEditingController();
@@ -48,11 +50,13 @@ class _InputLieuState extends State<InputLieu> {
     return savedToken;
   }
 
-/*   late OtaEvent currentEvent;
- */
-/*   Future<void> tryOtaUpdate() async {
+  late OtaEvent currentEvent =
+      OtaEvent(OtaStatus.DOWNLOADING, 'Current Status');
+
+  Future<void> tryOtaUpdate() async {
     try {
       //LINK CONTAINS APK OF FLUTTER HELLO WORLD FROM FLUTTER SDK EXAMPLES
+
       OtaUpdate()
           .execute(
         'http://14.160.33.94:3010/update/cmsflutter.apk',
@@ -71,7 +75,7 @@ class _InputLieuState extends State<InputLieu> {
       print('Failed to make OTA update. Details: $e');
     }
   }
- */
+
   Future<void> checkPLAN_ID_INFO(String planId) async {
     API_Request.api_query('checkPLAN_ID', {
       'token_string': _token,
@@ -87,6 +91,15 @@ class _InputLieuState extends State<InputLieu> {
               _plan_info = response;
             } else {
               _controller_PLAN_ID.text = '-1';
+              AwesomeDialog(
+                context: context,
+                dialogType: DialogType.error,
+                animType: AnimType.rightSlide,
+                title: 'Thông báo',
+                desc: 'Không có số chỉ thị này / 지시번호 존재하지 않습니다',
+                btnCancelOnPress: () {},
+                /* btnOkOnPress: () {}, */
+              ).show();
               Get.snackbar('Thông báo', 'Có lỗi: + ${value['message']}',
                   duration: const Duration(seconds: 1));
             }
@@ -107,6 +120,16 @@ class _InputLieuState extends State<InputLieu> {
               _M_SIZE = response['WIDTH_CD'].toString();
             } else {
               _controller_M_LOT_NO.text = '-1';
+              AwesomeDialog(
+                context: context,
+                dialogType: DialogType.error,
+                animType: AnimType.rightSlide,
+                title: 'Lỗi',
+                desc:
+                    'Lot liệu không đúng hoặc chưa được xuất cho chỉ thị này / LOT No 잘 못 입력하거나 이 지시 번호에 출고 된 Lot No 아닙니다',
+                btnCancelOnPress: () {},
+                /* btnOkOnPress: () {}, */
+              ).show();
               Get.snackbar('Thông báo',
                   'Có lỗi: lot liệu không đúng hoặc chưa được xuất cho chỉ thị này: + ${value['message'].toString()}',
                   duration: const Duration(seconds: 1));
@@ -130,6 +153,15 @@ class _InputLieuState extends State<InputLieu> {
             } else {
               _controller_EMPL_NO.text = '-1';
               _EMPL_NAME = '';
+              AwesomeDialog(
+                context: context,
+                dialogType: DialogType.error,
+                animType: AnimType.rightSlide,
+                title: 'Có lỗi',
+                desc: 'Không có nhân viên này / 이 직원 ID가 존재하지 않습니다',
+                btnCancelOnPress: () {},
+                /* btnOkOnPress: () {}, */
+              ).show();
               Get.snackbar('Thông báo', 'Có lỗi: + ${value['message']}',
                   duration: const Duration(seconds: 1));
             }
@@ -140,8 +172,7 @@ class _InputLieuState extends State<InputLieu> {
   @override
   void initState() {
     super.initState();
-
-    /*    tryOtaUpdate(); */
+    //tryOtaUpdate();
     _controller_EMPL_NO.text = '';
     _controller_PLAN_ID.text = '';
     _controller_M_LOT_NO.text = '';
@@ -223,7 +254,21 @@ class _InputLieuState extends State<InputLieu> {
         //Get.snackbar('Thông báo', barcodeScanRes);
       } else if (type == 'MACHINE_NO') {
         _MACHINE_NO = barcodeScanRes;
-        _controller_MACHINE_NO.text = barcodeScanRes;
+        if (barcodeScanRes == _plan_info?['PLAN_EQ']) {
+          _controller_MACHINE_NO.text = barcodeScanRes;
+        } else {
+          AwesomeDialog(
+            context: context,
+            dialogType: DialogType.warning,
+            animType: AnimType.rightSlide,
+            title: 'Cảnh báo',
+            desc: 'Máy input khác so với chỉ thị / 지시된 호기와 다릅니다',
+            btnCancelOnPress: () {},
+            /* btnOkOnPress: () {}, */
+          ).show();
+          _controller_MACHINE_NO.text = barcodeScanRes;
+        }
+
         //Get.snackbar('Thông báo', barcodeScanRes);
       }
     });
@@ -259,7 +304,7 @@ class _InputLieuState extends State<InputLieu> {
                     children: [
                       TextFormField(
                         decoration: const InputDecoration(
-                          labelText: "EMPL_NO:",
+                          labelText: "EMPL_NO/사원ID:",
                           hintText: "Quét EMPL_NO",
                         ),
                         onTap: () {
@@ -272,7 +317,7 @@ class _InputLieuState extends State<InputLieu> {
                           if (value == null ||
                               value.isEmpty ||
                               value.toString() == '-1') {
-                            return 'Phải quét mã vạch';
+                            return 'Phải quét mã vạch/ 바코드 스캔해야 합니다';
                           }
                           return null;
                         },
@@ -287,7 +332,7 @@ class _InputLieuState extends State<InputLieu> {
                       ),
                       TextFormField(
                         decoration: const InputDecoration(
-                          labelText: "PLAN_ID:",
+                          labelText: "PLAN_ID/지시 번호:",
                           hintText: "Quét PLAN_ID",
                         ),
                         onTap: () {
@@ -298,7 +343,7 @@ class _InputLieuState extends State<InputLieu> {
                           if (value == null ||
                               value.isEmpty ||
                               value.toString() == '-1') {
-                            return 'Phải quét mã vạch';
+                            return 'Phải quét mã vạch/ 바코드 스캔해야 합니다';
                           }
                           return null;
                         },
@@ -309,7 +354,7 @@ class _InputLieuState extends State<InputLieu> {
                       ),
                       TextFormField(
                         decoration: const InputDecoration(
-                          labelText: "MACHINE:",
+                          labelText: "MACHINE/호기:",
                           hintText: "Quét MACHINE",
                         ),
                         onTap: () {
@@ -320,14 +365,14 @@ class _InputLieuState extends State<InputLieu> {
                           if (value == null ||
                               value.isEmpty ||
                               value.toString() == '-1') {
-                            return 'Phải quét mã vạch';
+                            return 'Phải quét mã vạch/ 바코드 스캔해야 합니다';
                           }
                           return null;
                         },
                         controller: _controller_MACHINE_NO,
                       ),
                       Text(
-                        'CODE: ${_plan_info?['G_NAME'].toString() ?? ''}',
+                        'CODE: ${_plan_info?['G_NAME'].toString() ?? ''} | ${_plan_info?['PLAN_EQ'].toString() ?? ''}',
                         style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -346,7 +391,7 @@ class _InputLieuState extends State<InputLieu> {
                           if (value == null ||
                               value.isEmpty ||
                               value.toString() == '-1') {
-                            return 'Lot liệu không đúng hoặc chưa được xuất cho chỉ thị này';
+                            return 'Phải quét mã vạch/ 바코드 스캔해야 합니다';
                           }
                           return null;
                         },
@@ -357,7 +402,7 @@ class _InputLieuState extends State<InputLieu> {
                         style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
-                            color: Color.fromARGB(255, 10, 176, 226)),
+                            color: Color.fromARGB(255, 243, 8, 192)),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -373,7 +418,7 @@ class _InputLieuState extends State<InputLieu> {
                               });
                             },
                           ),
-                          Text('Dùng camera')
+                          const Text('Dùng camera')
                         ],
                       ),
                       Row(
@@ -382,10 +427,16 @@ class _InputLieuState extends State<InputLieu> {
                           ElevatedButton(
                               onPressed: () {
                                 if (_formKey.currentState!.validate()) {
-                                  Get.snackbar('Thông báo',
-                                      'PLAN_ID: $_PLAN_ID, M_LOT_NO: $_M_LOT_NO, EMPL_NO: $_EMPL_NO, MACHINE_NO: $_MACHINE_NO',
-                                      duration:
-                                          const Duration(milliseconds: 800));
+                                  AwesomeDialog(
+                                    context: context,
+                                    dialogType: DialogType.success,
+                                    animType: AnimType.rightSlide,
+                                    title: 'Thông báo',
+                                    desc:
+                                        'Input liệu thành công / 원단 투입 처리 완료 되었습니다',
+                                    /* btnCancelOnPress: () {}, */
+                                    btnOkOnPress: () {},
+                                  ).show();
                                   setState(() {
                                     _controller_M_LOT_NO.text = '';
                                     _M_LOT_NO = '';
@@ -397,13 +448,28 @@ class _InputLieuState extends State<InputLieu> {
                               child: const Text('Input')),
                           ElevatedButton(
                               onPressed: () {
-                                GlobalFunction.logout();
-                                Get.to(const LoginPage());
+                                AwesomeDialog(
+                                  context: context,
+                                  dialogType: DialogType.question,
+                                  animType: AnimType.rightSlide,
+                                  title: 'Cảnh báo',
+                                  desc: 'Bạn muốn logout? / Logout 하시겠습니까?',
+                                  btnCancelOnPress: () {},
+                                  btnOkOnPress: () {
+                                    GlobalFunction.logout();
+                                    Get.to(const LoginPage());
+                                  },
+                                ).show();
                               },
                               child: const Text('Back')),
                         ],
                       ),
-                      /*  Text(
+                      ElevatedButton(
+                          onPressed: () {
+                            /* c.mytimer.cancel(); */
+                          },
+                          child: const Text('Stop Timer')),
+                      /* Text(
                           'OTA status: ${currentEvent.status} : ${currentEvent.value} \n'), */
                     ]),
               ),
