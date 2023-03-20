@@ -20,7 +20,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  @override
   int _selectedIndex = 0;
   int _selectedBottomIndex = 0;
   static const TextStyle optionStyle =
@@ -466,7 +465,7 @@ class _HomePageState extends State<HomePage> {
               title: const Text("Logout"),
               onTap: () {
                 GlobalFunction.logout();
-                Get.to(const LoginPage());
+                Get.off(() => const LoginPage());
               },
             ),
           ],

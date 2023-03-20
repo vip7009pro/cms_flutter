@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+const List<String> serverList = <String>['MAIN_SERVER', 'SUB_SERVER'];
+
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
   @override
@@ -16,6 +18,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  String userPosition = '';
+  String selectedServer = serverList.first;
   final GlobalController c = Get.put(GlobalController());
   void _showToast(BuildContext context, String message) {
     final scaffold = ScaffoldMessenger.of(context);
@@ -68,8 +72,21 @@ class _LoginPageState extends State<LoginPage> {
               LocalDataAccess.saveVariable(
                   'userData', jsonEncode(value['data']));
               c.changeLoggedInUser(jsonEncode(value['data']));
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => const InputLieu()));
+              LocalDataAccess.getVariable('userData').then(
+                (value) {
+                  setState(() {
+                    Map<String, dynamic> rawJson = jsonDecode(value);
+                    userPosition = rawJson['POSITION_CODE'].toString();
+                    if (userPosition == '4' || userPosition == '') {
+                      Get.off(() => const InputLieu());
+                    } else {
+                      Get.off(() => const HomePage());
+                    }
+                  });
+                },
+              );
+              /* Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => const InputLieu())); */
               /*  Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (context) => const HomePage())); */
             } else {
@@ -85,6 +102,9 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     _checklogin(context);
+    LocalDataAccess.getVariable('serverIP').then((value) {
+      selectedServer = value;
+    });
     super.initState();
   }
 
@@ -167,6 +187,40 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(height: 15.0),
                   loginButton,
                   forgotLabel,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Text('Chọn Server:  '),
+                      DropdownButton<String>(
+                        hint: const Text('Chọn Server'),
+                        iconSize: 30,
+                        value: selectedServer,
+                        icon: const Icon(Icons.computer),
+                        elevation: 16,
+                        style: const TextStyle(
+                            color: Color.fromARGB(255, 0, 0, 0)),
+                        underline: Container(
+                          height: 2,
+                          color: const Color.fromARGB(255, 2, 218, 2),
+                        ),
+                        onChanged: (String? value) {
+                          setState(() {
+                            selectedServer = value!;
+                            LocalDataAccess.saveVariable(
+                                'serverIP', selectedServer);
+                          });
+                        },
+                        items: serverList
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      ),
+                    ],
+                  )
                 ],
               ),
             )));

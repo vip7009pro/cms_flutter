@@ -304,6 +304,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.8.0"
+  moment_dart:
+    dependency: "direct main"
+    description:
+      name: moment_dart
+      sha256: c2db550e65599701291a2bd1e3f52642c6d308bd81fa6d831fc45afb7947a2fa
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.17.4"
   ota_update:
     dependency: "direct main"
     description:

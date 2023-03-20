@@ -80,62 +80,96 @@ class _InputLieuState extends State<InputLieu> {
     API_Request.api_query('checkPLAN_ID', {
       'token_string': _token,
       'PLAN_ID': planId,
-    }).then((value) => {
-          setState((() {
-            if (value['tk_status'] == 'OK') {
-              var response = value['data'][0];
-              //print(response['INS_EMPL']);
-              _G_NAME = response['G_NAME'];
-              _PLAN_EQ = response['PLAN_EQ'];
-              _controller_MACHINE_NO.text = response['PLAN_EQ'];
-              _plan_info = response;
-            } else {
-              _controller_PLAN_ID.text = '-1';
-              AwesomeDialog(
-                context: context,
-                dialogType: DialogType.error,
-                animType: AnimType.rightSlide,
-                title: 'Thông báo',
-                desc: 'Không có số chỉ thị này / 지시번호 존재하지 않습니다',
-                btnCancelOnPress: () {},
-                /* btnOkOnPress: () {}, */
-              ).show();
-              Get.snackbar('Thông báo', 'Có lỗi: + ${value['message']}',
-                  duration: const Duration(seconds: 1));
-            }
-          }))
-        });
+    }).then((value) {
+      setState((() {
+        if (value['tk_status'] == 'OK') {
+          var response = value['data'][0];
+          //print(response['INS_EMPL']);
+          _G_NAME = response['G_NAME'];
+          _PLAN_EQ = response['PLAN_EQ'];
+          _controller_MACHINE_NO.text = response['PLAN_EQ'];
+          _plan_info = response;
+        } else {
+          _controller_PLAN_ID.text = '-1';
+          AwesomeDialog(
+            context: context,
+            dialogType: DialogType.error,
+            animType: AnimType.rightSlide,
+            title: 'Thông báo',
+            desc: 'Không có số chỉ thị này / 지시번호 존재하지 않습니다',
+            btnCancelOnPress: () {},
+            /* btnOkOnPress: () {}, */
+          ).show();
+          Get.snackbar('Thông báo', 'Có lỗi: + ${value['message']}',
+              duration: const Duration(seconds: 1));
+        }
+      }));
+    });
   }
 
   Future<void> checkM_LOT_NO_INFO(String mLotNo, String planId) async {
-    API_Request.api_query('check_xuat_kho_ao_mobile', {
+    bool mLotNoExistOutKhoAo = false;
+    bool mLotNoExistInP500 = false;
+    String mName = '', mSize = '';
+
+    await API_Request.api_query('check_xuat_kho_ao_mobile', {
       'token_string': _token,
       'PLAN_ID': planId,
       'M_LOT_NO': mLotNo,
-    }).then((value) => {
-          setState((() {
-            if (value['tk_status'] == 'OK') {
-              var response = value['data'][0];
-              _M_NAME = response['M_NAME'].toString();
-              _M_SIZE = response['WIDTH_CD'].toString();
-            } else {
-              _controller_M_LOT_NO.text = '-1';
-              AwesomeDialog(
-                context: context,
-                dialogType: DialogType.error,
-                animType: AnimType.rightSlide,
-                title: 'Lỗi',
-                desc:
-                    'Lot liệu không đúng hoặc chưa được xuất cho chỉ thị này / LOT No 잘 못 입력하거나 이 지시 번호에 출고 된 Lot No 아닙니다',
-                btnCancelOnPress: () {},
-                /* btnOkOnPress: () {}, */
-              ).show();
-              Get.snackbar('Thông báo',
-                  'Có lỗi: lot liệu không đúng hoặc chưa được xuất cho chỉ thị này: + ${value['message'].toString()}',
-                  duration: const Duration(seconds: 1));
-            }
-          }))
-        });
+    }).then((value) {
+      if (value['tk_status'] == 'OK') {
+        var response = value['data'][0];
+        mName = response['M_NAME'].toString();
+        mSize = response['WIDTH_CD'].toString();
+        mLotNoExistOutKhoAo = true;
+      } else {
+        mLotNoExistOutKhoAo = false;
+      }
+    });
+
+    await API_Request.api_query('checkM_LOT_NO_p500_mobile', {
+      'token_string': _token,
+      'PLAN_ID': planId,
+      'M_LOT_NO': mLotNo,
+    }).then((value) {
+      if (value['tk_status'] == 'OK') {
+        mLotNoExistInP500 = true;
+      } else {
+        mLotNoExistInP500 = false;
+      }
+    });
+
+    setState(() {
+      _M_SIZE = mSize;
+      _M_NAME = mName;
+      if (!mLotNoExistOutKhoAo) {
+        _controller_M_LOT_NO.text = '-1';
+        AwesomeDialog(
+          context: context,
+          dialogType: DialogType.error,
+          animType: AnimType.rightSlide,
+          title: 'Lỗi',
+          desc:
+              'Lot liệu không đúng hoặc chưa được xuất cho chỉ thị này / LOT No 잘 못 입력하거나 이 지시 번호에 출고 된 Lot No 아닙니다',
+          btnCancelOnPress: () {},
+          /* btnOkOnPress: () {}, */
+        ).show();
+      } else if (mLotNoExistInP500) {
+        _controller_M_LOT_NO.text = '-1';
+        AwesomeDialog(
+          context: context,
+          dialogType: DialogType.error,
+          animType: AnimType.rightSlide,
+          title: 'Lỗi',
+          desc:
+              'Lot liệu đã bắn lot cho chỉ thị này rồi /이 LOT 번호가 이미 투입 처리 완료 되었습니다',
+          btnCancelOnPress: () {},
+          /* btnOkOnPress: () {}, */
+        ).show();
+      } else if (mLotNoExistOutKhoAo && !mLotNoExistInP500) {
+        Get.snackbar('Thông báo', 'Lot liệu input OK');
+      }
+    });
   }
 
   Future<void> check_EMPL_NO(String emplNo) async {
@@ -167,6 +201,22 @@ class _InputLieuState extends State<InputLieu> {
             }
           }))
         });
+  }
+
+  Future<void> insertP500(String mLotNo, String planId) async {
+    String nextP500InNo = '001';
+    await API_Request.api_query('checkProcessInNoP500', {
+      'token_string': _token,
+    }).then((value) {
+      if (value['tk_status'] == 'OK') {
+        var response = value['data'][0];
+        nextP500InNo = (int.parse(response['PROCESS_IN_NO']) + 1)
+            .toString()
+            .padLeft(3, '0');
+      } else {}
+    });
+
+    Get.snackbar('Thông báo', 'Next Process in No: $nextP500InNo');
   }
 
   @override
@@ -218,7 +268,6 @@ class _InputLieuState extends State<InputLieu> {
     });
   }
 
-  // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> scanBarcodeNormal(String type) async {
     String barcodeScanRes;
     // Platform messages may fail, so we use a try/catch PlatformException.
@@ -427,6 +476,7 @@ class _InputLieuState extends State<InputLieu> {
                           ElevatedButton(
                               onPressed: () {
                                 if (_formKey.currentState!.validate()) {
+                                  insertP500(_M_LOT_NO, _PLAN_ID);
                                   AwesomeDialog(
                                     context: context,
                                     dialogType: DialogType.success,
@@ -457,18 +507,14 @@ class _InputLieuState extends State<InputLieu> {
                                   btnCancelOnPress: () {},
                                   btnOkOnPress: () {
                                     GlobalFunction.logout();
-                                    Get.to(const LoginPage());
+                                    Get.off(() => const LoginPage());
                                   },
                                 ).show();
                               },
                               child: const Text('Back')),
                         ],
                       ),
-                      ElevatedButton(
-                          onPressed: () {
-                            /* c.mytimer.cancel(); */
-                          },
-                          child: const Text('Stop Timer')),
+
                       /* Text(
                           'OTA status: ${currentEvent.status} : ${currentEvent.value} \n'), */
                     ]),

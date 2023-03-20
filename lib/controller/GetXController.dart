@@ -13,6 +13,10 @@ class GlobalController extends GetxController {
     count--;
   }
 
+  String serverIP = 'http:/14.160.33.94:3007/api';
+  void changeServerIP(String newIP) {
+    serverIP = newIP;
+  }
 /*   Timer mytimer =
       Timer.periodic(const Duration(minutes: 0, seconds: 2), (timer) {
     //code to run on every 2 minutes 5 seconds

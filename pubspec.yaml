@@ -24,6 +24,7 @@ dependencies:
   audioplayers: ^3.0.1
   ota_update: ^4.0.3
   awesome_dialog: ^3.0.2
+  moment_dart: ^0.17.4
 
 dev_dependencies:
   flutter_test:
