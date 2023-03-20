@@ -340,6 +340,7 @@ class _InputLieuState extends State<InputLieu> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.green,
           title: const Text('CMS VINA: Scan Input Material'),
         ),
         body: Container(

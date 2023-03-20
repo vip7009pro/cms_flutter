@@ -17,13 +17,6 @@ class GlobalController extends GetxController {
   void changeServerIP(String newIP) {
     serverIP = newIP;
   }
-/*   Timer mytimer =
-      Timer.periodic(const Duration(minutes: 0, seconds: 2), (timer) {
-    //code to run on every 2 minutes 5 seconds
-
-    print('Chay dinh ky 5s 1 lan');
-    print('______');
-  }); */
 
   String loggedinUser = '';
   void changeLoggedInUser(String newUser) {
