@@ -11,6 +11,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:get/get.dart';
 import 'package:flutter_beep/flutter_beep.dart';
+import 'package:moment_dart/moment_dart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ota_update/ota_update.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
@@ -31,6 +32,7 @@ class _InputLieuState extends State<InputLieu> {
   String _MACHINE_NO = '';
   String _G_NAME = '';
   String _M_NAME = '';
+  String _M_CODE = '';
   String _M_SIZE = '';
   String _PLAN_EQ = '';
   String _EMPL_NAME = '';
@@ -44,6 +46,7 @@ class _InputLieuState extends State<InputLieu> {
   final TextEditingController _controller_EMPL_NO = TextEditingController();
   final TextEditingController _controller_M_LOT_NO = TextEditingController();
   final TextEditingController _controller_MACHINE_NO = TextEditingController();
+
   Future<String> _getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final savedToken = prefs.getString('token') ?? 'reset';
@@ -87,6 +90,7 @@ class _InputLieuState extends State<InputLieu> {
           //print(response['INS_EMPL']);
           _G_NAME = response['G_NAME'];
           _PLAN_EQ = response['PLAN_EQ'];
+          _MACHINE_NO = response['PLAN_EQ'];
           _controller_MACHINE_NO.text = response['PLAN_EQ'];
           _plan_info = response;
         } else {
@@ -110,7 +114,7 @@ class _InputLieuState extends State<InputLieu> {
   Future<void> checkM_LOT_NO_INFO(String mLotNo, String planId) async {
     bool mLotNoExistOutKhoAo = false;
     bool mLotNoExistInP500 = false;
-    String mName = '', mSize = '';
+    String mName = '', mSize = '', mCode = '';
 
     await API_Request.api_query('check_xuat_kho_ao_mobile', {
       'token_string': _token,
@@ -121,6 +125,7 @@ class _InputLieuState extends State<InputLieu> {
         var response = value['data'][0];
         mName = response['M_NAME'].toString();
         mSize = response['WIDTH_CD'].toString();
+        mCode = response['M_CODE'].toString();
         mLotNoExistOutKhoAo = true;
       } else {
         mLotNoExistOutKhoAo = false;
@@ -142,6 +147,8 @@ class _InputLieuState extends State<InputLieu> {
     setState(() {
       _M_SIZE = mSize;
       _M_NAME = mName;
+      _M_CODE = mCode;
+      _M_LOT_NO = mLotNo;
       if (!mLotNoExistOutKhoAo) {
         _controller_M_LOT_NO.text = '-1';
         AwesomeDialog(
@@ -205,6 +212,7 @@ class _InputLieuState extends State<InputLieu> {
 
   Future<void> insertP500(String mLotNo, String planId) async {
     String nextP500InNo = '001';
+    bool insertP500Success = false;
     await API_Request.api_query('checkProcessInNoP500', {
       'token_string': _token,
     }).then((value) {
@@ -213,10 +221,34 @@ class _InputLieuState extends State<InputLieu> {
         nextP500InNo = (int.parse(response['PROCESS_IN_NO']) + 1)
             .toString()
             .padLeft(3, '0');
-      } else {}
+      } else {
+        nextP500InNo = '001';
+      }
     });
 
-    Get.snackbar('Thông báo', 'Next Process in No: $nextP500InNo');
+    await API_Request.api_query('insert_p500_mobile', {
+      'token_string': _token,
+      'in_date': Moment.now().format('YYYYMMDD'),
+      'next_process_in_no': nextP500InNo,
+      'PROD_REQUEST_DATE': _plan_info['PROD_REQUEST_DATE'],
+      'PROD_REQUEST_NO': _plan_info['PROD_REQUEST_NO'],
+      'G_CODE': _plan_info['G_CODE'],
+      'EMPL_NO': _EMPL_NO,
+      'phanloai': _MACHINE_NO,
+      'PLAN_ID': _PLAN_ID,
+      'M_CODE': _M_CODE,
+      'M_LOT_NO': mLotNo,
+    }).then((value) {
+      if (value['tk_status'] == 'OK') {
+        //var response = value['data'][0];
+        insertP500Success = true;
+      } else {
+        insertP500Success = false;
+      }
+    });
+
+    if (insertP500Success) {
+    } else {}
   }
 
   @override
@@ -270,7 +302,7 @@ class _InputLieuState extends State<InputLieu> {
 
   Future<void> scanBarcodeNormal(String type) async {
     String barcodeScanRes;
-    // Platform messages may fail, so we use a try/catch PlatformException.
+
     try {
       barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
           '#ff6666', 'Cancel', true, ScanMode.BARCODE);
@@ -280,9 +312,7 @@ class _InputLieuState extends State<InputLieu> {
     } on PlatformException {
       barcodeScanRes = 'Failed to get platform version.';
     }
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
+
     if (!mounted) return;
     setState(() {
       _scanBarcode = barcodeScanRes;
