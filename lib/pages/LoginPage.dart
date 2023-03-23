@@ -19,7 +19,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   String userPosition = '';
-  String selectedServer = serverList.first;
+  String selectedServer = 'MAIN_SERVER';
   final GlobalController c = Get.put(GlobalController());
   void _showToast(BuildContext context, String message) {
     final scaffold = ScaffoldMessenger.of(context);
@@ -103,7 +103,11 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     _checklogin(context);
     LocalDataAccess.getVariable('serverIP').then((value) {
-      selectedServer = value;
+      if (value != '') {
+        selectedServer = value;
+      } else {
+        selectedServer = 'MAIN_SERVER';
+      }
     });
     super.initState();
   }

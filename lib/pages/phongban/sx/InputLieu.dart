@@ -25,7 +25,6 @@ class InputLieu extends StatefulWidget {
 class _InputLieuState extends State<InputLieu> {
   bool _useScanner = true;
   String _token = "reset";
-  String _scanBarcode = '';
   String _PLAN_ID = '';
   String _EMPL_NO = '';
   String _M_LOT_NO = '';
@@ -42,10 +41,10 @@ class _InputLieuState extends State<InputLieu> {
 
   final GlobalController c = Get.put(GlobalController());
 
-  final TextEditingController _controller_PLAN_ID = TextEditingController();
-  final TextEditingController _controller_EMPL_NO = TextEditingController();
-  final TextEditingController _controller_M_LOT_NO = TextEditingController();
-  final TextEditingController _controller_MACHINE_NO = TextEditingController();
+  final TextEditingController _controllerPlanId = TextEditingController();
+  final TextEditingController _controllerEmplNo = TextEditingController();
+  final TextEditingController _controllerMLotNo = TextEditingController();
+  final TextEditingController _controllerMachineNo = TextEditingController();
 
   Future<String> _getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -79,7 +78,7 @@ class _InputLieuState extends State<InputLieu> {
     }
   }
 
-  Future<void> checkPLAN_ID_INFO(String planId) async {
+  Future<void> checkPlanIdInfo(String planId) async {
     API_Request.api_query('checkPLAN_ID', {
       'token_string': _token,
       'PLAN_ID': planId,
@@ -91,10 +90,10 @@ class _InputLieuState extends State<InputLieu> {
           _G_NAME = response['G_NAME'];
           _PLAN_EQ = response['PLAN_EQ'];
           _MACHINE_NO = response['PLAN_EQ'];
-          _controller_MACHINE_NO.text = response['PLAN_EQ'];
+          _controllerMachineNo.text = response['PLAN_EQ'];
           _plan_info = response;
         } else {
-          _controller_PLAN_ID.text = '-1';
+          _controllerPlanId.text = '-1';
           AwesomeDialog(
             context: context,
             dialogType: DialogType.error,
@@ -111,7 +110,7 @@ class _InputLieuState extends State<InputLieu> {
     });
   }
 
-  Future<void> checkM_LOT_NO_INFO(String mLotNo, String planId) async {
+  Future<void> checkMLotNoInfo(String mLotNo, String planId) async {
     bool mLotNoExistOutKhoAo = false;
     bool mLotNoExistInP500 = false;
     String mName = '', mSize = '', mCode = '';
@@ -150,7 +149,7 @@ class _InputLieuState extends State<InputLieu> {
       _M_CODE = mCode;
       _M_LOT_NO = mLotNo;
       if (!mLotNoExistOutKhoAo) {
-        _controller_M_LOT_NO.text = '-1';
+        _controllerMLotNo.text = '-1';
         AwesomeDialog(
           context: context,
           dialogType: DialogType.error,
@@ -162,7 +161,7 @@ class _InputLieuState extends State<InputLieu> {
           /* btnOkOnPress: () {}, */
         ).show();
       } else if (mLotNoExistInP500) {
-        _controller_M_LOT_NO.text = '-1';
+        _controllerMLotNo.text = '-1';
         AwesomeDialog(
           context: context,
           dialogType: DialogType.error,
@@ -179,7 +178,7 @@ class _InputLieuState extends State<InputLieu> {
     });
   }
 
-  Future<void> check_EMPL_NO(String emplNo) async {
+  Future<void> checkEmplNo(String emplNo) async {
     API_Request.api_query('checkEMPL_NO_mobile', {
       'token_string': _token,
       'EMPL_NO': emplNo,
@@ -192,7 +191,7 @@ class _InputLieuState extends State<InputLieu> {
                   '${response['MIDLAST_NAME']} ${response['FIRST_NAME']}';
               _user_info = response;
             } else {
-              _controller_EMPL_NO.text = '-1';
+              _controllerEmplNo.text = '-1';
               _EMPL_NAME = '';
               AwesomeDialog(
                 context: context,
@@ -213,6 +212,9 @@ class _InputLieuState extends State<InputLieu> {
   Future<void> insertP500(String mLotNo, String planId) async {
     String nextP500InNo = '001';
     bool insertP500Success = false;
+    String totalOutQty = '', planIdInput = '';
+    bool checkPlanIdInput = false;
+
     await API_Request.api_query('checkProcessInNoP500', {
       'token_string': _token,
     }).then((value) {
@@ -248,6 +250,72 @@ class _InputLieuState extends State<InputLieu> {
     });
 
     if (insertP500Success) {
+      await API_Request.api_query('checkOutKhoSX_mobile', {
+        'token_string': _token,
+        'PLAN_ID_OUTPUT': _PLAN_ID,
+        'M_CODE': _M_CODE,
+        'M_LOT_NO': mLotNo,
+      }).then((value) {
+        if (value['tk_status'] == 'OK') {
+          var response = value['data'][0];
+          totalOutQty = response['TOTAL_OUT_QTY'].toString();
+          planIdInput = response['PLAN_ID_INPUT'].toString();
+          checkPlanIdInput = true;
+        } else {}
+      }).catchError((onError) {
+        AwesomeDialog(
+          context: context,
+          dialogType: DialogType.error,
+          animType: AnimType.scale,
+          title: 'Lỗi',
+          desc: '$onError',
+          btnCancelOnPress: () {},
+          /* btnOkOnPress: () {}, */
+        ).show();
+        //print(onError);
+      });
+      ;
+
+      if (checkPlanIdInput) {
+        await API_Request.api_query('setUSE_YN_KHO_AO_INPUT_mobile', {
+          'token_string': _token,
+          'PLAN_ID_INPUT': planIdInput,
+          'M_CODE': _M_CODE,
+          'M_LOT_NO': mLotNo,
+          'TOTAL_IN_QTY': totalOutQty,
+          'USE_YN': 'X',
+        }).then((value) {
+          if (value['tk_status'] == 'OK') {
+            //var response = value['data'][0];
+          } else {}
+        }).catchError((onError) {
+          AwesomeDialog(
+            context: context,
+            dialogType: DialogType.error,
+            animType: AnimType.scale,
+            title: 'Lỗi',
+            desc: '$onError',
+            btnCancelOnPress: () {},
+            /* btnOkOnPress: () {}, */
+          ).show();
+          //print(onError);
+        });
+
+        await API_Request.api_query('setUSE_YN_KHO_AO_OUTPUT_mobile', {
+          'token_string': _token,
+          'PLAN_ID_OUTPUT': _PLAN_ID,
+          'M_CODE': _M_CODE,
+          'M_LOT_NO': mLotNo,
+          'TOTAL_OUT_QTY': totalOutQty,
+          'USE_YN': 'X',
+        }).then((value) {
+          if (value['tk_status'] == 'OK') {
+            //var response = value['data'][0];
+          } else {}
+        }).catchError((onError) {
+          print(onError);
+        });
+      } else {}
     } else {}
   }
 
@@ -255,16 +323,16 @@ class _InputLieuState extends State<InputLieu> {
   void initState() {
     super.initState();
     //tryOtaUpdate();
-    _controller_EMPL_NO.text = '';
-    _controller_PLAN_ID.text = '';
-    _controller_M_LOT_NO.text = '';
-    _controller_MACHINE_NO.text = '';
+    _controllerEmplNo.text = '';
+    _controllerPlanId.text = '';
+    _controllerMLotNo.text = '';
+    _controllerMachineNo.text = '';
     LocalDataAccess.getVariable('userData').then(
       (value) {
         setState(() {
           Map<String, dynamic> rawJson = jsonDecode(value);
           _EMPL_NO = rawJson['EMPL_NO'];
-          _controller_EMPL_NO.text = rawJson['EMPL_NO'];
+          _controllerEmplNo.text = rawJson['EMPL_NO'];
           _EMPL_NAME = rawJson['MIDLAST_NAME'] + ' ' + rawJson['FIRST_NAME'];
           _user_info = rawJson;
         });
@@ -295,9 +363,7 @@ class _InputLieuState extends State<InputLieu> {
       barcodeScanRes = 'Failed to get platform version.';
     }
     if (!mounted) return;
-    setState(() {
-      _scanBarcode = barcodeScanRes;
-    });
+    setState(() {});
   }
 
   Future<void> scanBarcodeNormal(String type) async {
@@ -311,30 +377,43 @@ class _InputLieuState extends State<InputLieu> {
       //print(barcodeScanRes);
     } on PlatformException {
       barcodeScanRes = 'Failed to get platform version.';
+    } on MissingPluginException {
+      barcodeScanRes = 'Missing Plugin Exceltion';
+      AwesomeDialog(
+        context: context,
+        dialogType: DialogType.error,
+        animType: AnimType.bottomSlide,
+        title: 'Lỗi',
+        desc: 'Chưa có plugin / Plugin missing',
+        /* btnCancelOnPress: () {}, */
+        btnOkOnPress: () {},
+      ).show();
+    } catch (e) {
+      //print(e.toString());
+      barcodeScanRes = e.toString();
     }
 
     if (!mounted) return;
     setState(() {
-      _scanBarcode = barcodeScanRes;
       if (type == 'PLAN_ID') {
         _PLAN_ID = barcodeScanRes;
-        _controller_PLAN_ID.text = barcodeScanRes;
-        checkPLAN_ID_INFO(barcodeScanRes);
+        _controllerPlanId.text = barcodeScanRes;
+        checkPlanIdInfo(barcodeScanRes);
         //Get.snackbar('Thông báo', barcodeScanRes);
       } else if (type == 'EMPL_NO') {
         _EMPL_NO = barcodeScanRes;
-        _controller_EMPL_NO.text = barcodeScanRes;
-        check_EMPL_NO(barcodeScanRes);
+        _controllerEmplNo.text = barcodeScanRes;
+        checkEmplNo(barcodeScanRes);
         //Get.snackbar('Thông báo', barcodeScanRes);
       } else if (type == 'M_LOT_NO') {
         _M_LOT_NO = barcodeScanRes;
-        _controller_M_LOT_NO.text = barcodeScanRes;
-        checkM_LOT_NO_INFO(barcodeScanRes, _PLAN_ID);
+        _controllerMLotNo.text = barcodeScanRes;
+        checkMLotNoInfo(barcodeScanRes, _PLAN_ID);
         //Get.snackbar('Thông báo', barcodeScanRes);
       } else if (type == 'MACHINE_NO') {
         _MACHINE_NO = barcodeScanRes;
         if (barcodeScanRes == _plan_info?['PLAN_EQ']) {
-          _controller_MACHINE_NO.text = barcodeScanRes;
+          _controllerMachineNo.text = barcodeScanRes;
         } else {
           AwesomeDialog(
             context: context,
@@ -345,7 +424,7 @@ class _InputLieuState extends State<InputLieu> {
             btnCancelOnPress: () {},
             /* btnOkOnPress: () {}, */
           ).show();
-          _controller_MACHINE_NO.text = barcodeScanRes;
+          _controllerMachineNo.text = barcodeScanRes;
         }
 
         //Get.snackbar('Thông báo', barcodeScanRes);
@@ -401,7 +480,7 @@ class _InputLieuState extends State<InputLieu> {
                           }
                           return null;
                         },
-                        controller: _controller_EMPL_NO,
+                        controller: _controllerEmplNo,
                       ),
                       Text(
                         'PIC: ${_user_info?['MIDLAST_NAME'].toString() ?? ''} ${_user_info?['FIRST_NAME'].toString() ?? ''}',
@@ -427,7 +506,7 @@ class _InputLieuState extends State<InputLieu> {
                           }
                           return null;
                         },
-                        controller: _controller_PLAN_ID,
+                        controller: _controllerPlanId,
                         onChanged: (value) {
                           Get.snackbar('Thông báo', value);
                         },
@@ -449,7 +528,7 @@ class _InputLieuState extends State<InputLieu> {
                           }
                           return null;
                         },
-                        controller: _controller_MACHINE_NO,
+                        controller: _controllerMachineNo,
                       ),
                       Text(
                         'CODE: ${_plan_info?['G_NAME'].toString() ?? ''} | ${_plan_info?['PLAN_EQ'].toString() ?? ''}',
@@ -475,16 +554,16 @@ class _InputLieuState extends State<InputLieu> {
                           }
                           return null;
                         },
-                        controller: _controller_M_LOT_NO,
+                        controller: _controllerMLotNo,
                       ),
                       Text(
-                        'LIỆU: ${_M_NAME} | SIZE: ${_M_SIZE}',
+                        'LIỆU: $_M_NAME | SIZE: $_M_SIZE',
                         style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                             color: Color.fromARGB(255, 243, 8, 192)),
                       ),
-                      Row(
+                      /*  Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Checkbox(
@@ -500,6 +579,10 @@ class _InputLieuState extends State<InputLieu> {
                           ),
                           const Text('Dùng camera')
                         ],
+                      ), */
+                      const SizedBox(
+                        width: 10,
+                        height: 20,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -519,7 +602,7 @@ class _InputLieuState extends State<InputLieu> {
                                     btnOkOnPress: () {},
                                   ).show();
                                   setState(() {
-                                    _controller_M_LOT_NO.text = '';
+                                    _controllerMLotNo.text = '';
                                     _M_LOT_NO = '';
                                     _M_NAME = '';
                                     _M_SIZE = '';
