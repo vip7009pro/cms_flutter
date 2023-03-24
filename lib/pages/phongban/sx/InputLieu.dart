@@ -28,6 +28,7 @@ class _InputLieuState extends State<InputLieu> {
   String _PLAN_ID = '';
   String _EMPL_NO = '';
   String _M_LOT_NO = '';
+  String _M_LOT_NO2 = '';
   String _MACHINE_NO = '';
   String _G_NAME = '';
   String _M_NAME = '';
@@ -35,6 +36,9 @@ class _InputLieuState extends State<InputLieu> {
   String _M_SIZE = '';
   String _PLAN_EQ = '';
   String _EMPL_NAME = '';
+  String checkEmplOK = 'NG';
+  String checkPlanIdOK = 'NG';
+  String checkMLotNoOK = 'NG';
   var _plan_info;
   var _user_info;
   final GlobalController c = Get.put(GlobalController());
@@ -86,6 +90,7 @@ class _InputLieuState extends State<InputLieu> {
           _MACHINE_NO = response['PLAN_EQ'];
           _controllerMachineNo.text = response['PLAN_EQ'];
           _plan_info = response;
+          checkPlanIdOK = 'OK';
         } else {
           _controllerPlanId.text = '-1';
           AwesomeDialog(
@@ -164,7 +169,8 @@ class _InputLieuState extends State<InputLieu> {
           /* btnOkOnPress: () {}, */
         ).show();
       } else if (mLotNoExistOutKhoAo && !mLotNoExistInP500) {
-        Get.snackbar('Thông báo', 'Lot liệu input OK');
+        checkMLotNoOK = 'OK';
+        //Get.snackbar('Thông báo', 'Lot liệu input OK');
       }
     });
   }
@@ -181,6 +187,7 @@ class _InputLieuState extends State<InputLieu> {
               _EMPL_NAME =
                   '${response['MIDLAST_NAME']} ${response['FIRST_NAME']}';
               _user_info = response;
+              checkEmplOK = 'OK';
             } else {
               _controllerEmplNo.text = '-1';
               _EMPL_NAME = '';
@@ -233,6 +240,20 @@ class _InputLieuState extends State<InputLieu> {
       if (value['tk_status'] == 'OK') {
         //var response = value['data'][0];
         insertP500Success = true;
+        AwesomeDialog(
+          context: context,
+          dialogType: DialogType.success,
+          animType: AnimType.rightSlide,
+          title: 'Thông báo',
+          desc: 'Input liệu thành công / 원단 투입 처리 완료 되었습니다',
+          /* btnCancelOnPress: () {}, */
+          btnOkOnPress: () {},
+        ).show();
+        setState(() {
+          checkEmplOK = 'NG';
+          checkMLotNoOK = 'NG';
+          checkPlanIdOK = 'NG';
+        });
       } else {
         insertP500Success = false;
       }
@@ -303,6 +324,26 @@ class _InputLieuState extends State<InputLieu> {
         });
       } else {}
     } else {}
+  }
+
+  Future<void> insertP500NoCamera() async {
+    //check EMPL_NO
+    await checkEmplNo(_EMPL_NO);
+    //check PLAN_ID
+    await checkPlanIdInfo(_PLAN_ID);
+    //check M_LOT_NO
+    await checkMLotNoInfo(_M_LOT_NO2, _PLAN_ID);
+    //insert P500
+    print('checkEmplOK' + checkEmplOK);
+    print('checkMLotNoOK' + checkMLotNoOK);
+    print('checkPlanIdOK' + checkPlanIdOK);
+
+    if ((checkEmplOK == 'OK') &&
+        (checkMLotNoOK == 'OK') &&
+        (checkPlanIdOK == 'OK')) {
+      //print('OK');
+      await insertP500(_M_LOT_NO, _PLAN_ID);
+    }
   }
 
   @override
@@ -415,7 +456,6 @@ class _InputLieuState extends State<InputLieu> {
     });
   }
 
-  Future<void> insertP500NoCamera() async {}
   final _formKey = GlobalKey<FormState>();
   Color getColor(Set<MaterialState> states) {
     const Set<MaterialState> interactiveStates = <MaterialState>{
@@ -465,6 +505,12 @@ class _InputLieuState extends State<InputLieu> {
                           return null;
                         },
                         controller: _controllerEmplNo,
+                        onChanged: (value) {
+                          //Get.snackbar('Thông báo', value);
+                          setState(() {
+                            _EMPL_NO = value;
+                          });
+                        },
                       ),
                       Text(
                         'PIC: ${_user_info?['MIDLAST_NAME'].toString() ?? ''} ${_user_info?['FIRST_NAME'].toString() ?? ''}',
@@ -492,7 +538,10 @@ class _InputLieuState extends State<InputLieu> {
                         },
                         controller: _controllerPlanId,
                         onChanged: (value) {
-                          Get.snackbar('Thông báo', value);
+                          //Get.snackbar('Thông báo', value);
+                          setState(() {
+                            _PLAN_ID = value;
+                          });
                         },
                       ),
                       TextFormField(
@@ -513,6 +562,12 @@ class _InputLieuState extends State<InputLieu> {
                           return null;
                         },
                         controller: _controllerMachineNo,
+                        onChanged: (value) {
+                          //Get.snackbar('Thông báo', value);
+                          setState(() {
+                            _MACHINE_NO = value;
+                          });
+                        },
                       ),
                       Text(
                         'CODE: ${_plan_info?['G_NAME'].toString() ?? ''} | ${_plan_info?['PLAN_EQ'].toString() ?? ''}',
@@ -539,6 +594,15 @@ class _InputLieuState extends State<InputLieu> {
                           return null;
                         },
                         controller: _controllerMLotNo,
+                        onChanged: (value) {
+                          //Get.snackbar('Thông báo', value);
+
+                          setState(() {
+                            _M_LOT_NO = value;
+                            _M_LOT_NO2 = value;
+                            print(_M_LOT_NO);
+                          });
+                        },
                       ),
                       Text(
                         'LIỆU: $_M_NAME | SIZE: $_M_SIZE',
@@ -547,7 +611,7 @@ class _InputLieuState extends State<InputLieu> {
                             fontWeight: FontWeight.bold,
                             color: Color.fromARGB(255, 243, 8, 192)),
                       ),
-                      /*  Row(
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Checkbox(
@@ -563,7 +627,7 @@ class _InputLieuState extends State<InputLieu> {
                           ),
                           const Text('Dùng camera')
                         ],
-                      ), */
+                      ),
                       const SizedBox(
                         width: 10,
                         height: 20,
@@ -574,17 +638,11 @@ class _InputLieuState extends State<InputLieu> {
                           ElevatedButton(
                               onPressed: () {
                                 if (_formKey.currentState!.validate()) {
-                                  insertP500(_M_LOT_NO, _PLAN_ID);
-                                  AwesomeDialog(
-                                    context: context,
-                                    dialogType: DialogType.success,
-                                    animType: AnimType.rightSlide,
-                                    title: 'Thông báo',
-                                    desc:
-                                        'Input liệu thành công / 원단 투입 처리 완료 되었습니다',
-                                    /* btnCancelOnPress: () {}, */
-                                    btnOkOnPress: () {},
-                                  ).show();
+                                  if (_useScanner) {
+                                    insertP500(_M_LOT_NO, _PLAN_ID);
+                                  } else {
+                                    insertP500NoCamera();
+                                  }
                                   setState(() {
                                     _controllerMLotNo.text = '';
                                     _M_LOT_NO = '';
