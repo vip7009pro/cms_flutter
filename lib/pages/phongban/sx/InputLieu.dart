@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:math';
 import 'package:cms_flutter/controller/APIRequest.dart';
 import 'package:cms_flutter/controller/GetXController.dart';
 import 'package:cms_flutter/controller/GlobalFunction.dart';
 import 'package:cms_flutter/controller/LocalDataAccess.dart';
 import 'package:cms_flutter/pages/LoginPage.dart';
+import 'package:cms_flutter/pages/phongban/sx/InputMaterialList.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
@@ -36,9 +36,9 @@ class _InputLieuState extends State<InputLieu> {
   String _M_SIZE = '';
   String _PLAN_EQ = '';
   String _EMPL_NAME = '';
-  String checkEmplOK = 'NG';
-  String checkPlanIdOK = 'NG';
-  String checkMLotNoOK = 'NG';
+  String _checkEmplOK = 'NG';
+  String _checkPlanIdOK = 'NG';
+  String _checkMLotNoOK = 'NG';
   var _plan_info;
   var _user_info;
   final GlobalController c = Get.put(GlobalController());
@@ -71,8 +71,18 @@ class _InputLieuState extends State<InputLieu> {
         },
       );
       // ignore: avoid_catches_without_on_clauses
+    } on MissingPluginException {
+      AwesomeDialog(
+        context: context,
+        dialogType: DialogType.error,
+        animType: AnimType.rightSlide,
+        title: 'Lỗi',
+        desc: 'Thiếu pluggin/ Pluggin Missing Exception',
+        btnCancelOnPress: () {},
+        /* btnOkOnPress: () {}, */
+      ).show();
     } catch (e) {
-      print('Failed to make OTA update. Details: $e');
+      //print('Failed to make OTA update. Details: $e');
     }
   }
 
@@ -90,7 +100,7 @@ class _InputLieuState extends State<InputLieu> {
           _MACHINE_NO = response['PLAN_EQ'];
           _controllerMachineNo.text = response['PLAN_EQ'];
           _plan_info = response;
-          checkPlanIdOK = 'OK';
+          _checkPlanIdOK = 'OK';
         } else {
           _controllerPlanId.text = '-1';
           AwesomeDialog(
@@ -169,7 +179,7 @@ class _InputLieuState extends State<InputLieu> {
           /* btnOkOnPress: () {}, */
         ).show();
       } else if (mLotNoExistOutKhoAo && !mLotNoExistInP500) {
-        checkMLotNoOK = 'OK';
+        _checkMLotNoOK = 'OK';
         //Get.snackbar('Thông báo', 'Lot liệu input OK');
       }
     });
@@ -187,7 +197,7 @@ class _InputLieuState extends State<InputLieu> {
               _EMPL_NAME =
                   '${response['MIDLAST_NAME']} ${response['FIRST_NAME']}';
               _user_info = response;
-              checkEmplOK = 'OK';
+              _checkEmplOK = 'OK';
             } else {
               _controllerEmplNo.text = '-1';
               _EMPL_NAME = '';
@@ -250,9 +260,9 @@ class _InputLieuState extends State<InputLieu> {
           btnOkOnPress: () {},
         ).show();
         setState(() {
-          checkEmplOK = 'NG';
-          checkMLotNoOK = 'NG';
-          checkPlanIdOK = 'NG';
+          _checkEmplOK = 'NG';
+          _checkMLotNoOK = 'NG';
+          _checkPlanIdOK = 'NG';
         });
       } else {
         insertP500Success = false;
@@ -320,7 +330,7 @@ class _InputLieuState extends State<InputLieu> {
             //var response = value['data'][0];
           } else {}
         }).catchError((onError) {
-          print(onError);
+          //print(onError);
         });
       } else {}
     } else {}
@@ -334,13 +344,9 @@ class _InputLieuState extends State<InputLieu> {
     //check M_LOT_NO
     await checkMLotNoInfo(_M_LOT_NO2, _PLAN_ID);
     //insert P500
-    print('checkEmplOK' + checkEmplOK);
-    print('checkMLotNoOK' + checkMLotNoOK);
-    print('checkPlanIdOK' + checkPlanIdOK);
-
-    if ((checkEmplOK == 'OK') &&
-        (checkMLotNoOK == 'OK') &&
-        (checkPlanIdOK == 'OK')) {
+    if ((_checkEmplOK == 'OK') &&
+        (_checkMLotNoOK == 'OK') &&
+        (_checkPlanIdOK == 'OK')) {
       //print('OK');
       await insertP500(_M_LOT_NO, _PLAN_ID);
     }
@@ -365,6 +371,17 @@ class _InputLieuState extends State<InputLieu> {
         });
       },
     );
+    LocalDataAccess.getVariable('useCamera').then(
+      (value) {
+        setState(() {
+          if (value != '') {
+            _useScanner = true;
+          } else {
+            _useScanner = false;
+          }
+        });
+      },
+    );
     _getToken().then((value) => {_token = value});
   }
 
@@ -373,7 +390,7 @@ class _InputLieuState extends State<InputLieu> {
             '#ff6666', 'Cancel', true, ScanMode.BARCODE)!
         .listen((barcode) {
       //Get.snackbar('Code', barcode);
-      print(barcode);
+      //print(barcode);
       //FlutterBeep.beep();
       FlutterBeep.playSysSound(AndroidSoundIDs.TONE_CDMA_CONFIRM);
     });
@@ -384,7 +401,7 @@ class _InputLieuState extends State<InputLieu> {
     try {
       barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
           '#ff6666', 'Cancel', true, ScanMode.QR);
-      print(barcodeScanRes);
+      //print(barcodeScanRes);
       FlutterBeep.playSysSound(AndroidSoundIDs.TONE_CDMA_CONFIRM);
     } on PlatformException {
       barcodeScanRes = 'Failed to get platform version.';
@@ -596,11 +613,9 @@ class _InputLieuState extends State<InputLieu> {
                         controller: _controllerMLotNo,
                         onChanged: (value) {
                           //Get.snackbar('Thông báo', value);
-
                           setState(() {
                             _M_LOT_NO = value;
                             _M_LOT_NO2 = value;
-                            print(_M_LOT_NO);
                           });
                         },
                       ),
@@ -622,6 +637,12 @@ class _InputLieuState extends State<InputLieu> {
                             onChanged: (bool? value) {
                               setState(() {
                                 _useScanner = value!;
+                                if (value == true) {
+                                  LocalDataAccess.saveVariable(
+                                      'useCamera', 'OK');
+                                } else {
+                                  LocalDataAccess.saveVariable('useCamera', '');
+                                }
                               });
                             },
                           ),
@@ -670,6 +691,7 @@ class _InputLieuState extends State<InputLieu> {
                               child: const Text('Back')),
                         ],
                       ),
+                      const InputMaterialList(planID: '1F80008A'),
                       /* Text(
                           'OTA status: ${currentEvent.status} : ${currentEvent.value} \n'), */
                     ]),

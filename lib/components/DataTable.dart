@@ -16,12 +16,10 @@ class _BangDataState extends State<BangData> {
   late EmployeeDataSource employeeDataSource;
   @override
   void initState() {
-    super.initState();
     employees = getEmployeeData();
     employeeDataSource = EmployeeDataSource(employeeData: employees);
+    super.initState();
   }
-
-  Future<void> loadData() async {}
 
   @override
   Widget build(BuildContext context) {
