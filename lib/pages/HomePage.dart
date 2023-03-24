@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cms_flutter/components/HomeDrawerHeader.dart';
 import 'package:cms_flutter/controller/GetXController.dart';
 import 'package:cms_flutter/controller/GlobalFunction.dart';
@@ -464,8 +465,18 @@ class _HomePageState extends State<HomePage> {
               ),
               title: const Text("Logout"),
               onTap: () {
-                GlobalFunction.logout();
-                Get.off(() => const LoginPage());
+                AwesomeDialog(
+                  context: context,
+                  dialogType: DialogType.question,
+                  animType: AnimType.rightSlide,
+                  title: 'Cảnh báo',
+                  desc: 'Bạn muốn logout? / Logout 하시겠습니까?',
+                  btnCancelOnPress: () {},
+                  btnOkOnPress: () {
+                    GlobalFunction.logout();
+                    Get.off(() => const LoginPage());
+                  },
+                ).show();
               },
             ),
           ],

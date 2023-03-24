@@ -118,6 +118,7 @@ class _LoginPageState extends State<LoginPage> {
       'assets/images/cmslogo.jpg',
     ));
     final username = TextFormField(
+      textInputAction: TextInputAction.next,
       onChanged: (value) => {_user = value},
       keyboardType: TextInputType.emailAddress,
       autofocus: false,
@@ -129,6 +130,10 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
     final password = TextFormField(
+      textInputAction: TextInputAction.go,
+      onFieldSubmitted: (term) {
+        _login(context);
+      },
       onChanged: (value) => {_pass = value},
       autofocus: false,
       initialValue: '',

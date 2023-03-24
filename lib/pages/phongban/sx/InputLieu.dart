@@ -35,17 +35,13 @@ class _InputLieuState extends State<InputLieu> {
   String _M_SIZE = '';
   String _PLAN_EQ = '';
   String _EMPL_NAME = '';
-
   var _plan_info;
   var _user_info;
-
   final GlobalController c = Get.put(GlobalController());
-
   final TextEditingController _controllerPlanId = TextEditingController();
   final TextEditingController _controllerEmplNo = TextEditingController();
   final TextEditingController _controllerMLotNo = TextEditingController();
   final TextEditingController _controllerMachineNo = TextEditingController();
-
   Future<String> _getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final savedToken = prefs.getString('token') ?? 'reset';
@@ -54,11 +50,9 @@ class _InputLieuState extends State<InputLieu> {
 
   late OtaEvent currentEvent =
       OtaEvent(OtaStatus.DOWNLOADING, 'Current Status');
-
   Future<void> tryOtaUpdate() async {
     try {
       //LINK CONTAINS APK OF FLUTTER HELLO WORLD FROM FLUTTER SDK EXAMPLES
-
       OtaUpdate()
           .execute(
         'http://14.160.33.94:3010/update/cmsflutter.apk',
@@ -114,7 +108,6 @@ class _InputLieuState extends State<InputLieu> {
     bool mLotNoExistOutKhoAo = false;
     bool mLotNoExistInP500 = false;
     String mName = '', mSize = '', mCode = '';
-
     await API_Request.api_query('check_xuat_kho_ao_mobile', {
       'token_string': _token,
       'PLAN_ID': planId,
@@ -130,7 +123,6 @@ class _InputLieuState extends State<InputLieu> {
         mLotNoExistOutKhoAo = false;
       }
     });
-
     await API_Request.api_query('checkM_LOT_NO_p500_mobile', {
       'token_string': _token,
       'PLAN_ID': planId,
@@ -142,7 +134,6 @@ class _InputLieuState extends State<InputLieu> {
         mLotNoExistInP500 = false;
       }
     });
-
     setState(() {
       _M_SIZE = mSize;
       _M_NAME = mName;
@@ -214,7 +205,6 @@ class _InputLieuState extends State<InputLieu> {
     bool insertP500Success = false;
     String totalOutQty = '', planIdInput = '';
     bool checkPlanIdInput = false;
-
     await API_Request.api_query('checkProcessInNoP500', {
       'token_string': _token,
     }).then((value) {
@@ -227,7 +217,6 @@ class _InputLieuState extends State<InputLieu> {
         nextP500InNo = '001';
       }
     });
-
     await API_Request.api_query('insert_p500_mobile', {
       'token_string': _token,
       'in_date': Moment.now().format('YYYYMMDD'),
@@ -248,7 +237,6 @@ class _InputLieuState extends State<InputLieu> {
         insertP500Success = false;
       }
     });
-
     if (insertP500Success) {
       await API_Request.api_query('checkOutKhoSX_mobile', {
         'token_string': _token,
@@ -275,7 +263,6 @@ class _InputLieuState extends State<InputLieu> {
         //print(onError);
       });
       ;
-
       if (checkPlanIdInput) {
         await API_Request.api_query('setUSE_YN_KHO_AO_INPUT_mobile', {
           'token_string': _token,
@@ -300,7 +287,6 @@ class _InputLieuState extends State<InputLieu> {
           ).show();
           //print(onError);
         });
-
         await API_Request.api_query('setUSE_YN_KHO_AO_OUTPUT_mobile', {
           'token_string': _token,
           'PLAN_ID_OUTPUT': _PLAN_ID,
@@ -368,7 +354,6 @@ class _InputLieuState extends State<InputLieu> {
 
   Future<void> scanBarcodeNormal(String type) async {
     String barcodeScanRes;
-
     try {
       barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
           '#ff6666', 'Cancel', true, ScanMode.BARCODE);
@@ -392,7 +377,6 @@ class _InputLieuState extends State<InputLieu> {
       //print(e.toString());
       barcodeScanRes = e.toString();
     }
-
     if (!mounted) return;
     setState(() {
       if (type == 'PLAN_ID') {
@@ -426,12 +410,12 @@ class _InputLieuState extends State<InputLieu> {
           ).show();
           _controllerMachineNo.text = barcodeScanRes;
         }
-
         //Get.snackbar('Thông báo', barcodeScanRes);
       }
     });
   }
 
+  Future<void> insertP500NoCamera() async {}
   final _formKey = GlobalKey<FormState>();
   Color getColor(Set<MaterialState> states) {
     const Set<MaterialState> interactiveStates = <MaterialState>{
@@ -628,7 +612,6 @@ class _InputLieuState extends State<InputLieu> {
                               child: const Text('Back')),
                         ],
                       ),
-
                       /* Text(
                           'OTA status: ${currentEvent.status} : ${currentEvent.value} \n'), */
                     ]),
