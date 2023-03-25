@@ -691,7 +691,8 @@ class _InputLieuState extends State<InputLieu> {
                               child: const Text('Back')),
                         ],
                       ),
-                      const InputMaterialList(planID: '1F80008A'),
+                      InputMaterialList(
+                          planID: _PLAN_ID, key: ValueKey(_PLAN_ID)),
                       /* Text(
                           'OTA status: ${currentEvent.status} : ${currentEvent.value} \n'), */
                     ]),
