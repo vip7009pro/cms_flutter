@@ -298,6 +298,7 @@ class _InputLieuState extends State<InputLieu> {
         await API_Request.api_query('setUSE_YN_KHO_AO_INPUT_mobile', {
           'token_string': _token,
           'PLAN_ID_INPUT': planIdInput,
+          'PLAN_ID_SUDUNG': _PLAN_ID,
           'M_CODE': _M_CODE,
           'M_LOT_NO': mLotNo,
           'TOTAL_IN_QTY': totalOutQty,
