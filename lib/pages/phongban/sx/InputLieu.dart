@@ -220,7 +220,7 @@ class _InputLieuState extends State<InputLieu> {
   Future<void> insertP500(String mLotNo, String planId) async {
     String nextP500InNo = '001';
     bool insertP500Success = false;
-    String totalOutQty = '', planIdInput = '';
+    String totalOutQty = '', planIdInput = '', in_kho_id = '';
     bool checkPlanIdInput = false;
     await API_Request.api_query('checkProcessInNoP500', {
       'token_string': _token,
@@ -234,6 +234,33 @@ class _InputLieuState extends State<InputLieu> {
         nextP500InNo = '001';
       }
     });
+
+    await API_Request.api_query('checkOutKhoSX_mobile', {
+      'token_string': _token,
+      'PLAN_ID_OUTPUT': _PLAN_ID,
+      'M_CODE': _M_CODE,
+      'M_LOT_NO': mLotNo,
+    }).then((value) {
+      if (value['tk_status'] == 'OK') {
+        var response = value['data'][0];
+        totalOutQty = response['TOTAL_OUT_QTY'].toString();
+        planIdInput = response['PLAN_ID_INPUT'].toString();
+        in_kho_id = response['IN_KHO_ID'].toString();
+        checkPlanIdInput = true;
+      } else {}
+    }).catchError((onError) {
+      AwesomeDialog(
+        context: context,
+        dialogType: DialogType.error,
+        animType: AnimType.scale,
+        title: 'Lỗi',
+        desc: '$onError',
+        btnCancelOnPress: () {},
+        /* btnOkOnPress: () {}, */
+      ).show();
+      //print(onError);
+    });
+
     await API_Request.api_query('insert_p500_mobile', {
       'token_string': _token,
       'in_date': Moment.now().format('YYYYMMDD'),
@@ -246,6 +273,8 @@ class _InputLieuState extends State<InputLieu> {
       'PLAN_ID': _PLAN_ID,
       'M_CODE': _M_CODE,
       'M_LOT_NO': mLotNo,
+      'INPUT_QTY': totalOutQty,
+      'IN_KHO_ID': in_kho_id
     }).then((value) {
       if (value['tk_status'] == 'OK') {
         //var response = value['data'][0];
@@ -269,31 +298,6 @@ class _InputLieuState extends State<InputLieu> {
       }
     });
     if (insertP500Success) {
-      await API_Request.api_query('checkOutKhoSX_mobile', {
-        'token_string': _token,
-        'PLAN_ID_OUTPUT': _PLAN_ID,
-        'M_CODE': _M_CODE,
-        'M_LOT_NO': mLotNo,
-      }).then((value) {
-        if (value['tk_status'] == 'OK') {
-          var response = value['data'][0];
-          totalOutQty = response['TOTAL_OUT_QTY'].toString();
-          planIdInput = response['PLAN_ID_INPUT'].toString();
-          checkPlanIdInput = true;
-        } else {}
-      }).catchError((onError) {
-        AwesomeDialog(
-          context: context,
-          dialogType: DialogType.error,
-          animType: AnimType.scale,
-          title: 'Lỗi',
-          desc: '$onError',
-          btnCancelOnPress: () {},
-          /* btnOkOnPress: () {}, */
-        ).show();
-        //print(onError);
-      });
-      ;
       if (checkPlanIdInput) {
         await API_Request.api_query('setUSE_YN_KHO_AO_INPUT_mobile', {
           'token_string': _token,
@@ -345,6 +349,9 @@ class _InputLieuState extends State<InputLieu> {
     //check M_LOT_NO
     await checkMLotNoInfo(_M_LOT_NO2, _PLAN_ID);
     //insert P500
+    print(_checkEmplOK);
+    print(_checkMLotNoOK);
+    print(_checkPlanIdOK);
     if ((_checkEmplOK == 'OK') &&
         (_checkMLotNoOK == 'OK') &&
         (_checkPlanIdOK == 'OK')) {
