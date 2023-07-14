@@ -5,11 +5,16 @@ import 'package:cms_flutter/controller/GetXController.dart';
 import 'package:cms_flutter/controller/LocalDataAccess.dart';
 import 'package:cms_flutter/pages/HomePage.dart';
 import 'package:cms_flutter/pages/phongban/sx/InputLieu.dart';
+import 'package:cms_flutter/pages/phongban/sx/NHATKYKT.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-const List<String> serverList = <String>['MAIN_SERVER', 'SUB_SERVER'];
+const List<String> serverList = <String>[
+  'MAIN_SERVER',
+  'SUB_SERVER',
+  'TEST_SERVER'
+];
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -78,9 +83,12 @@ class _LoginPageState extends State<LoginPage> {
                     Map<String, dynamic> rawJson = jsonDecode(value);
                     userPosition = rawJson['POSITION_CODE'].toString();
                     if (userPosition == '4' || userPosition == '') {
-                      Get.off(() => const InputLieu());
+                      //Get.off(() => const InputLieu());
+                      Get.off(() => const NhatKyKT());
                     } else {
-                      Get.off(() => const HomePage());
+                      //Get.off(() => const InputLieu());
+                      Get.off(() => const NhatKyKT());
+                      // Get.off(() => const HomePage());
                     }
                   });
                 },

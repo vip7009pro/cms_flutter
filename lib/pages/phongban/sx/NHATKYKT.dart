@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:math';
 import 'package:cms_flutter/controller/APIRequest.dart';
 import 'package:cms_flutter/controller/GetXController.dart';
 import 'package:cms_flutter/controller/GlobalFunction.dart';
@@ -16,13 +17,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ota_update/ota_update.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 
-class InputLieu extends StatefulWidget {
-  const InputLieu({Key? key}) : super(key: key);
+class NhatKyKT extends StatefulWidget {
+  const NhatKyKT({Key? key}) : super(key: key);
   @override
-  _InputLieuState createState() => _InputLieuState();
+  _NhatKyKTState createState() => _NhatKyKTState();
 }
 
-class _InputLieuState extends State<InputLieu> {
+class _NhatKyKTState extends State<NhatKyKT> {
   bool _useScanner = true;
   String _token = "reset";
   String _PLAN_ID = '';
@@ -39,13 +40,28 @@ class _InputLieuState extends State<InputLieu> {
   String _checkEmplOK = 'NG';
   String _checkPlanIdOK = 'NG';
   String _checkMLotNoOK = 'NG';
+  String _processLotNo = '';
+  String _lineQCEMPLNO = '';
+  String _inspectStart = '';
+  String _inspectStop = '';
+  String _inspectQty = '';
+  String _inspectOk = '';
+  String _inspectNg = '';
+
   var _plan_info;
   var _user_info;
+  var _processlotinfo;
   final GlobalController c = Get.put(GlobalController());
   final TextEditingController _controllerPlanId = TextEditingController();
   final TextEditingController _controllerEmplNo = TextEditingController();
   final TextEditingController _controllerMLotNo = TextEditingController();
+  final TextEditingController _controllerProcessLotNo = TextEditingController();
   final TextEditingController _controllerMachineNo = TextEditingController();
+  final TextEditingController _controllerInspectStart = TextEditingController();
+  final TextEditingController _controllerInspectStop = TextEditingController();
+  final TextEditingController _controllerInspectQty = TextEditingController();
+  final TextEditingController _controllerInspectOK = TextEditingController();
+  final TextEditingController _controllerInspectNG = TextEditingController();
   Future<String> _getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final savedToken = prefs.getString('token') ?? 'reset';
@@ -109,6 +125,38 @@ class _InputLieuState extends State<InputLieu> {
             animType: AnimType.rightSlide,
             title: 'Thông báo',
             desc: 'Không có số chỉ thị này / 지시번호 존재하지 않습니다',
+            btnCancelOnPress: () {},
+            /* btnOkOnPress: () {}, */
+          ).show();
+          Get.snackbar('Thông báo', 'Có lỗi: + ${value['message']}',
+              duration: const Duration(seconds: 1));
+        }
+      }));
+    });
+  }
+
+  Future<void> checkProcessLotNo(String processLotNo) async {
+    API_Request.api_query('mobile_checkProcessLotNo', {
+      'token_string': _token,
+      'PROCESS_LOT_NO': processLotNo.length > 8
+          ? processLotNo.substring(11, 19)
+          : processLotNo,
+    }).then((value) {
+      setState((() {
+        if (value['tk_status'] == 'OK') {
+          var response = value['data'][0];
+          _processlotinfo = response;
+          _controllerInspectQty.text = '1331';
+          _controllerInspectStart.text = _processlotinfo['INSPECT_START'] ?? '';
+          _controllerInspectStop.text = _processlotinfo['INSPECT_STOP'] ?? '';
+        } else {
+          _controllerPlanId.text = '-1';
+          AwesomeDialog(
+            context: context,
+            dialogType: DialogType.error,
+            animType: AnimType.rightSlide,
+            title: 'Thông báo',
+            desc: 'Không có lot sản xuất này / 생산 LOT 번호 존재하지 않습니다',
             btnCancelOnPress: () {},
             /* btnOkOnPress: () {}, */
           ).show();
@@ -461,6 +509,11 @@ class _InputLieuState extends State<InputLieu> {
         _controllerMLotNo.text = barcodeScanRes;
         checkMLotNoInfo(barcodeScanRes, _PLAN_ID);
         //Get.snackbar('Thông báo', barcodeScanRes);
+      } else if (type == 'PROCESS_LOT_NO') {
+        _processLotNo = barcodeScanRes;
+        _controllerProcessLotNo.text = barcodeScanRes;
+        checkProcessLotNo(barcodeScanRes);
+        //Get.snackbar('Thông báo', barcodeScanRes);
       } else if (type == 'MACHINE_NO') {
         _MACHINE_NO = barcodeScanRes;
         if (barcodeScanRes == _plan_info?['PLAN_EQ']) {
@@ -499,8 +552,8 @@ class _InputLieuState extends State<InputLieu> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.green,
-          title: const Text('CMS VINA: Scan Input Material'),
+          backgroundColor: Color.fromARGB(255, 255, 91, 255),
+          title: const Text('CMS VINA: Scan Input Nhật Ký Sản Xuất'),
         ),
         body: Container(
             alignment: Alignment.center,
@@ -513,8 +566,8 @@ class _InputLieuState extends State<InputLieu> {
                     children: [
                       TextFormField(
                         decoration: const InputDecoration(
-                          labelText: "EMPL_NO/사원ID:",
-                          hintText: "Quét EMPL_NO",
+                          labelText: "Mã nhân viên kiểm tra:",
+                          hintText: "Quét mã người kiểm",
                         ),
                         onTap: () {
                           if (_useScanner) {
@@ -547,11 +600,11 @@ class _InputLieuState extends State<InputLieu> {
                       ),
                       TextFormField(
                         decoration: const InputDecoration(
-                          labelText: "PLAN_ID/지시 번호:",
-                          hintText: "Quét PLAN_ID",
+                          labelText: "LOT SX:",
+                          hintText: "Quét LOTSX",
                         ),
                         onTap: () {
-                          if (_useScanner) scanBarcodeNormal("PLAN_ID");
+                          if (_useScanner) scanBarcodeNormal("PROCESS_LOT_NO");
                         },
                         // The validator receives the text that the user has entered.
                         validator: (value) {
@@ -562,54 +615,75 @@ class _InputLieuState extends State<InputLieu> {
                           }
                           return null;
                         },
-                        controller: _controllerPlanId,
+                        controller: _controllerProcessLotNo,
                         onChanged: (value) {
                           //Get.snackbar('Thông báo', value);
                           setState(() {
-                            _PLAN_ID = value;
-                          });
-                        },
-                      ),
-                      TextFormField(
-                        decoration: const InputDecoration(
-                          labelText: "MACHINE/호기:",
-                          hintText: "Quét MACHINE",
-                        ),
-                        onTap: () {
-                          if (_useScanner) scanBarcodeNormal("MACHINE_NO");
-                        },
-                        // The validator receives the text that the user has entered.
-                        validator: (value) {
-                          if (value == null ||
-                              value.isEmpty ||
-                              value.toString() == '-1') {
-                            return 'Phải quét mã vạch/ 바코드 스캔해야 합니다';
-                          }
-                          return null;
-                        },
-                        controller: _controllerMachineNo,
-                        onChanged: (value) {
-                          //Get.snackbar('Thông báo', value);
-                          setState(() {
-                            _MACHINE_NO = value;
+                            _processLotNo = value;
                           });
                         },
                       ),
                       Text(
-                        'CODE: ${_plan_info?['G_NAME'].toString() ?? ''} | ${_plan_info?['PLAN_EQ'].toString() ?? ''}',
+                        'CODE: ${_processlotinfo?['G_NAME'].toString() ?? ''} | ${_processlotinfo?['PLAN_EQ'].toString() ?? ''}',
                         style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                             color: Colors.green),
                       ),
                       TextFormField(
+                        enabled: false,
                         decoration: const InputDecoration(
-                          labelText: "M_LOT_NO:",
-                          hintText: "Quét M_LOT_NO",
+                          labelText: "Giờ bắt đầu kiểm",
+                          hintText: "Nhập giờ BĐ kiểm",
                         ),
-                        onTap: () {
-                          if (_useScanner) scanBarcodeNormal("M_LOT_NO");
+                        onTap: () {},
+                        // The validator receives the text that the user has entered.
+                        validator: (value) {
+                          if (value == null ||
+                              value.isEmpty ||
+                              value.toString() == '-1') {
+                            return 'Giá trị nhập không hợp lệ';
+                          }
+                          return null;
                         },
+                        controller: _controllerInspectStart,
+                        onChanged: (value) {
+                          //Get.snackbar('Thông báo', value);
+                          setState(() {
+                            _inspectStart = value;
+                          });
+                        },
+                      ),
+                      TextFormField(
+                        enabled: false,
+                        decoration: const InputDecoration(
+                          labelText: "Giờ kết thúc kiểm",
+                          hintText: "Nhập giờ KT kiểm",
+                        ),
+                        onTap: () {},
+                        // The validator receives the text that the user has entered.
+                        validator: (value) {
+                          if (value == null ||
+                              value.isEmpty ||
+                              value.toString() == '-1') {
+                            return 'Giá trị nhập không hợp lệ';
+                          }
+                          return null;
+                        },
+                        controller: _controllerInspectStop,
+                        onChanged: (value) {
+                          //Get.snackbar('Thông báo', value);
+                          setState(() {
+                            _inspectStop = value;
+                          });
+                        },
+                      ),
+                      TextFormField(
+                        decoration: const InputDecoration(
+                          labelText: "Số lượng kiểm tra",
+                          hintText: "Nhập số lượng kiểm tra",
+                        ),
+                        onTap: () {},
                         // The validator receives the text that the user has entered.
                         validator: (value) {
                           if (value == null ||
@@ -619,21 +693,59 @@ class _InputLieuState extends State<InputLieu> {
                           }
                           return null;
                         },
-                        controller: _controllerMLotNo,
+                        controller: _controllerInspectQty,
                         onChanged: (value) {
                           //Get.snackbar('Thông báo', value);
                           setState(() {
-                            _M_LOT_NO = value;
-                            _M_LOT_NO2 = value;
+                            _inspectQty = value;
                           });
                         },
                       ),
-                      Text(
-                        'LIỆU: $_M_NAME | SIZE: $_M_SIZE',
-                        style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Color.fromARGB(255, 243, 8, 192)),
+                      TextFormField(
+                        decoration: const InputDecoration(
+                          labelText: "Số lượng OK",
+                          hintText: "Nhập số lượng OK",
+                        ),
+                        onTap: () {},
+                        // The validator receives the text that the user has entered.
+                        validator: (value) {
+                          if (value == null ||
+                              value.isEmpty ||
+                              value.toString() == '-1') {
+                            return 'Phải quét mã vạch/ 바코드 스캔해야 합니다';
+                          }
+                          return null;
+                        },
+                        controller: _controllerInspectOK,
+                        onChanged: (value) {
+                          //Get.snackbar('Thông báo', value);
+                          setState(() {
+                            _inspectOk = value;
+                          });
+                        },
+                      ),
+                      TextFormField(
+                        decoration: const InputDecoration(
+                          labelText: "Số lượng NG",
+                          hintText: "Nhập số lượng NG",
+                        ),
+                        onTap: () {},
+                        // The validator receives the text that the user has entered.
+                        validator: (value) {
+                          if (value == null ||
+                              value.isEmpty ||
+                              value.toString() == '-1') {
+                            return 'Phải quét mã vạch/ 바코드 스캔해야 합니다';
+                          }
+                          return null;
+                        },
+                        controller: _controllerInspectNG,
+                        onChanged: (value) {
+                          //Get.snackbar('Thông báo', value);
+                          setState(() {
+                            _inspectNg = value;
+                          });
+                        },
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -643,8 +755,7 @@ class _InputLieuState extends State<InputLieu> {
                             fillColor:
                                 MaterialStateProperty.resolveWith(getColor),
                             value: _useScanner,
-                            onChanged:
-                                null /*  (bool? value) {
+                            onChanged: /* null */ (bool? value) {
                               setState(() {
                                 _useScanner = value!;
                                 if (value == true) {
@@ -654,8 +765,7 @@ class _InputLieuState extends State<InputLieu> {
                                   LocalDataAccess.saveVariable('useCamera', '');
                                 }
                               });
-                            } */
-                            ,
+                            },
                           ),
                           const Text('Dùng camera')
                         ],
@@ -675,11 +785,21 @@ class _InputLieuState extends State<InputLieu> {
                                   } else {
                                     //insertP500NoCamera();
                                   }
+
+                                  AwesomeDialog(
+                                    context: context,
+                                    dialogType: DialogType.success,
+                                    animType: AnimType.rightSlide,
+                                    title: 'Thông báo',
+                                    desc: 'Nhập nhật ký thành công',
+                                    /* btnCancelOnPress: () {}, */
+                                    btnOkOnPress: () {},
+                                  ).show();
+
                                   setState(() {
-                                    _controllerMLotNo.text = '';
-                                    _M_LOT_NO = '';
-                                    _M_NAME = '';
-                                    _M_SIZE = '';
+                                    _controllerProcessLotNo.text = '';
+                                    _processLotNo = '';
+                                    _EMPL_NO = '';
                                   });
                                 }
                               },
@@ -702,8 +822,7 @@ class _InputLieuState extends State<InputLieu> {
                               child: const Text('Back')),
                         ],
                       ),
-                      InputMaterialList(
-                          planID: _PLAN_ID, key: ValueKey(_PLAN_ID)),
+
                       /* Text(
                           'OTA status: ${currentEvent.status} : ${currentEvent.value} \n'), */
                     ]),

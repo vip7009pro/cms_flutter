@@ -17,6 +17,8 @@ class API_Request {
     url = await LocalDataAccess.getVariable('serverIP');
     if (url == '' || url == 'MAIN_SERVER') {
       url = 'http://14.160.33.94:5011/api';
+    } else if (url == 'TEST_SERVER') {
+      url = 'http://localhost:3007/api';
     } else {
       url = 'http://14.160.33.94:3007/api';
     }
