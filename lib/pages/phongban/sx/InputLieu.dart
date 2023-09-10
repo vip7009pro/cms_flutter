@@ -643,8 +643,7 @@ class _InputLieuState extends State<InputLieu> {
                             fillColor:
                                 MaterialStateProperty.resolveWith(getColor),
                             value: _useScanner,
-                            onChanged:
-                                null /*  (bool? value) {
+                            onChanged: (bool? value) {
                               setState(() {
                                 _useScanner = value!;
                                 if (value == true) {
@@ -654,8 +653,7 @@ class _InputLieuState extends State<InputLieu> {
                                   LocalDataAccess.saveVariable('useCamera', '');
                                 }
                               });
-                            } */
-                            ,
+                            },
                           ),
                           const Text('Dùng camera')
                         ],

@@ -23,9 +23,9 @@ class API_Request {
       url = 'http://14.160.33.94:3007/api';
     }
     var dio = Dio(BaseOptions(
-        connectTimeout: 10000, // in ms
-        receiveTimeout: 10000,
-        sendTimeout: 10000,
+        connectTimeout: const Duration(milliseconds: 10000), // in ms
+        receiveTimeout: const Duration(milliseconds: 10000),
+        sendTimeout: const Duration(milliseconds: 10000),
         responseType: ResponseType.json,
         followRedirects: false,
         validateStatus: (status) {
