@@ -87,8 +87,8 @@ class _LoginPageState extends State<LoginPage> {
                       Get.off(() => const NhatKyKT());
                     } else {
                       //Get.off(() => const InputLieu());
-                      Get.off(() => const NhatKyKT());
-                      // Get.off(() => const HomePage());
+                      //Get.off(() => const NhatKyKT());
+                      Get.off(() => const HomePage());
                     }
                   });
                 },
@@ -161,7 +161,7 @@ class _LoginPageState extends State<LoginPage> {
         onPressed: () {
           _login(context);
         },
-        child: Row(
+        child: const Row(
           mainAxisAlignment: MainAxisAlignment.center,
           // ignore: prefer_const_literals_to_create_immutables
           children: [
@@ -170,11 +170,11 @@ class _LoginPageState extends State<LoginPage> {
               Icons.login,
               color: Colors.white,
             ),
-            const SizedBox(
+            SizedBox(
               height: 100,
               width: 10,
             ),
-            const Text(
+            Text(
                 style: TextStyle(
                     color: Color.fromARGB(255, 255, 255, 255), fontSize: 15),
                 'Đăng nhập'),
