@@ -23,24 +23,21 @@ class InputLieu extends StatefulWidget {
 }
 
 class _InputLieuState extends State<InputLieu> {
-  bool _useScanner = true;
+  bool _useScanner = false;
   String _token = "reset";
-  String _PLAN_ID = '';
-  String _EMPL_NO = '';
-  String _M_LOT_NO = '';
-  String _M_LOT_NO2 = '';
-  String _MACHINE_NO = '';
-  String _G_NAME = '';
-  String _M_NAME = '';
-  String _M_CODE = '';
-  String _M_SIZE = '';
-  String _PLAN_EQ = '';
-  String _EMPL_NAME = '';
+  String _planId = '';
+  String _emplNo = '';
+  String _mLotNo = '';
+  String _mLotNo2 = '';
+  String _machineNo = '';
+  String _mName = '';
+  String _mCode = '';
+  String _mSize = '';
   String _checkEmplOK = 'NG';
   String _checkPlanIdOK = 'NG';
   String _checkMLotNoOK = 'NG';
-  var _plan_info;
-  var _user_info;
+  dynamic _planInfo;
+  dynamic _userInfo;
   final GlobalController c = Get.put(GlobalController());
   final TextEditingController _controllerPlanId = TextEditingController();
   final TextEditingController _controllerEmplNo = TextEditingController();
@@ -94,12 +91,9 @@ class _InputLieuState extends State<InputLieu> {
       setState((() {
         if (value['tk_status'] == 'OK') {
           var response = value['data'][0];
-          //print(response['INS_EMPL']);
-          _G_NAME = response['G_NAME'];
-          _PLAN_EQ = response['PLAN_EQ'];
-          _MACHINE_NO = response['PLAN_EQ'];
+          _machineNo = response['PLAN_EQ'];
           _controllerMachineNo.text = response['PLAN_EQ'];
-          _plan_info = response;
+          _planInfo = response;
           _checkPlanIdOK = 'OK';
         } else {
           _controllerPlanId.text = '-1';
@@ -150,10 +144,10 @@ class _InputLieuState extends State<InputLieu> {
       }
     });
     setState(() {
-      _M_SIZE = mSize;
-      _M_NAME = mName;
-      _M_CODE = mCode;
-      _M_LOT_NO = mLotNo;
+      _mSize = mSize;
+      _mName = mName;
+      _mCode = mCode;
+      _mLotNo = mLotNo;
       if (!mLotNoExistOutKhoAo) {
         _controllerMLotNo.text = '-1';
         AwesomeDialog(
@@ -193,14 +187,11 @@ class _InputLieuState extends State<InputLieu> {
           setState((() {
             if (value['tk_status'] == 'OK') {
               var response = value['data'][0];
-              _EMPL_NO = response['EMPL_NO'].toString();
-              _EMPL_NAME =
-                  '${response['MIDLAST_NAME']} ${response['FIRST_NAME']}';
-              _user_info = response;
+              _emplNo = response['EMPL_NO'].toString();
+              _userInfo = response;
               _checkEmplOK = 'OK';
             } else {
               _controllerEmplNo.text = '-1';
-              _EMPL_NAME = '';
               AwesomeDialog(
                 context: context,
                 dialogType: DialogType.error,
@@ -220,7 +211,7 @@ class _InputLieuState extends State<InputLieu> {
   Future<void> insertP500(String mLotNo, String planId) async {
     String nextP500InNo = '001';
     bool insertP500Success = false;
-    String totalOutQty = '', planIdInput = '', in_kho_id = '';
+    String totalOutQty = '', planIdInput = '', inKhoId = '';
     bool checkPlanIdInput = false;
     await API_Request.api_query('checkProcessInNoP500', {
       'token_string': _token,
@@ -234,18 +225,17 @@ class _InputLieuState extends State<InputLieu> {
         nextP500InNo = '001';
       }
     });
-
     await API_Request.api_query('checkOutKhoSX_mobile', {
       'token_string': _token,
-      'PLAN_ID_OUTPUT': _PLAN_ID,
-      'M_CODE': _M_CODE,
+      'PLAN_ID_OUTPUT': _planId,
+      'M_CODE': _mCode,
       'M_LOT_NO': mLotNo,
     }).then((value) {
       if (value['tk_status'] == 'OK') {
         var response = value['data'][0];
         totalOutQty = response['TOTAL_OUT_QTY'].toString();
         planIdInput = response['PLAN_ID_INPUT'].toString();
-        in_kho_id = response['IN_KHO_ID'].toString();
+        inKhoId = response['IN_KHO_ID'].toString();
         checkPlanIdInput = true;
       } else {}
     }).catchError((onError) {
@@ -260,21 +250,20 @@ class _InputLieuState extends State<InputLieu> {
       ).show();
       //print(onError);
     });
-
     await API_Request.api_query('insert_p500_mobile', {
       'token_string': _token,
       'in_date': Moment.now().format('YYYYMMDD'),
       'next_process_in_no': nextP500InNo,
-      'PROD_REQUEST_DATE': _plan_info['PROD_REQUEST_DATE'],
-      'PROD_REQUEST_NO': _plan_info['PROD_REQUEST_NO'],
-      'G_CODE': _plan_info['G_CODE'],
-      'EMPL_NO': _EMPL_NO,
-      'phanloai': _MACHINE_NO,
-      'PLAN_ID': _PLAN_ID,
-      'M_CODE': _M_CODE,
+      'PROD_REQUEST_DATE': _planInfo['PROD_REQUEST_DATE'],
+      'PROD_REQUEST_NO': _planInfo['PROD_REQUEST_NO'],
+      'G_CODE': _planInfo['G_CODE'],
+      'EMPL_NO': _emplNo,
+      'phanloai': _machineNo,
+      'PLAN_ID': _planId,
+      'M_CODE': _mCode,
       'M_LOT_NO': mLotNo,
       'INPUT_QTY': totalOutQty,
-      'IN_KHO_ID': in_kho_id
+      'IN_KHO_ID': inKhoId
     }).then((value) {
       if (value['tk_status'] == 'OK') {
         //var response = value['data'][0];
@@ -302,8 +291,8 @@ class _InputLieuState extends State<InputLieu> {
         await API_Request.api_query('setUSE_YN_KHO_AO_INPUT_mobile', {
           'token_string': _token,
           'PLAN_ID_INPUT': planIdInput,
-          'PLAN_ID_SUDUNG': _PLAN_ID,
-          'M_CODE': _M_CODE,
+          'PLAN_ID_SUDUNG': _planId,
+          'M_CODE': _mCode,
           'M_LOT_NO': mLotNo,
           'TOTAL_IN_QTY': totalOutQty,
           'USE_YN': 'X',
@@ -325,8 +314,8 @@ class _InputLieuState extends State<InputLieu> {
         });
         await API_Request.api_query('setUSE_YN_KHO_AO_OUTPUT_mobile', {
           'token_string': _token,
-          'PLAN_ID_OUTPUT': _PLAN_ID,
-          'M_CODE': _M_CODE,
+          'PLAN_ID_OUTPUT': _planId,
+          'M_CODE': _mCode,
           'M_LOT_NO': mLotNo,
           'TOTAL_OUT_QTY': totalOutQty,
           'USE_YN': 'X',
@@ -342,21 +331,14 @@ class _InputLieuState extends State<InputLieu> {
   }
 
   Future<void> insertP500NoCamera() async {
-    //check EMPL_NO
-    await checkEmplNo(_EMPL_NO);
-    //check PLAN_ID
-    await checkPlanIdInfo(_PLAN_ID);
-    //check M_LOT_NO
-    await checkMLotNoInfo(_M_LOT_NO2, _PLAN_ID);
-    //insert P500
-    print(_checkEmplOK);
-    print(_checkMLotNoOK);
-    print(_checkPlanIdOK);
+    await checkEmplNo(_emplNo);
+    await checkPlanIdInfo(_planId);
+    await checkMLotNoInfo(_mLotNo2, _planId);
     if ((_checkEmplOK == 'OK') &&
         (_checkMLotNoOK == 'OK') &&
         (_checkPlanIdOK == 'OK')) {
       //print('OK');
-      await insertP500(_M_LOT_NO, _PLAN_ID);
+      await insertP500(_mLotNo, _planId);
     }
   }
 
@@ -372,10 +354,9 @@ class _InputLieuState extends State<InputLieu> {
       (value) {
         setState(() {
           Map<String, dynamic> rawJson = jsonDecode(value);
-          _EMPL_NO = rawJson['EMPL_NO'];
+          _emplNo = rawJson['EMPL_NO'];
           _controllerEmplNo.text = rawJson['EMPL_NO'];
-          _EMPL_NAME = rawJson['MIDLAST_NAME'] + ' ' + rawJson['FIRST_NAME'];
-          _user_info = rawJson;
+          _userInfo = rawJson;
         });
       },
     );
@@ -447,23 +428,23 @@ class _InputLieuState extends State<InputLieu> {
     if (!mounted) return;
     setState(() {
       if (type == 'PLAN_ID') {
-        _PLAN_ID = barcodeScanRes;
+        _planId = barcodeScanRes;
         _controllerPlanId.text = barcodeScanRes;
         checkPlanIdInfo(barcodeScanRes);
         //Get.snackbar('Thông báo', barcodeScanRes);
       } else if (type == 'EMPL_NO') {
-        _EMPL_NO = barcodeScanRes;
+        _emplNo = barcodeScanRes;
         _controllerEmplNo.text = barcodeScanRes;
         checkEmplNo(barcodeScanRes);
         //Get.snackbar('Thông báo', barcodeScanRes);
       } else if (type == 'M_LOT_NO') {
-        _M_LOT_NO = barcodeScanRes;
+        _mLotNo = barcodeScanRes;
         _controllerMLotNo.text = barcodeScanRes;
-        checkMLotNoInfo(barcodeScanRes, _PLAN_ID);
+        checkMLotNoInfo(barcodeScanRes, _planId);
         //Get.snackbar('Thông báo', barcodeScanRes);
       } else if (type == 'MACHINE_NO') {
-        _MACHINE_NO = barcodeScanRes;
-        if (barcodeScanRes == _plan_info?['PLAN_EQ']) {
+        _machineNo = barcodeScanRes;
+        if (barcodeScanRes == _planInfo?['PLAN_EQ']) {
           _controllerMachineNo.text = barcodeScanRes;
         } else {
           AwesomeDialog(
@@ -521,7 +502,6 @@ class _InputLieuState extends State<InputLieu> {
                             scanBarcodeNormal("EMPL_NO");
                           }
                         },
-                        // The validator receives the text that the user has entered.
                         validator: (value) {
                           if (value == null ||
                               value.isEmpty ||
@@ -534,12 +514,15 @@ class _InputLieuState extends State<InputLieu> {
                         onChanged: (value) {
                           //Get.snackbar('Thông báo', value);
                           setState(() {
-                            _EMPL_NO = value;
+                            _emplNo = value;
+                            if (value.length >= 7) {
+                              checkEmplNo(value);
+                            }
                           });
                         },
                       ),
                       Text(
-                        'PIC: ${_user_info?['MIDLAST_NAME'].toString() ?? ''} ${_user_info?['FIRST_NAME'].toString() ?? ''}',
+                        'PIC: ${_userInfo?['MIDLAST_NAME'].toString() ?? ''} ${_userInfo?['FIRST_NAME'].toString() ?? ''}',
                         style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -566,7 +549,10 @@ class _InputLieuState extends State<InputLieu> {
                         onChanged: (value) {
                           //Get.snackbar('Thông báo', value);
                           setState(() {
-                            _PLAN_ID = value;
+                            _planId = value;
+                            if (value.length == 8) {
+                              checkPlanIdInfo(value);
+                            }
                           });
                         },
                       ),
@@ -591,12 +577,12 @@ class _InputLieuState extends State<InputLieu> {
                         onChanged: (value) {
                           //Get.snackbar('Thông báo', value);
                           setState(() {
-                            _MACHINE_NO = value;
+                            _machineNo = value;
                           });
                         },
                       ),
                       Text(
-                        'CODE: ${_plan_info?['G_NAME'].toString() ?? ''} | ${_plan_info?['PLAN_EQ'].toString() ?? ''}',
+                        'CODE: ${_planInfo?['G_NAME'].toString() ?? ''} | ${_planInfo?['PLAN_EQ'].toString() ?? ''}',
                         style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -623,13 +609,16 @@ class _InputLieuState extends State<InputLieu> {
                         onChanged: (value) {
                           //Get.snackbar('Thông báo', value);
                           setState(() {
-                            _M_LOT_NO = value;
-                            _M_LOT_NO2 = value;
+                            _mLotNo = value;
+                            _mLotNo2 = value;
+                            if (value.length == 10) {
+                              checkMLotNoInfo(value, _planId);
+                            }
                           });
                         },
                       ),
                       Text(
-                        'LIỆU: $_M_NAME | SIZE: $_M_SIZE',
+                        'LIỆU: $_mName | SIZE: $_mSize',
                         style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -669,15 +658,15 @@ class _InputLieuState extends State<InputLieu> {
                               onPressed: () {
                                 if (_formKey.currentState!.validate()) {
                                   if (_useScanner) {
-                                    //insertP500(_M_LOT_NO, _PLAN_ID);
+                                    //insertP500(_mLotNo, _planId);
                                   } else {
-                                    //insertP500NoCamera();
+                                    insertP500NoCamera();
                                   }
                                   setState(() {
                                     _controllerMLotNo.text = '';
-                                    _M_LOT_NO = '';
-                                    _M_NAME = '';
-                                    _M_SIZE = '';
+                                    _mLotNo = '';
+                                    _mName = '';
+                                    _mSize = '';
                                   });
                                 }
                               },
@@ -701,7 +690,7 @@ class _InputLieuState extends State<InputLieu> {
                         ],
                       ),
                       InputMaterialList(
-                          planID: _PLAN_ID, key: ValueKey(_PLAN_ID)),
+                          planID: _planId, key: ValueKey(_planId)),
                       /* Text(
                           'OTA status: ${currentEvent.status} : ${currentEvent.value} \n'), */
                     ]),
