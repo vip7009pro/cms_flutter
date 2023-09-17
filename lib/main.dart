@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 /* class MyApp extends StatelessWidget {
@@ -28,8 +28,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final GlobalController c = Get.put(GlobalController());
   @override
-  void initState() {
-    // TODO: implement initState
+  void initState() { 
     super.initState();
   }
 
