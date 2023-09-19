@@ -42,15 +42,15 @@ class _QRViewExample2State extends State<QRViewExample2> {
             flex: 2,
             child: Container(
               // fit: BoxFit.none,
-              margin: EdgeInsets.all(16),
+              margin: const EdgeInsets.all(16),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text('$qrText',
+                  Text(qrText,
                       maxLines: 2,
                       overflow: TextOverflow.fade,
                       textAlign: TextAlign.justify,
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Colors.red,
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
@@ -60,7 +60,7 @@ class _QRViewExample2State extends State<QRViewExample2> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Container(
-                        margin: EdgeInsets.all(8),
+                        margin: const EdgeInsets.all(8),
                         child: TextButton(
                           onPressed: () {
                             if (controller != null) {
@@ -77,11 +77,11 @@ class _QRViewExample2State extends State<QRViewExample2> {
                             }
                           },
                           child:
-                              Text(flashState, style: TextStyle(fontSize: 20)),
+                              Text(flashState, style: const TextStyle(fontSize: 20)),
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.all(8),
+                        margin: const EdgeInsets.all(8),
                         child: TextButton(
                           onPressed: () {
                             if (controller != null) {
@@ -98,12 +98,12 @@ class _QRViewExample2State extends State<QRViewExample2> {
                             }
                           },
                           child:
-                              Text(cameraState, style: TextStyle(fontSize: 20)),
+                              Text(cameraState, style: const TextStyle(fontSize: 20)),
                         ),
                       )
                     ],
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   FittedBox(
                     fit: BoxFit.none,
                     child: Row(
@@ -111,7 +111,7 @@ class _QRViewExample2State extends State<QRViewExample2> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Container(
-                          margin: EdgeInsets.all(16),
+                          margin: const EdgeInsets.all(16),
                           child: TextButton(
                             onPressed: () {
                               setState(() {
@@ -129,7 +129,7 @@ class _QRViewExample2State extends State<QRViewExample2> {
                               //TODO Save Text Here...
                               controller?.resumeCamera();
                             },
-                            child: Text('Next',
+                            child: const Text('Next',
                                 style: TextStyle(color: Colors.white)),
                           ),
                         )
@@ -158,7 +158,7 @@ class _QRViewExample2State extends State<QRViewExample2> {
     controller.scannedDataStream.listen((scanData) {
       //controller.pauseCamera();
       setState(() {
-        qrText = scanData.format.toString() + ':' + scanData.code.toString();
+        qrText = '${scanData.format}:${scanData.code}';
         print(qrText);
         index++;
       });

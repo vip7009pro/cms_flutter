@@ -1,4 +1,3 @@
-import 'package:moment_dart/moment_dart.dart';
 
 class MaterialInputHistoryData {
   String? planId;
@@ -35,16 +34,16 @@ class MaterialInputHistoryData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['PLAN_ID'] = this.planId;
-    data['M_CODE'] = this.mCode;
-    data['M_NAME'] = this.mName;
-    data['WIDTH_CD'] = this.widthCd;
-    data['M_LOT_NO'] = this.mLotNo;
-    data['TOTAL_OUT_QTY'] = this.totalOutQty;
-    data['REMAIN_QTY'] = this.remainQty;
-    data['EQUIPMENT_CD'] = this.equipmentCd;
-    data['INS_DATE'] = this.insDate;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['PLAN_ID'] = planId;
+    data['M_CODE'] = mCode;
+    data['M_NAME'] = mName;
+    data['WIDTH_CD'] = widthCd;
+    data['M_LOT_NO'] = mLotNo;
+    data['TOTAL_OUT_QTY'] = totalOutQty;
+    data['REMAIN_QTY'] = remainQty;
+    data['EQUIPMENT_CD'] = equipmentCd;
+    data['INS_DATE'] = insDate;
     return data;
   }
 }

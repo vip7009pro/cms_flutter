@@ -13,9 +13,9 @@ class DiemDanhNhomTableData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['CTR_CD'] = this.cTRCD;
-    data['EMPL_NO'] = this.eMPLNO;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['CTR_CD'] = cTRCD;
+    data['EMPL_NO'] = eMPLNO;
 
     return data;
   }

@@ -31,7 +31,7 @@ class API_Request {
     if (response.statusCode == 200) {
       return response.data;
     } else if (response.statusCode == 404) {
-      throw Exception('Not Found');
+      return throw Exception('Not Found');
     } else {
       throw Exception('Can\'t get post');
     }

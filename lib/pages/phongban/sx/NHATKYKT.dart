@@ -1,12 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:math';
 import 'package:cms_flutter/controller/APIRequest.dart';
 import 'package:cms_flutter/controller/GetXController.dart';
 import 'package:cms_flutter/controller/GlobalFunction.dart';
 import 'package:cms_flutter/controller/LocalDataAccess.dart';
 import 'package:cms_flutter/pages/LoginPage.dart';
-import 'package:cms_flutter/pages/phongban/sx/InputMaterialList.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
@@ -29,7 +27,7 @@ class _NhatKyKTState extends State<NhatKyKT> {
   String _PLAN_ID = '';
   String _EMPL_NO = '';
   String _M_LOT_NO = '';
-  String _M_LOT_NO2 = '';
+  final String _M_LOT_NO2 = '';
   String _MACHINE_NO = '';
   String _G_NAME = '';
   String _M_NAME = '';
@@ -41,7 +39,7 @@ class _NhatKyKTState extends State<NhatKyKT> {
   String _checkPlanIdOK = 'NG';
   String _checkMLotNoOK = 'NG';
   String _processLotNo = '';
-  String _lineQCEMPLNO = '';
+  final String _lineQCEMPLNO = '';
   String _inspectStart = '';
   String _inspectStop = '';
   String _inspectQty = '';
@@ -268,7 +266,7 @@ class _NhatKyKTState extends State<NhatKyKT> {
   Future<void> insertP500(String mLotNo, String planId) async {
     String nextP500InNo = '001';
     bool insertP500Success = false;
-    String totalOutQty = '', planIdInput = '', in_kho_id = '';
+    String totalOutQty = '', planIdInput = '', inKhoId = '';
     bool checkPlanIdInput = false;
     await API_Request.api_query('checkProcessInNoP500', {
       'token_string': _token,
@@ -293,7 +291,7 @@ class _NhatKyKTState extends State<NhatKyKT> {
         var response = value['data'][0];
         totalOutQty = response['TOTAL_OUT_QTY'].toString();
         planIdInput = response['PLAN_ID_INPUT'].toString();
-        in_kho_id = response['IN_KHO_ID'].toString();
+        inKhoId = response['IN_KHO_ID'].toString();
         checkPlanIdInput = true;
       } else {}
     }).catchError((onError) {
@@ -322,7 +320,7 @@ class _NhatKyKTState extends State<NhatKyKT> {
       'M_CODE': _M_CODE,
       'M_LOT_NO': mLotNo,
       'INPUT_QTY': totalOutQty,
-      'IN_KHO_ID': in_kho_id
+      'IN_KHO_ID': inKhoId
     }).then((value) {
       if (value['tk_status'] == 'OK') {
         //var response = value['data'][0];
@@ -552,7 +550,7 @@ class _NhatKyKTState extends State<NhatKyKT> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Color.fromARGB(255, 255, 91, 255),
+          backgroundColor: const Color.fromARGB(255, 255, 91, 255),
           title: const Text('CMS VINA: Scan Input Nhật Ký Sản Xuất'),
         ),
         body: Container(

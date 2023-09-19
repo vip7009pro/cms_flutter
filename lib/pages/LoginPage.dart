@@ -4,7 +4,6 @@ import 'package:cms_flutter/controller/APIRequest.dart';
 import 'package:cms_flutter/controller/GetXController.dart';
 import 'package:cms_flutter/controller/LocalDataAccess.dart';
 import 'package:cms_flutter/pages/HomePage.dart';
-import 'package:cms_flutter/pages/phongban/sx/InputLieu.dart';
 import 'package:cms_flutter/pages/phongban/sx/NHATKYKT.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -19,7 +18,7 @@ const List<String> serverList = <String>[
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
   @override
-  _LoginPageState createState() => new _LoginPageState();
+  _LoginPageState createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
@@ -120,6 +119,7 @@ class _LoginPageState extends State<LoginPage> {
     super.initState();
   }
 
+  @override
   Widget build(BuildContext context) {
     final logo = Container(
         child: Image.asset(
