@@ -121,10 +121,9 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    final logo = Container(
-        child: Image.asset(
+    final logo = Image.asset(
       'assets/images/cmslogo.jpg',
-    ));
+    );
     final username = TextFormField(
       textInputAction: TextInputAction.next,
       onChanged: (value) => {_user = value},
