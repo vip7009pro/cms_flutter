@@ -16,7 +16,6 @@ class DiemDanhNhomTableData {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['CTR_CD'] = cTRCD;
     data['EMPL_NO'] = eMPLNO;
-
     return data;
   }
 }

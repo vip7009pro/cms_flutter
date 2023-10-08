@@ -70,7 +70,7 @@ class _LoginPageState extends State<LoginPage> {
       'user': _user,
       'pass': _pass
     }).then((value) => {
-          setState((() {
+          setState((() {          
             if (value['tk_status'] == 'ok') {
               result = 1;
               LocalDataAccess.saveVariable(
@@ -97,7 +97,7 @@ class _LoginPageState extends State<LoginPage> {
               /*  Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (context) => const HomePage())); */
             } else {
-              //_showToast(context, 'Đăng nhập thất bại, xem lại user or pass');
+              _showToast(context, 'Đăng nhập thất bại, xem lại user or pass');
               LocalDataAccess.saveVariable('token', 'reset');
               result = 0;
             }

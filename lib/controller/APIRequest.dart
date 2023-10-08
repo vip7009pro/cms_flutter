@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 
 class API_Request {
-  static Future<dynamic> api_query(String command, dynamic data) async {
+  static Future<Map<String,dynamic>> api_query(String command, dynamic data) async {
     String url = '';
     url = await LocalDataAccess.getVariable('serverIP');
     if (url == '' || url == 'MAIN_SERVER') {
@@ -16,9 +16,9 @@ class API_Request {
       url = 'http://14.160.33.94:3007/api';
     }
     var dio = Dio(BaseOptions(
-        connectTimeout: const Duration(milliseconds: 10000), // in ms
+        connectTimeout: const Duration(milliseconds: 1000), // in ms
         receiveTimeout: const Duration(milliseconds: 10000),
-        sendTimeout: const Duration(milliseconds: 10000),
+        sendTimeout: const Duration(milliseconds: 1000),
         responseType: ResponseType.json,
         followRedirects: false,
         validateStatus: (status) {
@@ -27,13 +27,26 @@ class API_Request {
     var cookieJar = CookieJar();
     dio.interceptors.add(CookieManager(cookieJar));
     final body = {'command': command, 'token_string': '', 'DATA': data};
-    final response = await dio.post(url, data: jsonEncode(body));
-    if (response.statusCode == 200) {
-      return response.data;
-    } else if (response.statusCode == 404) {
-      return throw Exception('Not Found');
-    } else {
-      throw Exception('Can\'t get post');
+    try {
+      final response = await dio.post(url, data: jsonEncode(body));
+      if (response.statusCode == 200) {      
+        
+        return response.data;
+      } else if (response.statusCode == 404) {
+        return {'tk_status': 'NG', 'message': 'Không tìm thấy dữ liệu'};
+        //return throw Exception('Not Found');
+      } else {
+        return {'tk_status': 'NG', 'message': 'Kết nối có vấn đề'};
+        //throw Exception('Can\'t get post');
+      }
+    } on DioException catch (e) {
+      print('Exception details:\n $e');
+      
+      return {'tk_status': 'NG', 'message': 'Kết nối có vấn đề'};
+    } catch (e, s) {
+      print('Exception details:\n $e');
+      print('Stack trace:\n $s');
+      return {'tk_status': 'NG', 'message': 'Kết nối có vấn đề'};
     }
   }
 }

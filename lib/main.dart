@@ -7,18 +7,6 @@ void main() {
   runApp(const MyApp());
 }
 
-/* class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return const GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'CMS VINA APP',
-      home: LoginPage(),
-    );
-  }
-}
- */
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
   @override

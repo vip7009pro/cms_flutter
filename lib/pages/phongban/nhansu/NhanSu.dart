@@ -2,8 +2,8 @@ import 'package:cms_flutter/components/UserInfo.dart';
 import 'package:cms_flutter/controller/GetXController.dart';
 import 'package:cms_flutter/controller/GlobalFunction.dart';
 import 'package:cms_flutter/pages/LoginPage.dart';
-import 'package:cms_flutter/pages/phongban/KinhDoanh.dart';
-import 'package:cms_flutter/pages/phongban/RnD.dart';
+import 'package:cms_flutter/pages/phongban/kinhdoanh/KinhDoanh.dart';
+import 'package:cms_flutter/pages/phongban/rnd/RnD.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
