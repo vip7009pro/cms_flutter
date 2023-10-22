@@ -9,14 +9,14 @@ class API_Request {
     String url = '';
     url = await LocalDataAccess.getVariable('serverIP');
     if (url == '' || url == 'MAIN_SERVER') {
-      url = 'http://14.160.33.94:5011/api';
+      url = 'http://14.160.33.94:5013/api';
     } else if (url == 'TEST_SERVER') {
       url = 'http://localhost:3007/api';
     } else {
       url = 'http://14.160.33.94:3007/api';
     }
     var dio = Dio(BaseOptions(
-        connectTimeout: const Duration(milliseconds: 1000), // in ms
+        connectTimeout: const Duration(milliseconds: 10000), // in ms
         receiveTimeout: const Duration(milliseconds: 10000),
         sendTimeout: const Duration(milliseconds: 1000),
         responseType: ResponseType.json,

@@ -54,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
                   MaterialPageRoute(builder: (context) => const HomePage())); */
                 } else {
                   _showToast(
-                      context, 'Đăng nhập thất bại, xem lại user or pass');
+                      context, 'Đăng nhập thất bại,  ${value['message']}');
                   LocalDataAccess.saveVariable('token', 'reset');
                 }
               }))
