@@ -40,13 +40,12 @@ class API_Request {
         //throw Exception('Can\'t get post');
       }
     } on DioException catch (e) {
-      print('Exception details:\n $e');
-      
-      return {'tk_status': 'NG', 'message': 'Kết nối có vấn đề'};
+      print('Exception details:\n $e');      
+      return {'tk_status': 'NG', 'message': '$e'};
     } catch (e, s) {
       print('Exception details:\n $e');
       print('Stack trace:\n $s');
-      return {'tk_status': 'NG', 'message': 'Kết nối có vấn đề'};
+      return {'tk_status': 'NG', 'message': '$e'};
     }
   }
 }

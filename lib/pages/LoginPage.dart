@@ -87,7 +87,7 @@ class _LoginPageState extends State<LoginPage> {
                     } else {
                       //Get.off(() => const InputLieu());
                       //Get.off(() => const NhatKyKT());
-                      Get.off(() => const HomePage());
+                      Get.off(() => const HomePage());                      
                     }
                   });
                 },
