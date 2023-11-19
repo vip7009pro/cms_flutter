@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:cms_flutter/model/UserData.dart';
+import 'package:cms_flutter/model/DataInterfaceClass.dart';
 import 'package:http/http.dart' as http;
 
 class NetWorkRequestAPI {

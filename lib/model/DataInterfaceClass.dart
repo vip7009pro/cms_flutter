@@ -139,7 +139,7 @@ class UserData {
     mAINDEPTNAME = json['MAINDEPTNAME'];
     mAINDEPTNAMEKR = json['MAINDEPTNAME_KR'];
   }
-
+  
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['CTR_CD'] = cTRCD;
@@ -189,4 +189,116 @@ class UserData {
     data['MAINDEPTNAME_KR'] = mAINDEPTNAMEKR;
     return data;
   }
+}
+
+class DiemDanhNhom {
+    String id;
+    String emplNo;
+    String cmsId;
+    String midlastName;
+    String firstName;
+    String phoneNumber;
+    String sexName;
+    String workStatusName;
+    String factoryName;
+    String jobName;
+    String workShifName;
+    int workPositionCode;
+    String workPositionName;
+    String subdeptname;
+    String maindeptname;
+    dynamic requestDate;
+    dynamic applyDate;
+    dynamic approvalStatus;
+    dynamic offId;
+    dynamic caNghi;
+    int onOff;
+    dynamic overtimeInfo;
+    int overtime;
+    dynamic reasonName;
+    dynamic remark;
+
+    DiemDanhNhom({
+        required this.id,
+        required this.emplNo,
+        required this.cmsId,
+        required this.midlastName,
+        required this.firstName,
+        required this.phoneNumber,
+        required this.sexName,
+        required this.workStatusName,
+        required this.factoryName,
+        required this.jobName,
+        required this.workShifName,
+        required this.workPositionCode,
+        required this.workPositionName,
+        required this.subdeptname,
+        required this.maindeptname,
+        required this.requestDate,
+        required this.applyDate,
+        required this.approvalStatus,
+        required this.offId,
+        required this.caNghi,
+        required this.onOff,
+        required this.overtimeInfo,
+        required this.overtime,
+        required this.reasonName,
+        required this.remark,
+    });
+
+    factory DiemDanhNhom.fromJson(Map<String, dynamic> json) => DiemDanhNhom(
+        id: json["id"],
+        emplNo: json["EMPL_NO"],
+        cmsId: json["CMS_ID"],
+        midlastName: json["MIDLAST_NAME"],
+        firstName: json["FIRST_NAME"],
+        phoneNumber: json["PHONE_NUMBER"],
+        sexName: json["SEX_NAME"],
+        workStatusName: json["WORK_STATUS_NAME"],
+        factoryName: json["FACTORY_NAME"],
+        jobName: json["JOB_NAME"],
+        workShifName: json["WORK_SHIF_NAME"],
+        workPositionCode: json["WORK_POSITION_CODE"],
+        workPositionName: json["WORK_POSITION_NAME"],
+        subdeptname: json["SUBDEPTNAME"],
+        maindeptname: json["MAINDEPTNAME"],
+        requestDate: json["REQUEST_DATE"],
+        applyDate: json["APPLY_DATE"],
+        approvalStatus: json["APPROVAL_STATUS"],
+        offId: json["OFF_ID"],
+        caNghi: json["CA_NGHI"],
+        onOff: json["ON_OFF"],
+        overtimeInfo: json["OVERTIME_INFO"],
+        overtime: json["OVERTIME"],
+        reasonName: json["REASON_NAME"],
+        remark: json["REMARK"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "EMPL_NO": emplNo,
+        "CMS_ID": cmsId,
+        "MIDLAST_NAME": midlastName,
+        "FIRST_NAME": firstName,
+        "PHONE_NUMBER": phoneNumber,
+        "SEX_NAME": sexName,
+        "WORK_STATUS_NAME": workStatusName,
+        "FACTORY_NAME": factoryName,
+        "JOB_NAME": jobName,
+        "WORK_SHIF_NAME": workShifName,
+        "WORK_POSITION_CODE": workPositionCode,
+        "WORK_POSITION_NAME": workPositionName,
+        "SUBDEPTNAME": subdeptname,
+        "MAINDEPTNAME": maindeptname,
+        "REQUEST_DATE": requestDate,
+        "APPLY_DATE": applyDate,
+        "APPROVAL_STATUS": approvalStatus,
+        "OFF_ID": offId,
+        "CA_NGHI": caNghi,
+        "ON_OFF": onOff,
+        "OVERTIME_INFO": overtimeInfo,
+        "OVERTIME": overtime,
+        "REASON_NAME": reasonName,
+        "REMARK": remark,
+    };
 }

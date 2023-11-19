@@ -29,8 +29,7 @@ class API_Request {
     final body = {'command': command, 'token_string': '', 'DATA': data};
     try {
       final response = await dio.post(url, data: jsonEncode(body));
-      if (response.statusCode == 200) {      
-        
+      if (response.statusCode == 200) {
         return response.data;
       } else if (response.statusCode == 404) {
         return {'tk_status': 'NG', 'message': 'Không tìm thấy dữ liệu'};

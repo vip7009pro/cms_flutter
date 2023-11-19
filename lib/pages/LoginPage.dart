@@ -2,38 +2,27 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:cms_flutter/controller/APIRequest.dart';
 import 'package:cms_flutter/controller/GetXController.dart';
+import 'package:cms_flutter/controller/GlobalFunction.dart';
 import 'package:cms_flutter/controller/LocalDataAccess.dart';
 import 'package:cms_flutter/pages/HomePage.dart';
 import 'package:cms_flutter/pages/phongban/sx/NHATKYKT.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 const List<String> serverList = <String>[
   'MAIN_SERVER',
   'SUB_SERVER',
   'TEST_SERVER'
 ];
-
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
   @override
   _LoginPageState createState() => _LoginPageState();
 }
-
 class _LoginPageState extends State<LoginPage> {
   String userPosition = '';
   String selectedServer = 'MAIN_SERVER';
   final GlobalController c = Get.put(GlobalController());
-  void _showToast(BuildContext context, String message) {
-    final scaffold = ScaffoldMessenger.of(context);
-    scaffold.showSnackBar(SnackBar(
-      content: Text('$message '),
-      action:
-          SnackBarAction(label: 'OK', onPressed: scaffold.hideCurrentSnackBar),
-    ));
-  }
-
   String _user = '';
   String _pass = '';
   Future<String> _getToken() async {
@@ -42,7 +31,6 @@ class _LoginPageState extends State<LoginPage> {
     log(savedToken);
     return savedToken;
   }
-
   void _login(BuildContext context) {
     API_Request.api_query('login2', {'user': _user, 'pass': _pass})
         .then((value) => {
@@ -53,14 +41,13 @@ class _LoginPageState extends State<LoginPage> {
                   /* Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (context) => const HomePage())); */
                 } else {
-                  _showToast(
+                  GlobalFunction.showToast(
                       context, 'Đăng nhập thất bại,  ${value['message']}');
                   LocalDataAccess.saveVariable('token', 'reset');
                 }
               }))
             });
   }
-
   Future<int> _checklogin(BuildContext context) async {
     String savedTokenString = '';
     int result = 0;
@@ -70,7 +57,7 @@ class _LoginPageState extends State<LoginPage> {
       'user': _user,
       'pass': _pass
     }).then((value) => {
-          setState((() {          
+          setState((() {
             if (value['tk_status'] == 'ok') {
               result = 1;
               LocalDataAccess.saveVariable(
@@ -87,7 +74,7 @@ class _LoginPageState extends State<LoginPage> {
                     } else {
                       //Get.off(() => const InputLieu());
                       //Get.off(() => const NhatKyKT());
-                      Get.off(() => const HomePage());                      
+                      Get.off(() => const HomePage());
                     }
                   });
                 },
@@ -97,7 +84,8 @@ class _LoginPageState extends State<LoginPage> {
               /*  Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (context) => const HomePage())); */
             } else {
-              _showToast(context, 'Đăng nhập thất bại, xem lại user or pass');
+              GlobalFunction.showToast(
+                  context, 'Đăng nhập thất bại, xem lại user or pass');
               LocalDataAccess.saveVariable('token', 'reset');
               result = 0;
             }
@@ -105,7 +93,6 @@ class _LoginPageState extends State<LoginPage> {
         });
     return result;
   }
-
   @override
   void initState() {
     _checklogin(context);
@@ -118,7 +105,6 @@ class _LoginPageState extends State<LoginPage> {
     });
     super.initState();
   }
-
   @override
   Widget build(BuildContext context) {
     final logo = Image.asset(

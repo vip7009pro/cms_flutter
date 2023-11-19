@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:cms_flutter/model/UserData.dart';
+import 'package:cms_flutter/model/DataInterfaceClass.dart';
 import 'package:flutter/material.dart';
 import 'package:cms_flutter/controller/LocalDataAccess.dart';
 
@@ -11,10 +11,8 @@ class UserInfo extends StatefulWidget {
   @override
   State<UserInfo> createState() => _UserInfoState();
 }
-
 class _UserInfoState extends State<UserInfo> {
   List<UserData> userDatas = List<UserData>.empty(growable: true);
-
   @override
   void initState() {
     super.initState();

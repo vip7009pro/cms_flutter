@@ -15,13 +15,11 @@ import 'package:moment_dart/moment_dart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ota_update/ota_update.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
-
 class InputLieu extends StatefulWidget {
   const InputLieu({Key? key}) : super(key: key);
   @override
   _InputLieuState createState() => _InputLieuState();
 }
-
 class _InputLieuState extends State<InputLieu> {
   bool _useScanner = false;
   String _token = "reset";
@@ -48,7 +46,6 @@ class _InputLieuState extends State<InputLieu> {
     final savedToken = prefs.getString('token') ?? 'reset';
     return savedToken;
   }
-
   late OtaEvent currentEvent =
       OtaEvent(OtaStatus.DOWNLOADING, 'Current Status');
   Future<void> tryOtaUpdate() async {
@@ -82,7 +79,6 @@ class _InputLieuState extends State<InputLieu> {
       //print('Failed to make OTA update. Details: $e');
     }
   }
-
   Future<void> checkPlanIdInfo(String planId) async {
     API_Request.api_query('checkPLAN_ID', {
       'token_string': _token,
@@ -112,7 +108,6 @@ class _InputLieuState extends State<InputLieu> {
       }));
     });
   }
-
   Future<void> checkMLotNoInfo(String mLotNo, String planId) async {
     bool mLotNoExistOutKhoAo = false;
     bool mLotNoExistInP500 = false;
@@ -178,7 +173,6 @@ class _InputLieuState extends State<InputLieu> {
       }
     });
   }
-
   Future<void> checkEmplNo(String emplNo) async {
     API_Request.api_query('checkEMPL_NO_mobile', {
       'token_string': _token,
@@ -207,7 +201,6 @@ class _InputLieuState extends State<InputLieu> {
           }))
         });
   }
-
   Future<void> insertP500(String mLotNo, String planId) async {
     String nextP500InNo = '001';
     bool insertP500Success = false;
@@ -329,7 +322,6 @@ class _InputLieuState extends State<InputLieu> {
       } else {}
     } else {}
   }
-
   Future<void> insertP500NoCamera() async {
     await checkEmplNo(_emplNo);
     await checkPlanIdInfo(_planId);
@@ -341,7 +333,6 @@ class _InputLieuState extends State<InputLieu> {
       await insertP500(_mLotNo, _planId);
     }
   }
-
   @override
   void initState() {
     super.initState();
@@ -374,7 +365,6 @@ class _InputLieuState extends State<InputLieu> {
     );
     _getToken().then((value) => {_token = value});
   }
-
   Future<void> startBarcodeScanStream() async {
     FlutterBarcodeScanner.getBarcodeStreamReceiver(
             '#ff6666', 'Cancel', true, ScanMode.BARCODE)!
@@ -385,7 +375,6 @@ class _InputLieuState extends State<InputLieu> {
       FlutterBeep.playSysSound(AndroidSoundIDs.TONE_CDMA_CONFIRM);
     });
   }
-
   Future<void> scanQR() async {
     String barcodeScanRes;
     try {
@@ -399,7 +388,6 @@ class _InputLieuState extends State<InputLieu> {
     if (!mounted) return;
     setState(() {});
   }
-
   Future<void> scanBarcodeNormal(String type) async {
     String barcodeScanRes;
     try {
@@ -462,7 +450,6 @@ class _InputLieuState extends State<InputLieu> {
       }
     });
   }
-
   final _formKey = GlobalKey<FormState>();
   Color getColor(Set<MaterialState> states) {
     const Set<MaterialState> interactiveStates = <MaterialState>{
@@ -475,7 +462,6 @@ class _InputLieuState extends State<InputLieu> {
     }
     return Colors.red;
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
