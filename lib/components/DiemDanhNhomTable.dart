@@ -78,46 +78,90 @@ class _DiemDanhNhomListState extends State<DiemDanhNhomList> {
           backgroundImage: NetworkImage(
               'http://14.160.33.94/Picture_NS/NS_${_listDiemDanh[index].emplNo}.jpg'),
         );
-        final diemdanhWidget = Row(
-          children: [ElevatedButton(onPressed: (){}, style: ButtonStyle(fixedSize: MaterialStateProperty.all(const Size(80.0, 30.0))), child: const Text("Làm ngày"),), ElevatedButton(onPressed: (){}, child: const Text("Làm đêm ")), ElevatedButton(onPressed: (){}, child: const Text("Làm 50% ")),  ElevatedButton(onPressed: (){}, child:const Text("Nghỉ làm ")), ]
-        );
+        final diemdanhWidget = Row(children: [
+          ElevatedButton(
+            onPressed: () {},
+            style: ElevatedButton.styleFrom(
+              minimumSize: Size.zero, // Set this
+              padding: const EdgeInsets.all(5.0), // and this
+              
+            ),
+            child: const Text("Làm ngày", style: TextStyle(fontSize: 10.0)),
+          ),
+          ElevatedButton(
+            onPressed: () {},
+            style: ElevatedButton.styleFrom(
+              minimumSize: Size.zero, // Set this
+              padding: const EdgeInsets.all(5.0), // and this
+              
+            ),
+            child: const Text("Làm ngày", style: TextStyle(fontSize: 10.0)),
+          ),
+          ElevatedButton(
+            onPressed: () {},
+            style: ElevatedButton.styleFrom(
+              minimumSize: Size.zero, // Set this
+              padding: const EdgeInsets.all(5.0), // and this
+              
+            ),
+            child: const Text("Làm ngày", style: TextStyle(fontSize: 10.0)),
+          ),
+          ElevatedButton(
+            onPressed: () {},
+            style: ElevatedButton.styleFrom(
+              minimumSize: Size.zero, // Set this
+              padding: const EdgeInsets.all(5.0), // and this
+              
+            ),
+            child: const Text("Làm ngày", style: TextStyle(fontSize: 10.0)),
+          ),
+         
+        ]);
         return Container(
           margin: const EdgeInsets.all(5.0),
           padding: const EdgeInsets.all(5.0),
-          decoration:  BoxDecoration(
-            boxShadow:  [BoxShadow(
-                  color: Colors.black.withOpacity(0.3),
-                  spreadRadius: 2.0,
-                  blurRadius: 5.0,
-                  offset: const Offset(0, 3), // Changes the position of the shadow
-                )],
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.3),
+                spreadRadius: 2.0,
+                blurRadius: 5.0,
+                offset:
+                    const Offset(0, 3), // Changes the position of the shadow
+              )
+            ],
             borderRadius: const BorderRadius.all(Radius.circular(5.0)),
             gradient: const LinearGradient(
-                  colors: [
-                    Color.fromARGB(255, 189, 241, 176),
-                    Color.fromARGB(255, 245, 235, 248),                    
-                  ],
-                  begin: FractionalOffset(0.0, 0.0),
-                  end: FractionalOffset(1.0, 0.0),
-                  stops: [0.0, 1.0],
-                  tileMode: TileMode.clamp),
+                colors: [
+                  Color.fromARGB(255, 189, 241, 176),
+                  Color.fromARGB(255, 245, 235, 248),
+                ],
+                begin: FractionalOffset(0.0, 0.0),
+                end: FractionalOffset(1.0, 0.0),
+                stops: [0.0, 1.0],
+                tileMode: TileMode.clamp),
           ),
-          child:  Row(         
-          children: <Widget>[
-            Column(
-              children: [avatar,Text(_listDiemDanh[index].emplNo),Text(_listDiemDanh[index].cmsId)],
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [Text("${_listDiemDanh[index].midlastName} ${_listDiemDanh[index].firstName}"),
-              diemdanhWidget
-              ],
-            ),
-          ],
-        ),
+          child: Row(
+            children: <Widget>[
+              Column(
+                children: [
+                  avatar,
+                  Text(_listDiemDanh[index].emplNo),
+                  Text(_listDiemDanh[index].cmsId)
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                      "${_listDiemDanh[index].midlastName} ${_listDiemDanh[index].firstName}"),
+                  diemdanhWidget
+                ],
+              ),
+            ],
+          ),
         );
-       
       }),
       itemCount: _listDiemDanh.length,
     );
