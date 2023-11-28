@@ -212,7 +212,7 @@ class DiemDanhNhom {
     dynamic approvalStatus;
     dynamic offId;
     dynamic caNghi;
-    int onOff;
+    dynamic onOff;
     dynamic overtimeInfo;
     int? overtime;
     dynamic reasonName;

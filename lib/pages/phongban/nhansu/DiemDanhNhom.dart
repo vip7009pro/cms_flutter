@@ -28,7 +28,7 @@ class _DiemDanhNhomState extends State<DiemDanhNhom> {
                   tileMode: TileMode.clamp),
             ),
           ),
-          title: const Text('Điểm danh nhóm table'),
+          title: const Text('Điểm danh nhóm', style: TextStyle(color: Colors.blueAccent),),
         ),
         body: DiemDanhNhomTable())
     );

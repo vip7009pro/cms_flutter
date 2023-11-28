@@ -1,5 +1,6 @@
 // ignore: file_names
 import 'dart:convert';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cms_flutter/controller/APIRequest.dart';
 import 'package:cms_flutter/model/DataInterfaceClass.dart';
 import 'package:flutter/material.dart';
@@ -50,10 +51,32 @@ class _DiemDanhNhomListState extends State<DiemDanhNhomList> {
       setState((() {
         if (value['tk_status'] == 'OK') {
           List<dynamic> dynamicList = value['data'];
+          AwesomeDialog(
+                  context: context,
+                  dialogType: DialogType.success,
+                  animType: AnimType.rightSlide,
+                  title: 'Thông báo',
+                  desc: 'Đã load ${dynamicList.length} dòng',
+                  
+                  btnOkOnPress: () {
+                   
+                  },
+                ).show();
           _listDiemDanh = dynamicList.map((dynamic item) {
             return DiemDanhNhom.fromJson(item);
           }).toList();
-        } else {}
+        } else {
+          AwesomeDialog(
+                  context: context,
+                  dialogType: DialogType.info,
+                  animType: AnimType.rightSlide,
+                  title: 'Cảnh báo',
+                  desc: 'Không có dòng nào !',                  
+                  btnOkOnPress: () {
+                   
+                  },
+                ).show();
+        }
       }));
     });
   }
@@ -64,7 +87,8 @@ class _DiemDanhNhomListState extends State<DiemDanhNhomList> {
   }
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return RefreshIndicator(onRefresh: loadDiemDanhNhom, child: 
+    ListView.builder(
       itemBuilder: ((BuildContext context, int index) {
         final avatar = CircleAvatar(
           radius: 30,
@@ -139,6 +163,7 @@ class _DiemDanhNhomListState extends State<DiemDanhNhomList> {
             child: const Text("17H-18H", style: TextStyle(fontSize: 10.0)),
           ),
         ]);
+        
         return Container(
           margin: const EdgeInsets.all(5.0),
           padding: const EdgeInsets.all(5.0),
@@ -196,14 +221,14 @@ class _DiemDanhNhomListState extends State<DiemDanhNhomList> {
                 backgroundColor: Colors.yellowAccent),                
             child: const Text("RESET", style: TextStyle(fontSize: 10.0, color: Colors.black)),
           ),],
-            )
-           
+            )          
             
             ],
           ),
         );
       }),
       itemCount: _listDiemDanh.length,
-    );
+    ))    
+    ;
   }
 }
