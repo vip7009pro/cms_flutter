@@ -4,8 +4,9 @@ import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 
+// ignore: camel_case_types
 class API_Request {
-  static Future<Map<String,dynamic>> api_query(String command, dynamic data) async {
+  static Future<Map<String,dynamic>> api_query(String command, Map<String, dynamic> data) async {
     String url = '';
     url = await LocalDataAccess.getVariable('serverIP');
     if (url == '' || url == 'MAIN_SERVER') {
@@ -26,7 +27,9 @@ class API_Request {
         }));
     var cookieJar = CookieJar();
     dio.interceptors.add(CookieManager(cookieJar));
-    final body = {'command': command, 'token_string': '', 'DATA': data};
+    String savedToken = await LocalDataAccess.getVariable("token");    
+    data['token_string'] = savedToken;
+    final body = {'command': command, 'DATA': data};    
     try {
       final response = await dio.post(url, data: jsonEncode(body));
       if (response.statusCode == 200) {
@@ -38,12 +41,9 @@ class API_Request {
         return {'tk_status': 'NG', 'message': 'Kết nối có vấn đề'};
         //throw Exception('Can\'t get post');
       }
-    } on DioException catch (e) {
-      print('Exception details:\n $e');      
+    } on DioException catch (e) {      
       return {'tk_status': 'NG', 'message': '$e'};
-    } catch (e, s) {
-      print('Exception details:\n $e');
-      print('Stack trace:\n $s');
+    } catch (e) {     
       return {'tk_status': 'NG', 'message': '$e'};
     }
   }

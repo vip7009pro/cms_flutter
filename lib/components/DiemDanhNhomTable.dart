@@ -1,5 +1,8 @@
+// ignore: file_names
+import 'dart:convert';
+import 'package:cms_flutter/controller/APIRequest.dart';
+import 'package:cms_flutter/model/DataInterfaceClass.dart';
 import 'package:flutter/material.dart';
-import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 /// The home page of the application which hosts the datagrid.
 class DiemDanhNhomTable extends StatefulWidget {
@@ -12,131 +15,111 @@ class DiemDanhNhomTable extends StatefulWidget {
 }
 
 class _DiemDanhNhomTableState extends State<DiemDanhNhomTable> {
-  List<Employee> employees = <Employee>[];
-  late EmployeeDataSource employeeDataSource;
+  List<DiemDanhNhom> employees = <DiemDanhNhom>[];
   @override
   void initState() {
     super.initState();
-    employees = getEmployeeData();
-    employeeDataSource = EmployeeDataSource(employeeData: employees);
   }
 
   Future<void> loadData() async {}
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+        child: Scaffold(
+      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(colors: [
+            Color.fromARGB(255, 241, 241, 241),
+            Color.fromARGB(255, 255, 255, 255),
+          ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+        ),
+        width: double.infinity,
+        height: double.infinity,
+        child: const DiemDanhNhomList(),
+      ),
+    ));
+  }
+}
+
+class DiemDanhNhomList extends StatefulWidget {
+  const DiemDanhNhomList({Key? key}) : super(key: key);
+  @override
+  _DiemDanhNhomListState createState() => _DiemDanhNhomListState();
+}
+
+class _DiemDanhNhomListState extends State<DiemDanhNhomList> {
+  List<DiemDanhNhom> _listDiemDanh = List.empty();
+  Future<void> loadDiemDanhNhom() async {
+    API_Request.api_query('diemdanhnhom', {'team_name_list': 5}).then((value) {
+      setState((() {
+        if (value['tk_status'] == 'OK') {
+          List<dynamic> dynamicList = value['data'];
+          _listDiemDanh = dynamicList.map((dynamic item) {
+            return DiemDanhNhom.fromJson(item);
+          }).toList();
+        } else {}
+      }));
+    });
+  }
+
+  @override
+  void initState() {
+    loadDiemDanhNhom();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return SfDataGrid(
-      source: employeeDataSource,
-      columnWidthMode: ColumnWidthMode.fill,
-      columns: <GridColumn>[
-        GridColumn(
-            columnName: 'id',
-            label: Container(
-                padding: const EdgeInsets.all(16.0),
-                alignment: Alignment.center,
-                child: const Text(
-                  'ID',
-                ))),
-        GridColumn(
-            columnName: 'name',
-            label: Container(
-                padding: const EdgeInsets.all(8.0),
-                alignment: Alignment.center,
-                child: const Text('Name'))),
-        GridColumn(
-            columnName: 'designation',
-            label: Container(
-                padding: const EdgeInsets.all(8.0),
-                alignment: Alignment.center,
-                child: const Text(
-                  'Designation',
-                  overflow: TextOverflow.ellipsis,
-                ))),
-        GridColumn(
-            columnName: 'salary',
-            label: Container(
-                padding: const EdgeInsets.all(8.0),
-                alignment: Alignment.center,
-                child: const Text('Salary'))),
-      ],
+    return ListView.builder(
+      itemBuilder: ((BuildContext context, int index) {
+        final avatar = CircleAvatar(
+          radius: 30,
+          backgroundImage: NetworkImage(
+              'http://14.160.33.94/Picture_NS/NS_${_listDiemDanh[index].emplNo}.jpg'),
+        );
+        final diemdanhWidget = Row(
+          children: [ElevatedButton(onPressed: (){}, style: ButtonStyle(fixedSize: MaterialStateProperty.all(const Size(80.0, 30.0))), child: const Text("Làm ngày"),), ElevatedButton(onPressed: (){}, child: const Text("Làm đêm ")), ElevatedButton(onPressed: (){}, child: const Text("Làm 50% ")),  ElevatedButton(onPressed: (){}, child:const Text("Nghỉ làm ")), ]
+        );
+        return Container(
+          margin: const EdgeInsets.all(5.0),
+          padding: const EdgeInsets.all(5.0),
+          decoration:  BoxDecoration(
+            boxShadow:  [BoxShadow(
+                  color: Colors.black.withOpacity(0.3),
+                  spreadRadius: 2.0,
+                  blurRadius: 5.0,
+                  offset: const Offset(0, 3), // Changes the position of the shadow
+                )],
+            borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+            gradient: const LinearGradient(
+                  colors: [
+                    Color.fromARGB(255, 189, 241, 176),
+                    Color.fromARGB(255, 245, 235, 248),                    
+                  ],
+                  begin: FractionalOffset(0.0, 0.0),
+                  end: FractionalOffset(1.0, 0.0),
+                  stops: [0.0, 1.0],
+                  tileMode: TileMode.clamp),
+          ),
+          child:  Row(         
+          children: <Widget>[
+            Column(
+              children: [avatar,Text(_listDiemDanh[index].emplNo),Text(_listDiemDanh[index].cmsId)],
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [Text("${_listDiemDanh[index].midlastName} ${_listDiemDanh[index].firstName}"),
+              diemdanhWidget
+              ],
+            ),
+          ],
+        ),
+        );
+       
+      }),
+      itemCount: _listDiemDanh.length,
     );
-  }
-
-  List<Employee> getEmployeeData() {
-    return [
-      Employee(10001, 'James', 'Project Lead', 20000),
-      Employee(10002, 'Kathryn', 'Manager', 30000),
-      Employee(10003, 'Lara', 'Developer', 15000),
-      Employee(10004, 'Michael', 'Designer', 15000),
-      Employee(10005, 'Martin', 'Developer', 15000),
-      Employee(10006, 'Newberry', 'Developer', 15000),
-      Employee(10007, 'Balnc', 'Developer', 15000),
-      Employee(10008, 'Perry', 'Developer', 15000),
-      Employee(10009, 'Gable', 'Developer', 15000),
-      Employee(10010, 'Grimes', 'Developer', 15000),
-      Employee(10010, 'Grimes', 'Developer', 15000),
-      Employee(10010, 'Grimes', 'Developer', 15000),
-      Employee(10010, 'Grimes', 'Developer', 15000),
-      Employee(10010, 'Grimes', 'Developer', 15000),
-      Employee(10010, 'Grimes', 'Developer', 15000),
-      Employee(10010, 'Grimes', 'Developer', 15000),
-      Employee(10010, 'Grimes', 'Developer', 15000),
-      Employee(10010, 'Grimes', 'Developer', 15000),
-      Employee(10010, 'Grimes', 'Developer', 15000),
-      Employee(10010, 'Grimes', 'Developer', 15000),
-      Employee(10010, 'Grimes', 'Developer', 15000),
-      Employee(10010, 'Grimes', 'Developer', 15000),
-      Employee(10010, 'Grimes', 'Developer', 15000),
-      Employee(10010, 'Grimes', 'Developer', 15000),
-      Employee(10010, 'Grimes', 'Developer', 15000),
-      Employee(10010, 'Grimes', 'Developer', 15000),
-      Employee(10010, 'Grimes', 'Developer', 15000),
-      Employee(10010, 'Grimes', 'Developer', 15000),
-      Employee(10010, 'Grimes', 'Developer', 15000),
-      Employee(10010, 'Grimes', 'Developer', 15000),
-      Employee(10010, 'Grimes', 'Developer', 15000),
-      Employee(10010, 'Grimes', 'Developer', 15000),
-      Employee(10010, 'Grimes', 'Developer', 15000),
-      Employee(10010, 'Grimes', 'Developer', 15000),
-      Employee(10010, 'Grimes', 'Developer', 15000),
-      Employee(10010, 'Grimes', 'Developer', 15000),
-      Employee(10010, 'Grimes', 'Developer', 15000),
-    ];
-  }
-}
-
-class Employee {
-  Employee(this.id, this.name, this.designation, this.salary);
-  final int id;
-  final String name;
-  final String designation;
-  final int salary;
-}
-
-class EmployeeDataSource extends DataGridSource {
-  EmployeeDataSource({required List<Employee> employeeData}) {
-    _employeeData = employeeData
-        .map<DataGridRow>((e) => DataGridRow(cells: [
-              DataGridCell<int>(columnName: 'id', value: e.id),
-              DataGridCell<String>(columnName: 'name', value: e.name),
-              DataGridCell<String>(
-                  columnName: 'designation', value: e.designation),
-              DataGridCell<int>(columnName: 'salary', value: e.salary),
-            ]))
-        .toList();
-  }
-  List<DataGridRow> _employeeData = [];
-  @override
-  List<DataGridRow> get rows => _employeeData;
-  @override
-  DataGridRowAdapter buildRow(DataGridRow row) {
-    return DataGridRowAdapter(
-        cells: row.getCells().map<Widget>((e) {
-      return Container(
-        alignment: Alignment.center,
-        padding: const EdgeInsets.all(1.0),
-        child: Text(e.value.toString()),
-      );
-    }).toList());
   }
 }

@@ -15,4 +15,5 @@ class GlobalFunction {
           SnackBarAction(label: 'OK', onPressed: scaffold.hideCurrentSnackBar),
     ));
   }
+  
 }

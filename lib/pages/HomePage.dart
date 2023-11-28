@@ -51,22 +51,24 @@ class _HomePageState extends State<HomePage> {
           )),
       backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       drawer: Drawer(
-        backgroundColor: const Color.fromARGB(255, 242, 243, 245),
+        backgroundColor: const Color.fromARGB(255, 255, 255, 255),
         child: SafeArea(
-            child: ListView(
+            child: ListView(                          
           children: [
             const DrawerHeader(
-                decoration: BoxDecoration(
+                decoration: BoxDecoration(                  
                   gradient: LinearGradient(
                       colors: [
-                        Color.fromARGB(255, 253, 253, 253),
-                        Color.fromARGB(255, 255, 255, 255),
+                        Color.fromARGB(120, 84, 168, 223),
+                        Color.fromARGB(120, 220, 238, 227),
                       ],
                       begin: FractionalOffset(0.0, 0.0),
                       end: FractionalOffset(1.0, 0.0),
                       stops: [0.0, 1.0],
                       tileMode: TileMode.clamp),
                 ),
+                margin: EdgeInsets.all(0),
+                padding: EdgeInsets.all(0),
                 child: HomeDrawerHeader()),
             ExpansionTile(
               title: const Text("Nhân Sự"),

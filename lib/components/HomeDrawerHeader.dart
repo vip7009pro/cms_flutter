@@ -37,10 +37,10 @@ class _HomeDrawerHeaderState extends State<HomeDrawerHeader> {
   Widget build(BuildContext context) {
     final logo =
         Image.asset('assets/images/cmslogo.jpg', width: 120, fit: BoxFit.cover);
-    final emplImage = CircleAvatar(
+    final emplImage = CircleAvatar(      
       radius: 60,
       backgroundImage:
-          NetworkImage('http://14.160.33.94/Picture_NS/NS_$emplNo.jpg'),
+          NetworkImage('http://14.160.33.94/Picture_NS/NS_$emplNo.jpg'),          
     );
     final thongtinnhanvien = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,32 +49,35 @@ class _HomeDrawerHeaderState extends State<HomeDrawerHeader> {
         logo,
         Text(
           emplName,
-          style:
-              const TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+          style: const TextStyle(
+              color: Colors.blue, fontWeight: FontWeight.bold, fontSize: 12),
         ),
         Text(
           'Bộ phận: $mainDeptName',
-          style:
-              const TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+          style: const TextStyle(
+              color: Colors.red, fontWeight: FontWeight.bold, fontSize: 12),
         ),
         Text(
           'Chức vụ: $position',
           style: const TextStyle(
               color: Color.fromARGB(255, 231, 37, 189),
-              fontWeight: FontWeight.bold),
+              fontWeight: FontWeight.bold,
+              fontSize: 12),
         ),
         Text(
           'Mã NV: $emplNo',
           style: const TextStyle(
               color: Color.fromARGB(255, 53, 160, 4),
-              fontWeight: FontWeight.bold),
+              fontWeight: FontWeight.bold,
+              fontSize: 12),
         ),
       ],
     );
     return Container(
-      alignment: Alignment.center,
+      alignment: Alignment.center, 
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.center,        
         children: <Widget>[emplImage, thongtinnhanvien],
       ),
     );
