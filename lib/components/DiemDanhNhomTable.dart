@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:cms_flutter/controller/APIRequest.dart';
 import 'package:cms_flutter/model/DataInterfaceClass.dart';
 import 'package:flutter/material.dart';
-
 /// The home page of the application which hosts the datagrid.
 class DiemDanhNhomTable extends StatefulWidget {
   /// Creates the home page.
@@ -13,14 +12,12 @@ class DiemDanhNhomTable extends StatefulWidget {
   // ignore: library_private_types_in_public_api
   _DiemDanhNhomTableState createState() => _DiemDanhNhomTableState();
 }
-
 class _DiemDanhNhomTableState extends State<DiemDanhNhomTable> {
   List<DiemDanhNhom> employees = <DiemDanhNhom>[];
   @override
   void initState() {
     super.initState();
   }
-
   Future<void> loadData() async {}
   @override
   Widget build(BuildContext context) {
@@ -41,13 +38,11 @@ class _DiemDanhNhomTableState extends State<DiemDanhNhomTable> {
     ));
   }
 }
-
 class DiemDanhNhomList extends StatefulWidget {
   const DiemDanhNhomList({Key? key}) : super(key: key);
   @override
   _DiemDanhNhomListState createState() => _DiemDanhNhomListState();
 }
-
 class _DiemDanhNhomListState extends State<DiemDanhNhomList> {
   List<DiemDanhNhom> _listDiemDanh = List.empty();
   Future<void> loadDiemDanhNhom() async {
@@ -62,13 +57,11 @@ class _DiemDanhNhomListState extends State<DiemDanhNhomList> {
       }));
     });
   }
-
   @override
   void initState() {
     loadDiemDanhNhom();
     super.initState();
   }
-
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -78,44 +71,73 @@ class _DiemDanhNhomListState extends State<DiemDanhNhomList> {
           backgroundImage: NetworkImage(
               'http://14.160.33.94/Picture_NS/NS_${_listDiemDanh[index].emplNo}.jpg'),
         );
-        final diemdanhWidget = Row(children: [
+        final diemdanhWidget = Wrap(spacing: 8.0, children: [
           ElevatedButton(
             onPressed: () {},
             style: ElevatedButton.styleFrom(
-              minimumSize: Size.zero, // Set this
-              padding: const EdgeInsets.all(5.0), // and this
-              
-            ),
+                minimumSize: Size.zero,
+                padding: const EdgeInsets.all(5.0),
+                backgroundColor: Colors.green),
             child: const Text("Làm ngày", style: TextStyle(fontSize: 10.0)),
           ),
           ElevatedButton(
             onPressed: () {},
             style: ElevatedButton.styleFrom(
-              minimumSize: Size.zero, // Set this
-              padding: const EdgeInsets.all(5.0), // and this
-              
-            ),
-            child: const Text("Làm ngày", style: TextStyle(fontSize: 10.0)),
+                minimumSize: Size.zero,
+                padding: const EdgeInsets.all(5.0),
+                backgroundColor: Colors.green),
+            child: const Text("Làm đêm", style: TextStyle(fontSize: 10.0)),
           ),
           ElevatedButton(
             onPressed: () {},
             style: ElevatedButton.styleFrom(
-              minimumSize: Size.zero, // Set this
-              padding: const EdgeInsets.all(5.0), // and this
-              
-            ),
-            child: const Text("Làm ngày", style: TextStyle(fontSize: 10.0)),
+                minimumSize: Size.zero,
+                padding: const EdgeInsets.all(5.0),
+                backgroundColor: Colors.orange),
+            child: const Text("Nghỉ 50%", style: TextStyle(fontSize: 10.0)),
           ),
           ElevatedButton(
             onPressed: () {},
             style: ElevatedButton.styleFrom(
-              minimumSize: Size.zero, // Set this
-              padding: const EdgeInsets.all(5.0), // and this
-              
-            ),
-            child: const Text("Làm ngày", style: TextStyle(fontSize: 10.0)),
+                minimumSize: Size.zero,
+                padding: const EdgeInsets.all(5.0),
+                backgroundColor: Colors.red),
+            child: const Text("Nghỉ làm", style: TextStyle(fontSize: 10.0)),
           ),
-         
+        ]);
+        final tangcawidget = Wrap(spacing: 8.0, children: [
+          ElevatedButton(
+            onPressed: () {},
+            style: ElevatedButton.styleFrom(
+                minimumSize: Size.zero,
+                padding: const EdgeInsets.all(5.0),
+                backgroundColor: Colors.red),
+            child: const Text("Không TC", style: TextStyle(fontSize: 10.0)),
+          ),
+          ElevatedButton(
+            onPressed: () {},
+            style: ElevatedButton.styleFrom(
+                minimumSize: Size.zero,
+                padding: const EdgeInsets.all(5.0),
+                backgroundColor: Colors.blueAccent),
+            child: const Text("17H-20H", style: TextStyle(fontSize: 10.0)),
+          ),
+          ElevatedButton(
+            onPressed: () {},
+            style: ElevatedButton.styleFrom(
+                minimumSize: Size.zero,
+                padding: const EdgeInsets.all(5.0),
+                backgroundColor: Colors.blueAccent),
+            child: const Text("05H-08H", style: TextStyle(fontSize: 10.0)),
+          ),
+          ElevatedButton(
+            onPressed: () {},
+            style: ElevatedButton.styleFrom(
+                minimumSize: Size.zero,
+                padding: const EdgeInsets.all(5.0),
+                backgroundColor: Colors.blueAccent),
+            child: const Text("17H-18H", style: TextStyle(fontSize: 10.0)),
+          ),
         ]);
         return Container(
           margin: const EdgeInsets.all(5.0),
@@ -142,7 +164,7 @@ class _DiemDanhNhomListState extends State<DiemDanhNhomList> {
                 tileMode: TileMode.clamp),
           ),
           child: Row(
-            children: <Widget>[
+            children: [
               Column(
                 children: [
                   avatar,
@@ -150,15 +172,33 @@ class _DiemDanhNhomListState extends State<DiemDanhNhomList> {
                   Text(_listDiemDanh[index].cmsId)
                 ],
               ),
+              const SizedBox(
+                width: 8.0,
+              ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                      "${_listDiemDanh[index].midlastName} ${_listDiemDanh[index].firstName}"),
-                  diemdanhWidget
+                      "${index + 1}.${_listDiemDanh[index].midlastName} ${_listDiemDanh[index].firstName}", style: const TextStyle(fontWeight: FontWeight.bold, fontStyle: FontStyle.italic),),
+                  _listDiemDanh[index].onOff == 1 ? const Text("Đi làm", style: TextStyle(color: Colors.green, fontSize: 20.0, fontWeight: FontWeight.bold)) :  _listDiemDanh[index].onOff == 0 ? const Text("Nghỉ làm", style: TextStyle(color: Colors.red, fontSize: 20.0, fontWeight: FontWeight.bold)): diemdanhWidget ,
+                  _listDiemDanh[index].overtime == null ?  tangcawidget : Text(_listDiemDanh[index].overtimeInfo??"KTC", style: const TextStyle(color: Colors.blueAccent, fontSize: 20.0, fontWeight: FontWeight.bold))
                 ],
               ),
+            const SizedBox(width: 8.0,),
+            Wrap(
+              crossAxisAlignment: WrapCrossAlignment.end,
+              children: [ ElevatedButton(
+            onPressed: () {},
+            style: ElevatedButton.styleFrom(
+                minimumSize: Size.zero,
+                padding: const EdgeInsets.all(5.0),
+                backgroundColor: Colors.yellowAccent),                
+            child: const Text("RESET", style: TextStyle(fontSize: 10.0, color: Colors.black)),
+          ),],
+            )
+           
+            
             ],
           ),
         );

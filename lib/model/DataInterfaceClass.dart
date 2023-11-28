@@ -214,7 +214,7 @@ class DiemDanhNhom {
     dynamic caNghi;
     int onOff;
     dynamic overtimeInfo;
-    int overtime;
+    int? overtime;
     dynamic reasonName;
     dynamic remark;
 
