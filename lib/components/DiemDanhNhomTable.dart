@@ -350,8 +350,9 @@ class _DiemDanhNhomListState extends State<DiemDanhNhomList> {
                     final tangcawidget = Wrap(spacing: 8.0, children: [
                       ElevatedButton(
                         onPressed: () async {
-                          bool updated = await dangKyTangCa("KTC", _listDiemDanh[index].emplNo);      
-                          if(updated) {
+                          bool updated = await dangKyTangCa(
+                              "KTC", _listDiemDanh[index].emplNo);
+                          if (updated) {
                             setState(() {
                               _listDiemDanh[index].overtime = 0;
                               _listDiemDanh[index].overtimeInfo = "KTC";
@@ -368,8 +369,9 @@ class _DiemDanhNhomListState extends State<DiemDanhNhomList> {
                       ),
                       ElevatedButton(
                         onPressed: () async {
-                           bool updated = await dangKyTangCa("1700-2000", _listDiemDanh[index].emplNo);      
-                          if(updated) {
+                          bool updated = await dangKyTangCa(
+                              "1700-2000", _listDiemDanh[index].emplNo);
+                          if (updated) {
                             setState(() {
                               _listDiemDanh[index].overtime = 1;
                               _listDiemDanh[index].overtimeInfo = "17H-20H";
@@ -386,8 +388,9 @@ class _DiemDanhNhomListState extends State<DiemDanhNhomList> {
                       ),
                       ElevatedButton(
                         onPressed: () async {
-                          bool updated = await dangKyTangCa("0500-0800", _listDiemDanh[index].emplNo);      
-                          if(updated) {
+                          bool updated = await dangKyTangCa(
+                              "0500-0800", _listDiemDanh[index].emplNo);
+                          if (updated) {
                             setState(() {
                               _listDiemDanh[index].overtime = 1;
                               _listDiemDanh[index].overtimeInfo = "05H-08H";
@@ -404,8 +407,9 @@ class _DiemDanhNhomListState extends State<DiemDanhNhomList> {
                       ),
                       ElevatedButton(
                         onPressed: () async {
-                          bool updated = await dangKyTangCa("1700-1800", _listDiemDanh[index].emplNo);      
-                          if(updated) {
+                          bool updated = await dangKyTangCa(
+                              "1700-1800", _listDiemDanh[index].emplNo);
+                          if (updated) {
                             setState(() {
                               _listDiemDanh[index].overtime = 1;
                               _listDiemDanh[index].overtimeInfo = "17H-18H";
