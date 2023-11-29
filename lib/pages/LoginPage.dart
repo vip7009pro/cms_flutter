@@ -68,21 +68,14 @@ class _LoginPageState extends State<LoginPage> {
                   setState(() {
                     Map<String, dynamic> rawJson = jsonDecode(value);
                     userPosition = rawJson['POSITION_CODE'].toString();
-                    if (userPosition == '4' || userPosition == '') {
-                      //Get.off(() => const InputLieu());
-                      Get.off(() => const NhatKyKT());
-                    } else {
-                      //Get.off(() => const InputLieu());
-                      //Get.off(() => const NhatKyKT());
+                    if (userPosition == '4' || userPosition == '') {                     
+                      Get.off(() => const HomePage());
+                    } else {                      
                       Get.off(() => const HomePage());
                     }
                   });
                 },
-              );
-              /* Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => const InputLieu())); */
-              /*  Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => const HomePage())); */
+              );              
             } else {
               GlobalFunction.showToast(
                   context, 'Đăng nhập thất bại, xem lại user or pass');

@@ -32,6 +32,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    
     return SafeArea(
         child: Scaffold(
       appBar: AppBar(
@@ -40,8 +41,8 @@ class _HomePageState extends State<HomePage> {
             decoration: const BoxDecoration(
               gradient: LinearGradient(
                   colors: [
-                    Color.fromARGB(255, 161, 209, 49),
-                    Color.fromARGB(255, 0, 255, 191),
+                    Color.fromARGB(255, 133, 196, 248),
+                    Color.fromARGB(255, 0, 140, 255),
                   ],
                   begin: FractionalOffset(0.0, 0.0),
                   end: FractionalOffset(1.0, 0.0),
@@ -493,7 +494,7 @@ class _HomePageState extends State<HomePage> {
         )),
         child: Obx(() => Center(child: Text('${c.count}'))),
       ),
-      bottomNavigationBar: BottomNavigationBar(
+      /* bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -519,7 +520,7 @@ class _HomePageState extends State<HomePage> {
         currentIndex: _selectedBottomIndex,
         selectedItemColor: Colors.amber[400],
         onTap: _onBottomItemTapped,
-      ),
+      ), 
       floatingActionButton:
           Column(mainAxisAlignment: MainAxisAlignment.end, children: <Widget>[
         FloatingActionButton(
@@ -536,7 +537,7 @@ class _HomePageState extends State<HomePage> {
           },
           child: const Icon(Icons.delete),
         )
-      ]),
+      ]),*/
     ));
   }
 }
