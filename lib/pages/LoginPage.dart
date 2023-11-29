@@ -20,11 +20,26 @@ class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
 class _LoginPageState extends State<LoginPage> {
+  bool _saveAccount = true;
   String userPosition = '';
   String selectedServer = 'MAIN_SERVER';
-  final GlobalController c = Get.put(GlobalController());
+  final GlobalController c = Get.put(GlobalController());  
   String _user = '';
   String _pass = '';
+TextEditingController _textFieldUserController = TextEditingController();
+TextEditingController _textFieldPassController = TextEditingController();
+
+Future<void> _loadAccount() async{
+  String savedUser = await LocalDataAccess.getVariable("user");
+  String savedPass = await LocalDataAccess.getVariable("pass");  
+  setState(() {
+    _user = savedUser;
+    _pass = savedPass;
+    _textFieldUserController.text = savedUser;
+    _textFieldPassController.text = savedPass;
+  });
+
+}
   Future<String> _getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final savedToken = prefs.getString('token') ?? 'reset';
@@ -37,9 +52,14 @@ class _LoginPageState extends State<LoginPage> {
               setState((() {
                 if (value['tk_status'] == 'ok') {
                   LocalDataAccess.saveVariable('token', value['token_content']);
+                  if (_saveAccount) {
+                    LocalDataAccess.saveVariable('user', _user);
+                    LocalDataAccess.saveVariable('pass', _pass);
+                  } else {
+                    LocalDataAccess.saveVariable('user', '');
+                    LocalDataAccess.saveVariable('pass', '');
+                  }
                   _checklogin(context);
-                  /* Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => const HomePage())); */
                 } else {
                   GlobalFunction.showToast(
                       context, 'Đăng nhập thất bại,  ${value['message']}');
@@ -88,7 +108,8 @@ class _LoginPageState extends State<LoginPage> {
   }
   @override
   void initState() {
-    _checklogin(context);
+    _loadAccount();
+    _checklogin(context);    
     LocalDataAccess.getVariable('serverIP').then((value) {
       if (value != '') {
         selectedServer = value;
@@ -104,11 +125,11 @@ class _LoginPageState extends State<LoginPage> {
       'assets/images/cmslogo.jpg',
     );
     final username = TextFormField(
+      controller: _textFieldUserController,
       textInputAction: TextInputAction.next,
       onChanged: (value) => {_user = value},
       keyboardType: TextInputType.emailAddress,
-      autofocus: false,
-      initialValue: '',
+      autofocus: false,      
       decoration: InputDecoration(
         hintText: 'Tên đăng nhập.....',
         contentPadding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
@@ -116,13 +137,13 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
     final password = TextFormField(
+      controller: _textFieldPassController,
       textInputAction: TextInputAction.go,
       onFieldSubmitted: (term) {
         _login(context);
       },
       onChanged: (value) => {_pass = value},
-      autofocus: false,
-      initialValue: '',
+      autofocus: false,      
       obscureText: true,
       decoration: InputDecoration(
         hintText: 'Mật khẩu',
@@ -136,7 +157,7 @@ class _LoginPageState extends State<LoginPage> {
       child: TextButton(
         style: TextButton.styleFrom(
             backgroundColor: const Color.fromARGB(255, 10, 97, 179)),
-        onPressed: () {
+        onPressed: () {          
           _login(context);
         },
         child: const Row(
@@ -160,11 +181,18 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
-    final forgotLabel = TextButton(
-      child: const Text('Quên mật khẩu?'),
-      onPressed: () {
-        //_showToast(context);
-      },
+    final saveID = Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Checkbox(value: _saveAccount, onChanged: (value) {
+          setState(() {
+            _saveAccount = value!;
+          });
+
+        }),
+        Text("Nhớ tài khoản")
+      ],
     );
     return SafeArea(
         child: Scaffold(
@@ -181,7 +209,7 @@ class _LoginPageState extends State<LoginPage> {
                   password,
                   const SizedBox(height: 15.0),
                   loginButton,
-                  forgotLabel,
+                  saveID,
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,

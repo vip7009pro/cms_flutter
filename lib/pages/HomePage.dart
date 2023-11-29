@@ -2,6 +2,7 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cms_flutter/components/HomeDrawerHeader.dart';
 import 'package:cms_flutter/controller/GetXController.dart';
 import 'package:cms_flutter/controller/GlobalFunction.dart';
+import 'package:cms_flutter/pages/HomeWidget.dart';
 import 'package:cms_flutter/pages/LoginPage.dart';
 import 'package:cms_flutter/pages/phongban/nhansu/DangKy.dart';
 import 'package:cms_flutter/pages/phongban/nhansu/DiemDanhNhom.dart';
@@ -492,7 +493,12 @@ class _HomePageState extends State<HomePage> {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         )),
-        child: Obx(() => Center(child: Text('${c.count}'))),
+        child: HomeWidget(),
+        /* child: Obx(() =>  Container(
+          height: double.infinity,
+          width: double.infinity,
+          child: HomeWidget())
+          ), */
       ),
       /* bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
