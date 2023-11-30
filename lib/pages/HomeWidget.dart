@@ -151,15 +151,15 @@ class _HomeWidgetState extends State<HomeWidget> {
                       ),
                     ]),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     avatar,
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        const Text("Chấm công hôm nay", style: TextStyle(fontWeight: FontWeight.bold),),      
+                        const Text("Chấm công hôm nay", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blueAccent),),      
                         const SizedBox(height: 8.0,),     
                         Row(                        
                           children: [
@@ -170,8 +170,8 @@ class _HomeWidgetState extends State<HomeWidget> {
                                   borderRadius: const BorderRadius.all(Radius.circular(10)),                           
                                   gradient: const LinearGradient(
                                       colors: [
-                                        Color.fromARGB(255, 133, 196, 248),
-                                        Color.fromARGB(255, 118, 173, 218),
+                                        Color.fromARGB(255, 118, 218, 156),
+                                         Color.fromARGB(255, 237, 248, 243),                          
                                       ],
                                       begin: FractionalOffset(0.0, 0.0),
                                       end: FractionalOffset(1.0, 0.0),
@@ -186,15 +186,15 @@ class _HomeWidgetState extends State<HomeWidget> {
                                     ),
                                     ]
                                 ),
-                                child: Text("$_minTime")),
+                                child: Text(_minTime)),
                             Container(
                               padding: const EdgeInsets.all(8.0),
                                 decoration:  BoxDecoration(
                                   borderRadius: const BorderRadius.all(Radius.circular(10)),                           
                                   gradient: const LinearGradient(
                                       colors: [
-                                        Color.fromARGB(255, 133, 196, 248),
-                                        Color.fromARGB(255, 118, 173, 218),
+                                        Color.fromARGB(255, 255, 136, 81),
+                                        Color.fromARGB(255, 245, 240, 174),
                                       ],
                                       begin: FractionalOffset(0.0, 0.0),
                                       end: FractionalOffset(1.0, 0.0),
@@ -209,15 +209,42 @@ class _HomeWidgetState extends State<HomeWidget> {
                                     ),
                                     ]
                                 ),
-                                child: Text("$_maxTime")),
+                                child: Text(_maxTime)),                               
                           ],
-                        ),                                           
+                        ),   
+                        const SizedBox(height: 8.0,),
+                         Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            const CircularProgressIndicator(                              
+                              strokeWidth: 5,                              
+                              value: 0.3,
+                              backgroundColor: Color.fromARGB(255, 160, 153, 153),
+                              valueColor:
+                                  AlwaysStoppedAnimation<Color>(Color.fromARGB(255, 33, 243, 68)),
+                            ),
+                            const SizedBox(height: 20),
+                            Text(
+                                'Tỉ lệ đi làm: ${(0.3 * 100).toStringAsFixed(0)}%'),
+                            const SizedBox(height: 8.0,),
+                            const CircularProgressIndicator(
+                              value: 0.3,
+                              backgroundColor: Color.fromARGB(255, 160, 153, 153),
+                              valueColor:
+                                  AlwaysStoppedAnimation<Color>(Color.fromARGB(255, 111, 250, 238)),
+                            ),
+                            const SizedBox(height: 20),
+                            Text(
+                                'Tỉ lệ tăng ca: ${(0.3 * 100).toStringAsFixed(0)}%'),
+                          ],
+                        )                                        
                       ],
                     ),
                   ],
                 ),
               ),
               Container(
+                width: double.infinity,
                 margin: const EdgeInsets.only(top: 8.0),
                 padding: const EdgeInsets.all(8.0),
                 decoration: BoxDecoration(                  
@@ -242,25 +269,33 @@ class _HomeWidgetState extends State<HomeWidget> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      "Thông tin nhân viên",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
+                    const Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Thông tin nhân viên",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold, color: Color.fromARGB(255, 170, 124, 255), fontSize: 20
+                          ),
+                        ),
+                      ],
                     ),
+                    const SizedBox(height: 8.0,),
                     Text(
                         "1. Họ và tên: ${_myUserData.mIDLASTNAME} ${_myUserData.fIRSTNAME}"),
-                    Text("2. Mã nhân sự: ${_myUserData.cMSID}"),
-                    Text("3. Mã ERP: ${_myUserData.eMPLNO}"),
+                        const SizedBox(height: 8.0,),
+                    Text("2. Mã nhân sự: ${_myUserData.cMSID}"),const SizedBox(height: 8.0,),
+                    Text("3. Mã ERP: ${_myUserData.eMPLNO}"),const SizedBox(height: 8.0,),
                     Text(
-                        "4. DOB: ${GlobalFunction.MyDate('dd-MM-yyyy', _myUserData.dOB!)}"),
-                    Text("5. Quê quán: ${_myUserData.hOMETOWN}"),
+                        "4. DOB: ${GlobalFunction.MyDate('dd-MM-yyyy', _myUserData.dOB!)}"),const SizedBox(height: 8.0,),
+                    Text("5. Quê quán: ${_myUserData.hOMETOWN}"),const SizedBox(height: 8.0,),
                     Text(
-                        "6. Địa chỉ: ${_myUserData.aDDVILLAGE}-${_myUserData.aDDCOMMUNE}-${_myUserData.aDDDISTRICT}-${_myUserData.aDDPROVINCE}"),
-                    Text("7. Bộ phận chính: ${_myUserData.mAINDEPTNAME}"),
-                    Text("8. Bộ phận phụ: ${_myUserData.sUBDEPTNAME}"),
-                    Text("9. Vị trí làm việc: ${_myUserData.wORKPOSITIONNAME}"),
-                    Text("10. Nhóm điểm danh: ${_myUserData.aTTGROUPCODE}"),
+                        "6. Địa chỉ: ${_myUserData.aDDVILLAGE}-${_myUserData.aDDCOMMUNE}-${_myUserData.aDDDISTRICT}-${_myUserData.aDDPROVINCE}"),const SizedBox(height: 8.0,),
+                    Text("7. Bộ phận chính: ${_myUserData.mAINDEPTNAME}"),const SizedBox(height: 8.0,),
+                    Text("8. Bộ phận phụ: ${_myUserData.sUBDEPTNAME}"),const SizedBox(height: 8.0,),
+                    Text("9. Vị trí làm việc: ${_myUserData.wORKPOSITIONNAME}"),const SizedBox(height: 8.0,),
+                    Text("10. Nhóm điểm danh: ${_myUserData.aTTGROUPCODE}"),const SizedBox(height: 8.0,),
                     Text("11. Chức vụ: ${_myUserData.jOBNAME}"),
                   ],
                 ),
