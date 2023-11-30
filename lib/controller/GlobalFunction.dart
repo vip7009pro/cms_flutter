@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class GlobalFunction {  
@@ -32,5 +33,10 @@ class GlobalFunction {
   };
 
   return input.split('').map((char) => vietnameseCharacters[char] ?? char).join();
+
+}
+
+static String MyDate(String format, String datetimedata) {
+  return DateFormat(format).format(DateTime.parse(datetimedata));
 }
 }
