@@ -7,12 +7,10 @@ class DiemDanhNhom extends StatefulWidget {
   _DiemDanhNhomState createState() => _DiemDanhNhomState();
 }
 
-class _DiemDanhNhomState extends State<DiemDanhNhom> {
-  final _formKey = GlobalKey<FormState>();
+class _DiemDanhNhomState extends State<DiemDanhNhom> { 
   @override
   Widget build(BuildContext context) {
-    return 
-    SafeArea(child: 
+    return    
     Scaffold(
         appBar: AppBar(
           flexibleSpace: Container(
@@ -30,8 +28,8 @@ class _DiemDanhNhomState extends State<DiemDanhNhom> {
           ),
           title: const Text('Điểm danh nhóm', style: TextStyle(color: Colors.blueAccent),),
         ),
-        body: DiemDanhNhomTable())
-    );
+        body: DiemDanhNhomTable());
+    
     
   }
 }

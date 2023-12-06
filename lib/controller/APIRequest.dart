@@ -35,11 +35,9 @@ class API_Request {
       if (response.statusCode == 200) {
         return response.data;
       } else if (response.statusCode == 404) {
-        return {'tk_status': 'NG', 'message': 'Không tìm thấy dữ liệu'};
-        //return throw Exception('Not Found');
+        return {'tk_status': 'NG', 'message': 'Không tìm thấy dữ liệu'};        
       } else {
-        return {'tk_status': 'NG', 'message': 'Kết nối có vấn đề'};
-        //throw Exception('Can\'t get post');
+        return {'tk_status': 'NG', 'message': 'Kết nối có vấn đề'};        
       }
     } on DioException catch (e) {      
       return {'tk_status': 'NG', 'message': '$e'};

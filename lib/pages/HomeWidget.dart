@@ -5,12 +5,16 @@ import 'package:cms_flutter/controller/LocalDataAccess.dart';
 import 'package:cms_flutter/model/DataInterfaceClass.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:syncfusion_flutter_gauges/gauges.dart';
+
 class HomeWidget extends StatefulWidget {
   const HomeWidget({Key? key}) : super(key: key);
   @override
   _HomeWidgetState createState() => _HomeWidgetState();
 }
+
 class _HomeWidgetState extends State<HomeWidget> {
+  int _workDay = 1, _overTimeDay = 0, _OffDay = 0, _workingDay = 1;
   UserData _myUserData = UserData(
       aDDCOMMUNE: '',
       aDDDISTRICT: '',
@@ -87,6 +91,82 @@ class _HomeWidgetState extends State<HomeWidget> {
     });
     return check;
   }
+
+  Future<bool> _checkWorkDay() async {
+    bool check = true;
+    await API_Request.api_query('workdaycheck', {}).then((value) {
+      if (value['tk_status'] == 'OK') {
+        check = true;
+        var response = value['data'][0];
+        setState(() {
+          _workDay = response['WORK_DAY'];
+        });
+      } else {
+        check = false;
+      }
+    });
+    return check;
+  }
+
+  Future<bool> _checkOverTimeDay() async {
+    bool check = true;
+    await API_Request.api_query('tangcadaycheck', {}).then((value) {
+      if (value['tk_status'] == 'OK') {
+        check = true;
+        var response = value['data'][0];
+        setState(() {
+          _overTimeDay = response['TANGCA_DAY'];
+        });
+      } else {
+        check = false;
+      }
+    });
+    return check;
+  }
+
+  Future<bool> _checkOffDay() async {
+    bool check = true;
+    await API_Request.api_query('nghidaycheck', {}).then((value) {
+      if (value['tk_status'] == 'OK') {
+        check = true;
+        var response = value['data'][0];
+        setState(() {
+          _OffDay = response['NGHI_DAY'];
+        });
+      } else {
+        check = false;
+      }
+    });
+    return check;
+  }
+
+  Future<int> _countWorkingDays() async {
+    DateTime startDate = DateTime(DateTime.now().year, 1, 1);
+    DateTime endDate = DateTime.now();
+    int workingDays = 0;
+    // Define the weekend days
+    final weekendDays = [DateTime.sunday];
+    // Iterate through each day in the range
+    for (DateTime date = startDate;
+        date.isBefore(endDate);
+        date = date.add(Duration(days: 1))) {
+      // Check if the current day is a weekday (not a weekend day)
+      if (!weekendDays.contains(date.weekday)) {
+        workingDays++;
+      }
+    }
+    _workingDay = workingDays;
+    return workingDays;
+  }
+
+  Future<void> initFunction() async {
+    _countWorkingDays();
+    _checkMyChamCong();
+    _checkWorkDay();
+    _checkOffDay();
+    _checkOverTimeDay();
+  }
+
   @override
   void initState() {
     LocalDataAccess.getVariable('userData').then(
@@ -97,9 +177,10 @@ class _HomeWidgetState extends State<HomeWidget> {
         });
       },
     );
-    _checkMyChamCong();
+    initFunction();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     final avatar = Container(
@@ -125,17 +206,22 @@ class _HomeWidgetState extends State<HomeWidget> {
         height: double.infinity,
         padding: const EdgeInsets.only(top: 2.0, left: 5.0, right: 5.0),
         child: RefreshIndicator(
-          color: Colors.greenAccent,
-            onRefresh: _checkMyChamCong,
-            child: ListView(              
+            color: Colors.greenAccent,
+            onRefresh: initFunction,
+            child: ListView(
               children: [
                 Column(
                   children: [
+                    const Text("Thông tin nhân viên",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 25)),
                     Container(
                       padding: const EdgeInsets.all(8.0),
                       decoration: BoxDecoration(
                           borderRadius:
-                              const BorderRadius.all(Radius.circular(10)),
+                              const BorderRadius.all(Radius.circular(5)),
                           gradient: const LinearGradient(
                               colors: [
                                 Color.fromARGB(255, 237, 248, 243),
@@ -191,16 +277,14 @@ class _HomeWidgetState extends State<HomeWidget> {
                                       margin: const EdgeInsets.only(right: 8.0),
                                       decoration: BoxDecoration(
                                           borderRadius: const BorderRadius.all(
-                                              Radius.circular(10)),
+                                              Radius.circular(5)),
                                           gradient: const LinearGradient(
                                               colors: [
-                                                Color.fromARGB(
-                                                    255, 118, 218, 156),
-                                                Color.fromARGB(
-                                                    255, 237, 248, 243),
+                                                Color.fromARGB(255, 204, 234, 240),
+                                                Color.fromARGB(255, 158, 202, 239),
                                               ],
-                                              begin: FractionalOffset(0.0, 0.0),
-                                              end: FractionalOffset(1.0, 0.0),
+                                              begin: FractionalOffset(0.0, 1.0),
+                                              end: FractionalOffset(0.0, 0.0),
                                               stops: [0.0, 1.0],
                                               tileMode: TileMode.clamp),
                                           boxShadow: [
@@ -217,16 +301,14 @@ class _HomeWidgetState extends State<HomeWidget> {
                                       padding: const EdgeInsets.all(8.0),
                                       decoration: BoxDecoration(
                                           borderRadius: const BorderRadius.all(
-                                              Radius.circular(10)),
+                                              Radius.circular(5)),
                                           gradient: const LinearGradient(
                                               colors: [
-                                                Color.fromARGB(
-                                                    255, 255, 136, 81),
-                                                Color.fromARGB(
-                                                    255, 245, 240, 174),
+                                                Color.fromARGB(255, 204, 234, 240),
+                                                Color.fromARGB(255, 158, 202, 239),
                                               ],
-                                              begin: FractionalOffset(0.0, 0.0),
-                                              end: FractionalOffset(1.0, 0.0),
+                                              begin: FractionalOffset(0.0, 1.0),
+                                              end: FractionalOffset(0.0, 0.0),
                                               stops: [0.0, 1.0],
                                               tileMode: TileMode.clamp),
                                           boxShadow: [
@@ -247,44 +329,53 @@ class _HomeWidgetState extends State<HomeWidget> {
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
-                                  const CircularProgressIndicator(
+                                  CircularProgressIndicator(
                                     strokeWidth: 5,
-                                    value: 0.3,
-                                    backgroundColor:
-                                        Color.fromARGB(255, 160, 153, 153),
-                                    valueColor: AlwaysStoppedAnimation<Color>(
-                                        Color.fromARGB(255, 33, 243, 68)),
+                                    value:
+                                        (_workDay * 1.0) / (_workingDay * 1.0),
+                                    backgroundColor: const Color.fromARGB(
+                                        255, 160, 153, 153),
+                                    valueColor:
+                                        const AlwaysStoppedAnimation<Color>(
+                                            Color.fromARGB(255, 33, 243, 68)),
                                   ),
                                   const SizedBox(height: 20),
                                   Text(
-                                      'Tỉ lệ đi làm: ${(0.3 * 100).toStringAsFixed(0)}%'),
+                                      'Tỉ lệ đi làm: ${((_workDay * 1.0) / (_workingDay * 1.0) * 100).toStringAsFixed(0)}% $_workDay/$_workingDay'),
                                   const SizedBox(
                                     height: 8.0,
                                   ),
-                                  const CircularProgressIndicator(
-                                    value: 0.3,
-                                    backgroundColor:
-                                        Color.fromARGB(255, 160, 153, 153),
-                                    valueColor: AlwaysStoppedAnimation<Color>(
-                                        Color.fromARGB(255, 111, 250, 238)),
+                                  CircularProgressIndicator(
+                                    value:
+                                        (_overTimeDay * 1.0) / (_workDay * 1.0),
+                                    backgroundColor: const Color.fromARGB(
+                                        255, 160, 153, 153),
+                                    valueColor:
+                                        const AlwaysStoppedAnimation<Color>(
+                                            Color.fromARGB(255, 20, 88, 197)),
                                   ),
                                   const SizedBox(height: 20),
                                   Text(
-                                      'Tỉ lệ tăng ca: ${(0.3 * 100).toStringAsFixed(0)}%'),
+                                      'Tỉ lệ tăng ca: ${((_overTimeDay * 1.0) / (_workDay * 1.0) * 100).toStringAsFixed(0)}% $_overTimeDay/$_workDay'),
+                                  const SizedBox(
+                                    height: 8.0,
+                                  ),                                  
                                 ],
                               )
                             ],
                           ),
+                         
                         ],
                       ),
                     ),
+                    
                     Container(
                       width: double.infinity,
                       margin: const EdgeInsets.only(top: 8.0),
                       padding: const EdgeInsets.all(8.0),
                       decoration: BoxDecoration(
                           borderRadius:
-                              const BorderRadius.all(Radius.circular(10)),
+                              const BorderRadius.all(Radius.circular(5)),
                           gradient: const LinearGradient(
                               colors: [
                                 Color.fromARGB(255, 237, 248, 243),
@@ -319,52 +410,52 @@ class _HomeWidgetState extends State<HomeWidget> {
                             ],
                           ),
                           const SizedBox(
-                            height: 8.0,
+                            height: 7.0,
                           ),
                           Text(
                               "1. Họ và tên: ${_myUserData.mIDLASTNAME} ${_myUserData.fIRSTNAME}"),
                           const SizedBox(
-                            height: 8.0,
+                            height: 7.0,
                           ),
                           Text("2. Mã nhân sự: ${_myUserData.cMSID}"),
                           const SizedBox(
-                            height: 8.0,
+                            height: 7.0,
                           ),
                           Text("3. Mã ERP: ${_myUserData.eMPLNO}"),
                           const SizedBox(
-                            height: 8.0,
+                            height: 7.0,
                           ),
                           Text(
                               "4. DOB: ${GlobalFunction.MyDate('dd-MM-yyyy', _myUserData.dOB!)}"),
                           const SizedBox(
-                            height: 8.0,
+                            height: 7.0,
                           ),
                           Text("5. Quê quán: ${_myUserData.hOMETOWN}"),
                           const SizedBox(
-                            height: 8.0,
+                            height: 7.0,
                           ),
                           Text(
                               "6. Địa chỉ: ${_myUserData.aDDVILLAGE}-${_myUserData.aDDCOMMUNE}-${_myUserData.aDDDISTRICT}-${_myUserData.aDDPROVINCE}"),
                           const SizedBox(
-                            height: 8.0,
+                            height: 7.0,
                           ),
                           Text("7. Bộ phận chính: ${_myUserData.mAINDEPTNAME}"),
                           const SizedBox(
-                            height: 8.0,
+                            height: 7.0,
                           ),
                           Text("8. Bộ phận phụ: ${_myUserData.sUBDEPTNAME}"),
                           const SizedBox(
-                            height: 8.0,
+                            height: 7.0,
                           ),
                           Text(
                               "9. Vị trí làm việc: ${_myUserData.wORKPOSITIONNAME}"),
                           const SizedBox(
-                            height: 8.0,
+                            height: 7.0,
                           ),
                           Text(
                               "10. Nhóm điểm danh: ${_myUserData.aTTGROUPCODE}"),
                           const SizedBox(
-                            height: 8.0,
+                            height: 7.0,
                           ),
                           Text("11. Chức vụ: ${_myUserData.jOBNAME}"),
                         ],

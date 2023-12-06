@@ -30,43 +30,47 @@ class _HomePageState extends State<HomePage> {
       _selectedBottomIndex = index;
     });
   }
+  final logo =
+        Image.asset('assets/images/cmslogo.jpg', width: 120, fit: BoxFit.cover);
 
   @override
   Widget build(BuildContext context) {
-    
-    return SafeArea(
-      
-        child: Scaffold(
-      appBar: AppBar(
-          title: const Text("Home"),
+    return Scaffold(      
+      drawerEnableOpenDragGesture: true,
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(        
+          title:  Row(
+            children: [
+              const Text("Home",),logo],
+          ),
+          backgroundColor: Colors.transparent,
           flexibleSpace: Container(
-            decoration: const BoxDecoration(
+           /*  decoration: const BoxDecoration(
               gradient: LinearGradient(
                   colors: [
-                    Color.fromARGB(255, 133, 196, 248),
-                    Color.fromARGB(255, 0, 140, 255),
+                    Color.fromARGB(0, 133, 196, 248),
+                    Color.fromARGB(0, 0, 140, 255),
                   ],
                   begin: FractionalOffset(0.0, 0.0),
                   end: FractionalOffset(1.0, 0.0),
                   stops: [0.0, 1.0],
                   tileMode: TileMode.clamp),
-            ),
+            ), */
           )),
       backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       drawer: Drawer(
         backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-        child: SafeArea(
-            child: ListView(                          
+        child: ListView(
           children: [
             const DrawerHeader(
-                decoration: BoxDecoration(                  
+                decoration: BoxDecoration(
                   gradient: LinearGradient(
                       colors: [
-                        Color.fromARGB(120, 84, 168, 223),
-                        Color.fromARGB(120, 220, 238, 227),
+                        Color.fromARGB(255, 255, 255, 255),
+                        Color.fromARGB(255, 193, 228, 244),
                       ],
                       begin: FractionalOffset(0.0, 0.0),
-                      end: FractionalOffset(1.0, 0.0),
+                      end: FractionalOffset(0.0, 1.0),
                       stops: [0.0, 1.0],
                       tileMode: TileMode.clamp),
                 ),
@@ -482,14 +486,14 @@ class _HomePageState extends State<HomePage> {
               },
             ),
           ],
-        )),
+        ),
       ),
       body: Container(
         decoration: const BoxDecoration(
             gradient: LinearGradient(
           colors: [
-            Color.fromARGB(255, 241, 241, 241),
             Color.fromARGB(255, 93, 192, 231),
+            Color.fromARGB(255, 241, 241, 241),            
           ],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
@@ -501,12 +505,12 @@ class _HomePageState extends State<HomePage> {
           child: HomeWidget())
           ), */
       ),
-      /* bottomNavigationBar: BottomNavigationBar(
+       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
-            backgroundColor: Colors.red,
+            backgroundColor: Color.fromARGB(255, 100, 167, 191),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.business),
@@ -525,26 +529,17 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
         currentIndex: _selectedBottomIndex,
-        selectedItemColor: Colors.amber[400],
+        selectedItemColor: Color.fromARGB(255, 252, 238, 34),
         onTap: _onBottomItemTapped,
-      ), 
-      floatingActionButton:
-          Column(mainAxisAlignment: MainAxisAlignment.end, children: <Widget>[
-        FloatingActionButton(
-          heroTag: 'addingbutton',
-          onPressed: () {
-            c.increment();
-          },
-          child: const Icon(Icons.add),
-        ),
-        FloatingActionButton(
-          heroTag: 'substractbutton',
-          onPressed: () {
-            c.decrement();
-          },
-          child: const Icon(Icons.delete),
-        )
-      ]),*/
-    ));
+      ),
+      floatingActionButton: Builder(builder: (context) {
+      return FloatingActionButton(   
+        backgroundColor: Color.fromARGB(255, 207, 217, 236),     
+
+        child: Icon(Icons.menu),
+        onPressed: () => Scaffold.of(context).openDrawer(), // <-- Opens drawer.
+      );
+    }),
+  );
   }
 }
