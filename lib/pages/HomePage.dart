@@ -13,39 +13,41 @@ import 'package:cms_flutter/pages/phongban/sx/InputLieu.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
+import 'dart:async';
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
   @override
   // ignore: library_private_types_in_public_api
   _HomePageState createState() => _HomePageState();
 }
-
 class _HomePageState extends State<HomePage> {
   int _selectedBottomIndex = 0;
-  final GlobalController c = Get.put(GlobalController());
 
+  final GlobalController c = Get.put(GlobalController());
   void _onBottomItemTapped(int index) {
     setState(() {
       _selectedBottomIndex = index;
     });
   }
-  final logo =
-        Image.asset('assets/images/cmslogo.jpg', width: 120, fit: BoxFit.cover);
-
+  final logo = Image.asset('assets/images/cmslogo.jpg', width: 120, fit: BoxFit.cover);
+ 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(      
+    return Scaffold(
       drawerEnableOpenDragGesture: true,
       extendBodyBehindAppBar: true,
-      appBar: AppBar(        
-          title:  Row(
+      appBar: AppBar(
+          title: Row(
             children: [
-              const Text("Home",),logo],
+              const Text(
+                "Home",
+              ),
+              logo
+            ],
           ),
           backgroundColor: Colors.transparent,
           flexibleSpace: Container(
-           /*  decoration: const BoxDecoration(
+              /*  decoration: const BoxDecoration(
               gradient: LinearGradient(
                   colors: [
                     Color.fromARGB(0, 133, 196, 248),
@@ -56,7 +58,7 @@ class _HomePageState extends State<HomePage> {
                   stops: [0.0, 1.0],
                   tileMode: TileMode.clamp),
             ), */
-          )),
+              )),
       backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       drawer: Drawer(
         backgroundColor: const Color.fromARGB(255, 255, 255, 255),
@@ -493,7 +495,7 @@ class _HomePageState extends State<HomePage> {
             gradient: LinearGradient(
           colors: [
             Color.fromARGB(255, 93, 192, 231),
-            Color.fromARGB(255, 241, 241, 241),            
+            Color.fromARGB(255, 241, 241, 241),
           ],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
@@ -505,7 +507,7 @@ class _HomePageState extends State<HomePage> {
           child: HomeWidget())
           ), */
       ),
-       bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -533,13 +535,13 @@ class _HomePageState extends State<HomePage> {
         onTap: _onBottomItemTapped,
       ),
       floatingActionButton: Builder(builder: (context) {
-      return FloatingActionButton(   
-        backgroundColor: Color.fromARGB(255, 207, 217, 236),     
-
-        child: Icon(Icons.menu),
-        onPressed: () => Scaffold.of(context).openDrawer(), // <-- Opens drawer.
-      );
-    }),
-  );
+        return FloatingActionButton(
+          backgroundColor: Color.fromARGB(255, 207, 217, 236),
+          child: Icon(Icons.menu),
+          onPressed: () =>
+              Scaffold.of(context).openDrawer(), // <-- Opens drawer.
+        );
+      }),
+    );
   }
 }

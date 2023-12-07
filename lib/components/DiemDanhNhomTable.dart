@@ -6,7 +6,6 @@ import 'package:cms_flutter/controller/GlobalFunction.dart';
 import 'package:cms_flutter/model/DataInterfaceClass.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
 /// The home page of the application which hosts the datagrid.
 class DiemDanhNhomTable extends StatefulWidget {
   /// Creates the home page.
@@ -16,14 +15,12 @@ class DiemDanhNhomTable extends StatefulWidget {
   // ignore: library_private_types_in_public_api
   _DiemDanhNhomTableState createState() => _DiemDanhNhomTableState();
 }
-
 class _DiemDanhNhomTableState extends State<DiemDanhNhomTable> {
   List<DiemDanhNhom> employees = <DiemDanhNhom>[];
   @override
   void initState() {
     super.initState();
   }
-
   Future<void> loadData() async {}
   @override
   Widget build(BuildContext context) {
@@ -42,18 +39,19 @@ class _DiemDanhNhomTableState extends State<DiemDanhNhomTable> {
                 child: const DiemDanhNhomList())));
   }
 }
-
 class DiemDanhNhomList extends StatefulWidget {
   const DiemDanhNhomList({Key? key}) : super(key: key);
   @override
   _DiemDanhNhomListState createState() => _DiemDanhNhomListState();
 }
-
 class _DiemDanhNhomListState extends State<DiemDanhNhomList> {
   List<DiemDanhNhom> _listDiemDanh = List.empty(),
       _orgListDiemDanh = List.empty();
+  List<WorkPositionTableData> _workPositionTable = List.empty();
   TextEditingController _filterController = TextEditingController();
   String _searchString = "";
+  String _teamNameList = "ALL";
+  bool _allTeam = false;
   Future<bool> setDiemDanhNhom(
       int currentTeam, int currentCa, String emplNo, int diemdanhvalue) async {
     bool check = true;
@@ -71,7 +69,6 @@ class _DiemDanhNhomListState extends State<DiemDanhNhomList> {
     });
     return check;
   }
-
   Future<bool> dangKyTangCa(String overtimeInfo, String emplNo) async {
     bool check = true;
     await API_Request.api_query('dangkytangcanhom', {
@@ -87,7 +84,6 @@ class _DiemDanhNhomListState extends State<DiemDanhNhomList> {
     });
     return check;
   }
-
   Future<bool> dangKyNghiAuto(
       int canghi, int reasonCode, String remarkContent, String emplNo) async {
     bool check = true;
@@ -127,7 +123,6 @@ class _DiemDanhNhomListState extends State<DiemDanhNhomList> {
     });
     return check;
   }
-
   Future<bool> xoaDangKyNghiAuto(String emplNo) async {
     bool check = true;
     DateTime now = DateTime.now();
@@ -142,9 +137,10 @@ class _DiemDanhNhomListState extends State<DiemDanhNhomList> {
     });
     return check;
   }
-
   Future<void> loadDiemDanhNhom() async {
-    API_Request.api_query('diemdanhnhom', {'team_name_list': 5}).then((value) {
+    API_Request.api_query(
+            _allTeam ? 'diemdanhnhomBP' : 'diemdanhnhom', {'team_name_list': 5})
+        .then((value) {
       setState((() {
         if (value['tk_status'] == 'OK') {
           List<dynamic> dynamicList = value['data'];
@@ -173,12 +169,66 @@ class _DiemDanhNhomListState extends State<DiemDanhNhomList> {
       }));
     });
   }
-
+  Future<void> loadWorkPositionTable() async {
+    API_Request.api_query('workpositionlist_BP', {}).then((value) {
+      setState((() {
+        if (value['tk_status'] == 'OK') {
+          List<dynamic> dynamicList = value['data'];
+          _workPositionTable = dynamicList.map((dynamic item) {
+            return WorkPositionTableData.fromJson(item);
+          }).toList();
+        } else {}
+      }));
+    });
+  }
+  Future<bool> setTeamNhom(String emplNo, int teamvalueInfo) async {
+    bool check = true;
+    await API_Request.api_query('setteamnhom', {
+      'teamvalue': teamvalueInfo,
+      'EMPL_NO': emplNo,
+    }).then((value) {
+      if (value['tk_status'] == 'OK') {
+        check = true;
+      } else {
+        check = false;
+      }
+    });
+    return check;
+  }
+  Future<bool> setFactory(String emplNo, int factoryValue) async {
+    bool check = true;
+    await API_Request.api_query('setnhamay', {
+      'FACTORY': factoryValue,
+      'EMPL_NO': emplNo,
+    }).then((value) {
+      if (value['tk_status'] == 'OK') {
+        check = true;
+      } else {
+        check = false;
+      }
+    });
+    return check;
+  }
+  Future<bool> setWorkPosition(String emplNo, int workPositionCode) async {
+    bool check = true;
+    await API_Request.api_query('setEMPL_WORK_POSITION', {
+      'WORK_POSITION_CODE': workPositionCode,
+      'EMPL_NO': emplNo,
+    }).then((value) {
+      if (value['tk_status'] == 'OK') {
+        check = true;
+      } else {
+        check = false;
+      }
+    });
+    return check;
+  }
   void filteringList() {
     setState(() {
       _listDiemDanh = GlobalFunction.convertVietnameseString(
-                  _filterController.text.toLowerCase()) !=
-              ""
+                      _filterController.text.toLowerCase()) !=
+                  "" ||
+              _teamNameList != 'ALL'
           ? _orgListDiemDanh.where((element) {
               String fullName = GlobalFunction.convertVietnameseString(
                   ("${element.midlastName} ${element.firstName} ${element.cmsId} ${element.emplNo}")
@@ -186,35 +236,112 @@ class _DiemDanhNhomListState extends State<DiemDanhNhomList> {
               String searchString = GlobalFunction.convertVietnameseString(
                       _filterController.text.toLowerCase())
                   .trim();
-              return fullName.contains(searchString);
+              bool checkTeam = element.workShifName == _teamNameList ||
+                  _teamNameList == 'ALL';
+              return fullName.contains(searchString) && checkTeam;
             }).toList()
           : _orgListDiemDanh;
     });
   }
-
+  final TextEditingController colorController = TextEditingController();
   @override
   void initState() {
+    loadWorkPositionTable();
     loadDiemDanhNhom();
     _filterController.addListener(() {
       filteringList();
     });
     super.initState();
   }
-
   @override
   Widget build(BuildContext context) {
-    final search = TextFormField(
-      controller: _filterController,
-      textInputAction: TextInputAction.next,
-      onChanged: (value) {},
-      keyboardType: TextInputType.text,
-      autofocus: false,
-      decoration: InputDecoration(
-        hintText: 'Tìm tên....',
-        contentPadding: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(0),
-        ),
+    final search = Container(
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.3),
+            spreadRadius: 2.0,
+            blurRadius: 5.0,
+            offset: const Offset(0, 3), // Changes the position of the shadow
+          )
+        ],
+        borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+        gradient: const LinearGradient(
+            colors: [
+              Color.fromARGB(255, 197, 241, 176),
+              Color.fromARGB(255, 174, 207, 236),
+            ],
+            begin: FractionalOffset(0.0, 0.0),
+            end: FractionalOffset(1.0, 0.0),
+            stops: [0.0, 1.0],
+            tileMode: TileMode.clamp),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(
+            width: 120,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Checkbox(
+                    value: _allTeam,
+                    onChanged: (value) {
+                      setState(() {
+                        _allTeam = value!;
+                        loadDiemDanhNhom();
+                      });
+                    }),
+                Text("Cấp cao")
+              ],
+            ),
+          ),
+          SizedBox(
+            width: 120,
+            child: DropdownButton<String>(
+              isDense: true,
+              borderRadius: BorderRadius.circular(10),
+              menuMaxHeight: 200,
+              value: _teamNameList,
+              onChanged: (newValue) {
+                setState(() {
+                  _teamNameList = newValue!;
+                  filteringList();
+                });
+              },
+              items: ['ALL', 'TEAM 1', 'TEAM 2', 'Hành Chính']
+                  .map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(
+                    value,
+                    style: const TextStyle(fontSize: 12),
+                  ),
+                );
+              }).toList(),
+            ),
+          ),
+          SizedBox(
+            width: 150,
+            height: 30,
+            child: TextFormField(
+              controller: _filterController,
+              textInputAction: TextInputAction.next,
+              onChanged: (value) {},
+              keyboardType: TextInputType.text,
+              autofocus: false,
+              decoration: InputDecoration(
+                hintText: 'Tìm tên....',
+                contentPadding: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(0),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
     return Column(
@@ -425,9 +552,106 @@ class _DiemDanhNhomListState extends State<DiemDanhNhomList> {
                                 TextStyle(fontSize: 10.0, color: Colors.white)),
                       ),
                     ]);
+                    final dieuchuyenwidget = Wrap(
+                      spacing: 2.0,
+                      children: [
+                        DropdownButton<WorkPositionTableData>(
+                          isDense: true,
+                          borderRadius: BorderRadius.circular(10),
+                          menuMaxHeight: 200,
+                          value: _workPositionTable
+                              .where((element) =>
+                                  element.WORK_POSITION_CODE ==
+                                  _listDiemDanh[index].workPositionCode)
+                              .first,
+                          onChanged: (newValue) {
+                            setState(() {
+                              _listDiemDanh[index].workPositionCode =
+                                  newValue!.WORK_POSITION_CODE;
+                              _listDiemDanh[index].workPositionName =
+                                  newValue.WORK_POSITION_NAME;
+                              setWorkPosition(_listDiemDanh[index].emplNo,
+                                  newValue.WORK_POSITION_CODE);
+                            });
+                          },
+                          items: _workPositionTable
+                              .map<DropdownMenuItem<WorkPositionTableData>>(
+                                  (WorkPositionTableData value) {
+                            return DropdownMenuItem<WorkPositionTableData>(
+                              value: value,
+                              child: Text(
+                                value.WORK_POSITION_NAME,
+                                style: const TextStyle(fontSize: 12),
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                        DropdownButton<String>(
+                          isDense: true,
+                          borderRadius: BorderRadius.circular(10),
+                          menuMaxHeight: 200,
+                          value: ['NM1', 'NM2']
+                              .where((element) =>
+                                  element ==
+                                  (_listDiemDanh[index].factoryName ==
+                                          "Nhà máy 1"
+                                      ? 'NM1'
+                                      : 'NM2'))
+                              .first,
+                          onChanged: (newValue) {
+                            setState(() {
+                              _listDiemDanh[index].factoryName = newValue!;
+                              int factoryValue = 1;
+                              if (newValue == 'NM2') factoryValue = 2;
+                              setFactory(
+                                  _listDiemDanh[index].emplNo, factoryValue);
+                            });
+                          },
+                          items: ['NM1', 'NM2']
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(
+                                value,
+                                style: TextStyle(fontSize: 12),
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                        DropdownButton<String>(
+                          isDense: true,
+                          borderRadius: BorderRadius.circular(10),
+                          menuMaxHeight: 200,
+                          value: ['TEAM 1', 'TEAM 2', 'Hành Chính']
+                              .where((element) =>
+                                  element == _listDiemDanh[index].workShifName)
+                              .first,
+                          onChanged: (newValue) {
+                            setState(() {
+                              int teamValue = 0;
+                              if (newValue == 'TEAM 1') teamValue = 1;
+                              if (newValue == 'TEAM 2') teamValue = 2;
+                              _listDiemDanh[index].workShifName = newValue!;
+                              setTeamNhom(
+                                  _listDiemDanh[index].emplNo, teamValue);
+                            });
+                          },
+                          items: ['TEAM 1', 'TEAM 2', 'Hành Chính']
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(
+                                value,
+                                style: TextStyle(fontSize: 12),
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                      ],
+                    );
                     return Container(
-                      margin: const EdgeInsets.all(5.0),
-                      padding: const EdgeInsets.all(5.0),
+                      margin: const EdgeInsets.all(2.0),
+                      padding: const EdgeInsets.all(2.0),
                       decoration: BoxDecoration(
                         boxShadow: [
                           BoxShadow(
@@ -453,7 +677,7 @@ class _DiemDanhNhomListState extends State<DiemDanhNhomList> {
                       child: Row(
                         children: [
                           SizedBox(
-                            height: 140.0,
+                            height: 150.0,
                             width: 65,
                             child: Column(
                               children: [
@@ -467,7 +691,7 @@ class _DiemDanhNhomListState extends State<DiemDanhNhomList> {
                             width: 6.0,
                           ),
                           SizedBox(
-                            height: 140,
+                            height: 150,
                             width: 240,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -479,11 +703,7 @@ class _DiemDanhNhomListState extends State<DiemDanhNhomList> {
                                       fontWeight: FontWeight.bold,
                                       fontStyle: FontStyle.italic),
                                 ),
-                                Text(
-                                  "${_listDiemDanh[index].factoryName}/ ${_listDiemDanh[index].workShifName}",
-                                  style: const TextStyle(
-                                      fontStyle: FontStyle.italic),
-                                ),
+                                dieuchuyenwidget,
                                 _listDiemDanh[index].onOff == 1
                                     ? const Text("Đi làm",
                                         style: TextStyle(
@@ -517,7 +737,7 @@ class _DiemDanhNhomListState extends State<DiemDanhNhomList> {
                                         style: const TextStyle(
                                             color: Colors.blueAccent,
                                             fontSize: 20.0,
-                                            fontWeight: FontWeight.bold))
+                                            fontWeight: FontWeight.bold)),
                               ],
                             ),
                           ),
@@ -525,22 +745,26 @@ class _DiemDanhNhomListState extends State<DiemDanhNhomList> {
                             width: 8.0,
                           ),
                           SizedBox(
-                            child: ElevatedButton(
-                              onPressed: () {
-                                setState(() {
-                                  _listDiemDanh[index].onOff = null;
-                                  _listDiemDanh[index].overtime = null;
-                                  xoaDangKyNghiAuto(
-                                      _listDiemDanh[index].emplNo);
-                                });
-                              },
-                              style: ElevatedButton.styleFrom(
-                                  minimumSize: Size.zero,
-                                  padding: const EdgeInsets.all(5.0),
-                                  backgroundColor: Colors.yellowAccent),
-                              child: const Text("RESET",
-                                  style: TextStyle(
-                                      fontSize: 10.0, color: Colors.black)),
+                            child: Column(
+                              children: [
+                                ElevatedButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      _listDiemDanh[index].onOff = null;
+                                      _listDiemDanh[index].overtime = null;
+                                      xoaDangKyNghiAuto(
+                                          _listDiemDanh[index].emplNo);
+                                    });
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                      minimumSize: Size.zero,
+                                      padding: const EdgeInsets.all(5.0),
+                                      backgroundColor: Colors.yellowAccent),
+                                  child: const Text("RESET",
+                                      style: TextStyle(
+                                          fontSize: 10.0, color: Colors.black)),
+                                ),
+                              ],
                             ),
                           )
                         ],

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:cms_flutter/controller/APIRequest.dart';
 import 'package:cms_flutter/controller/GlobalFunction.dart';
@@ -165,8 +166,10 @@ class _HomeWidgetState extends State<HomeWidget> {
     _checkWorkDay();
     _checkOffDay();
     _checkOverTimeDay();
+    
   }
 
+ late Timer _timer;
   @override
   void initState() {
     LocalDataAccess.getVariable('userData').then(
@@ -177,8 +180,17 @@ class _HomeWidgetState extends State<HomeWidget> {
         });
       },
     );
+     _timer = Timer.periodic(Duration(seconds: 30), (timer) {
+      initFunction();
+    });
     initFunction();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
   }
 
   @override
@@ -270,9 +282,10 @@ class _HomeWidgetState extends State<HomeWidget> {
                               const SizedBox(
                                 height: 8.0,
                               ),
-                              Row(
+                              Row(                                
                                 children: [
                                   Container(
+                                      width: 90,                                      
                                       padding: const EdgeInsets.all(8.0),
                                       margin: const EdgeInsets.only(right: 8.0),
                                       decoration: BoxDecoration(
@@ -296,8 +309,15 @@ class _HomeWidgetState extends State<HomeWidget> {
                                               offset: const Offset(0, 3),
                                             ),
                                           ]),
-                                      child: Text(_minTime)),
+                                      child: Row(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Text(_minTime),
+                                        ],
+                                      )),
                                   Container(
+                                      width: 90 ,   
                                       padding: const EdgeInsets.all(8.0),
                                       decoration: BoxDecoration(
                                           borderRadius: const BorderRadius.all(
@@ -320,7 +340,13 @@ class _HomeWidgetState extends State<HomeWidget> {
                                               offset: const Offset(0, 3),
                                             ),
                                           ]),
-                                      child: Text(_maxTime)),
+                                      child: Row(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Text(_maxTime),
+                                        ],
+                                      )),
                                 ],
                               ),
                               const SizedBox(
@@ -341,22 +367,22 @@ class _HomeWidgetState extends State<HomeWidget> {
                                   ),
                                   const SizedBox(height: 20),
                                   Text(
-                                      'Tỉ lệ đi làm: ${((_workDay * 1.0) / (_workingDay * 1.0) * 100).toStringAsFixed(0)}% $_workDay/$_workingDay'),
+                                      'Tỉ lệ đi làm: ${((_workDay * 1.0) / (_workingDay * 1.0) * 100).toStringAsFixed(0)}% ($_workDay/$_workingDay)'),
                                   const SizedBox(
                                     height: 8.0,
                                   ),
                                   CircularProgressIndicator(
+                                    strokeWidth: 5,
                                     value:
                                         (_overTimeDay * 1.0) / (_workDay * 1.0),
-                                    backgroundColor: const Color.fromARGB(
-                                        255, 160, 153, 153),
+                                    backgroundColor: Color.fromARGB(255, 185, 179, 179),
                                     valueColor:
                                         const AlwaysStoppedAnimation<Color>(
-                                            Color.fromARGB(255, 20, 88, 197)),
+                                            Color.fromARGB(255, 63, 242, 227)),
                                   ),
                                   const SizedBox(height: 20),
                                   Text(
-                                      'Tỉ lệ tăng ca: ${((_overTimeDay * 1.0) / (_workDay * 1.0) * 100).toStringAsFixed(0)}% $_overTimeDay/$_workDay'),
+                                      'Tỉ lệ tăng ca: ${((_overTimeDay * 1.0) / (_workDay * 1.0) * 100).toStringAsFixed(0)}% ($_overTimeDay/$_workDay)'),
                                   const SizedBox(
                                     height: 8.0,
                                   ),                                  

@@ -190,7 +190,6 @@ class UserData {
     return data;
   }
 }
-
 class DiemDanhNhom {
     String id;
     String emplNo;
@@ -300,5 +299,40 @@ class DiemDanhNhom {
         "OVERTIME": overtime,
         "REASON_NAME": reasonName,
         "REMARK": remark,
+    };
+}
+class WorkPositionTableData {   
+    String CTR_CD;
+    int SUBDEPTCODE;
+    int WORK_POSITION_CODE;
+    String WORK_POSITION_NAME;
+    String WORK_POSITION_NAME_KR;
+    int ATT_GROUP_CODE;
+
+    WorkPositionTableData({
+      required this.CTR_CD,
+      required this.SUBDEPTCODE,
+      required this.WORK_POSITION_CODE,
+      required this.WORK_POSITION_NAME,
+      required this.WORK_POSITION_NAME_KR,
+      required this.ATT_GROUP_CODE,        
+    });
+
+    factory WorkPositionTableData.fromJson(Map<String, dynamic> json) => WorkPositionTableData(      
+        ATT_GROUP_CODE: json["ATT_GROUP_CODE"],
+        CTR_CD: json["CTR_CD"],
+        SUBDEPTCODE: json["SUBDEPTCODE"],
+        WORK_POSITION_CODE: json["WORK_POSITION_CODE"],
+        WORK_POSITION_NAME: json["WORK_POSITION_NAME"],
+        WORK_POSITION_NAME_KR: json["WORK_POSITION_NAME_KR"],        
+    );
+
+    Map<String, dynamic> toJson() => {        
+        "ATT_GROUP_CODE": ATT_GROUP_CODE,
+        "CTR_CD": CTR_CD,
+        "SUBDEPTCODE": SUBDEPTCODE,
+        "WORK_POSITION_CODE": WORK_POSITION_CODE,
+        "WORK_POSITION_NAME": WORK_POSITION_NAME,
+        "WORK_POSITION_NAME_KR": WORK_POSITION_NAME_KR,        
     };
 }
