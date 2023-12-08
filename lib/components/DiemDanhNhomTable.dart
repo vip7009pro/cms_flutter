@@ -677,13 +677,13 @@ class _DiemDanhNhomListState extends State<DiemDanhNhomList> {
                       child: Row(
                         children: [
                           SizedBox(
-                            height: 150.0,
-                            width: 65,
+                            height: _listDiemDanh[index].onOff== null? 150.0: 110,
+                            width: 70,
                             child: Column(
                               children: [
                                 avatar,
-                                Text(_listDiemDanh[index].emplNo),
-                                Text(_listDiemDanh[index].cmsId),
+                                Text(_listDiemDanh[index].emplNo, style: const TextStyle(fontSize: 10)),
+                                Text(_listDiemDanh[index].cmsId, style: const TextStyle(fontSize: 10)),
                               ],
                             ),
                           ),
@@ -691,7 +691,7 @@ class _DiemDanhNhomListState extends State<DiemDanhNhomList> {
                             width: 6.0,
                           ),
                           SizedBox(
-                            height: 150,
+                            height: _listDiemDanh[index].onOff== null? 150 : 110,
                             width: 240,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
