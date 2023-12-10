@@ -4,9 +4,12 @@ import 'package:cms_flutter/controller/GetXController.dart';
 import 'package:cms_flutter/controller/GlobalFunction.dart';
 import 'package:cms_flutter/pages/HomeWidget.dart';
 import 'package:cms_flutter/pages/LoginPage.dart';
+import 'package:cms_flutter/pages/phongban/nhansu/BaoCaoNhanSu.dart';
 import 'package:cms_flutter/pages/phongban/nhansu/DangKy.dart';
 import 'package:cms_flutter/pages/phongban/nhansu/DiemDanhNhom.dart';
 import 'package:cms_flutter/pages/phongban/nhansu/DieuChuyenTeam.dart';
+import 'package:cms_flutter/pages/phongban/nhansu/LichSuDiLamList.dart';
+import 'package:cms_flutter/pages/phongban/nhansu/PheDuyetNghi.dart';
 import 'package:cms_flutter/pages/phongban/sx/BarcodeScanner.dart';
 import 'package:cms_flutter/pages/phongban/sx/BarcodeScanner2.dart';
 import 'package:cms_flutter/pages/phongban/sx/InputLieu.dart';
@@ -94,24 +97,12 @@ class _HomePageState extends State<HomePage> {
                     FontAwesomeIcons.check,
                     color: Colors.green,
                   ),
-                  title: const Text("Điểm danh nhóm"),
+                  title: const Text("Điểm danh-điều chuyển"),
                   onTap: () {
                     //action on press
                     Get.to(() => const DiemDanhNhom());
                   },
-                ),
-                ListTile(
-                  visualDensity: const VisualDensity(vertical: -3),
-                  leading: const Icon(
-                    Icons.rotate_90_degrees_ccw,
-                    color: Colors.amber,
-                  ),
-                  title: const Text("Điều chuyển Team"),
-                  onTap: () {
-                    //action on press
-                    Get.to(() => const DieuChuyenTeam());
-                  },
-                ),
+                ),                
                 ListTile(
                   visualDensity: const VisualDensity(vertical: -3),
                   leading: const Icon(
@@ -133,7 +124,7 @@ class _HomePageState extends State<HomePage> {
                   title: const Text("Phê duyệt nghỉ"),
                   onTap: () {
                     //action on press
-                    Get.to(() => const DangKy());
+                    Get.to(() => const PheDuyetNghi());
                   },
                 ),
                 ListTile(
@@ -145,21 +136,9 @@ class _HomePageState extends State<HomePage> {
                   title: const Text("Lịch sử đi làm"),
                   onTap: () {
                     //action on press
-                    Get.to(() => const DangKy());
+                    Get.to(() =>  LichSuDiLamTable());
                   },
-                ),
-                ListTile(
-                  visualDensity: const VisualDensity(vertical: -3),
-                  leading: const Icon(
-                    Icons.person_2,
-                    color: Colors.redAccent,
-                  ),
-                  title: const Text("Quản lý cấp cao"),
-                  onTap: () {
-                    //action on press
-                    Get.to(() => const QRViewExample2());
-                  },
-                ),
+                ),                
                 ListTile(
                   visualDensity: const VisualDensity(vertical: -3),
                   leading: const Icon(
@@ -169,7 +148,7 @@ class _HomePageState extends State<HomePage> {
                   title: const Text("Báo cáo nhân sự"),
                   onTap: () {
                     //action on press
-                    Get.to(() => const QRViewExample());
+                    Get.to(() => const BaoCaoNhanSu());
                   },
                 ),
                 ListTile(

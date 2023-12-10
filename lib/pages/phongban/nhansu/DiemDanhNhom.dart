@@ -28,8 +28,7 @@ class _DiemDanhNhomState extends State<DiemDanhNhom> {
           ),
           title: const Text('Điểm danh nhóm', style: TextStyle(color: Colors.blueAccent),),
         ),
-        body: DiemDanhNhomTable());
-    
+        body: DiemDanhNhomTable());   
     
   }
 }

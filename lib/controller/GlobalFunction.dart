@@ -37,6 +37,8 @@ class GlobalFunction {
 }
 
 static String MyDate(String format, String datetimedata) {
+  if(datetimedata == null)  
+  return "";
   return DateFormat(format).format(DateTime.parse(datetimedata));
 }
 }
