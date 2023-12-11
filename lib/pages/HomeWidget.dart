@@ -16,6 +16,7 @@ class HomeWidget extends StatefulWidget {
 
 class _HomeWidgetState extends State<HomeWidget> {
   int _workDay = 1, _overTimeDay = 0, _OffDay = 0, _workingDay = 1;
+  TextEditingController _verTextController = TextEditingController();
   UserData _myUserData = UserData(
       aDDCOMMUNE: '',
       aDDDISTRICT: '',
@@ -141,8 +142,6 @@ class _HomeWidgetState extends State<HomeWidget> {
     return check;
   }
 
-
-
   Future<int> _countWorkingDays() async {
     DateTime startDate = DateTime(DateTime.now().year, 1, 1);
     DateTime endDate = DateTime.now();
@@ -181,6 +180,7 @@ class _HomeWidgetState extends State<HomeWidget> {
         });
       },
     );
+      
      _timer = Timer.periodic(Duration(seconds: 30), (timer) {
       initFunction();
     });
@@ -395,6 +395,55 @@ class _HomeWidgetState extends State<HomeWidget> {
                         ],
                       ),
                     ),
+                     Container(                      
+                      width: double.infinity,                     
+                      margin: const EdgeInsets.only(top: 8.0),
+                      padding: const EdgeInsets.all(8.0),
+                      decoration: BoxDecoration(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(5)),
+                          gradient: const LinearGradient(
+                              colors: [
+                                Color.fromARGB(255, 237, 248, 243),
+                                Color.fromARGB(255, 125, 196, 217),
+                              ],
+                              begin: FractionalOffset(1.0, 0.5),
+                              end: FractionalOffset(0.0, 1.0),
+                              stops: [0.0, 1.0],
+                              tileMode: TileMode.clamp),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.2),
+                              spreadRadius: 5,
+                              blurRadius: 10,
+                              offset: const Offset(0, 3),
+                            ),
+                          ]),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                         Container(
+                  width: 100,
+                  height: 60,
+                  child: TextFormField(
+                    controller: _verTextController,
+                decoration: InputDecoration(labelText: 'Input Ver'),
+                onChanged: (value) {
+                  setState(() {
+                    _verTextController.text = value;
+                  });
+                },
+              ),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+
+                  
+                  },
+                  child: Text('Up Ver'),
+                ),]),
+                    ),
                     
                     Container(
                       width: double.infinity,
@@ -488,6 +537,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                         ],
                       ),
                     ),
+                   
                   ],
                 ),
               ],

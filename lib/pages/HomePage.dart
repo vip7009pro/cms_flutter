@@ -37,8 +37,8 @@ Future<void> tryOtaUpdate() async {
       //LINK CONTAINS APK OF FLUTTER HELLO WORLD FROM FLUTTER SDK EXAMPLES
       OtaUpdate()
           .execute(
-        'http://cms.ddns.net:3010/update/cms.apk',
-        destinationFilename: 'cms.apk',
+        'http://cms.ddns.net:3010/update/app-release.apk',
+        destinationFilename: 'app-release.apk',
         //FOR NOW ANDROID ONLY - ABILITY TO VALIDATE CHECKSUM OF FILE:
         //sha256checksum: 'd6da28451a1e15cf7a75f2c3f151befad3b80ad0bb232ab15c20897e54f21478',
       )
@@ -64,7 +64,7 @@ Future<void> tryOtaUpdate() async {
   final logo = Image.asset('assets/images/cmslogo.jpg', width: 120, fit: BoxFit.cover);
  
 
-  int mobileVer =1; 
+  int mobileVer =2; 
   late Timer _timer;
 
  Future<bool> _checkMobileVer() async {
@@ -98,7 +98,7 @@ Future<void> tryOtaUpdate() async {
 
 @override
 void initState() {
-   _checkMobileVer();
+   //_checkMobileVer();
     _timer = Timer.periodic(Duration(seconds: 5), (timer) {
       _checkMobileVer();
     });
@@ -122,7 +122,8 @@ void initState() {
               const Text(
                 "Home",
               ),
-              logo
+              logo,
+              Text("Ver: ${mobileVer}", style: TextStyle(fontSize: 10),)
             ],
           ),
           backgroundColor: Colors.transparent,
@@ -595,7 +596,7 @@ void initState() {
           backgroundColor: Color.fromARGB(255, 207, 217, 236),
           child: Icon(Icons.menu),
           onPressed: () {
-             tryOtaUpdate();
+             //tryOtaUpdate();
             Scaffold.of(context).openDrawer(); // <-- Opens drawer.
           }
         );
