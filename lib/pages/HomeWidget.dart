@@ -141,6 +141,8 @@ class _HomeWidgetState extends State<HomeWidget> {
     return check;
   }
 
+
+
   Future<int> _countWorkingDays() async {
     DateTime startDate = DateTime(DateTime.now().year, 1, 1);
     DateTime endDate = DateTime.now();
@@ -165,8 +167,7 @@ class _HomeWidgetState extends State<HomeWidget> {
     _checkMyChamCong();
     _checkWorkDay();
     _checkOffDay();
-    _checkOverTimeDay();
-    
+    _checkOverTimeDay();   
   }
 
  late Timer _timer;

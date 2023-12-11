@@ -1,5 +1,6 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cms_flutter/components/HomeDrawerHeader.dart';
+import 'package:cms_flutter/controller/APIRequest.dart';
 import 'package:cms_flutter/controller/GetXController.dart';
 import 'package:cms_flutter/controller/GlobalFunction.dart';
 import 'package:cms_flutter/pages/HomeWidget.dart';
@@ -14,9 +15,12 @@ import 'package:cms_flutter/pages/phongban/sx/BarcodeScanner.dart';
 import 'package:cms_flutter/pages/phongban/sx/BarcodeScanner2.dart';
 import 'package:cms_flutter/pages/phongban/sx/InputLieu.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'dart:async';
+import 'package:ota_update/ota_update.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
   @override
@@ -24,6 +28,31 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 class _HomePageState extends State<HomePage> {
+
+  OtaEvent? currentEvent;
+
+Future<void> tryOtaUpdate() async {
+    try {
+      print('ABI Platform: ${await OtaUpdate().getAbi()}');
+      //LINK CONTAINS APK OF FLUTTER HELLO WORLD FROM FLUTTER SDK EXAMPLES
+      OtaUpdate()
+          .execute(
+        'http://cms.ddns.net:3010/update/cms.apk',
+        destinationFilename: 'cms.apk',
+        //FOR NOW ANDROID ONLY - ABILITY TO VALIDATE CHECKSUM OF FILE:
+        //sha256checksum: 'd6da28451a1e15cf7a75f2c3f151befad3b80ad0bb232ab15c20897e54f21478',
+      )
+          .listen(
+        (OtaEvent event) {
+          setState(() => currentEvent = event);
+        },
+      );
+      // ignore: avoid_catches_without_on_clauses
+    } catch (e) {
+      print('Failed to make OTA update. Details: $e');
+    }
+  }
+
   int _selectedBottomIndex = 0;
 
   final GlobalController c = Get.put(GlobalController());
@@ -34,6 +63,54 @@ class _HomePageState extends State<HomePage> {
   }
   final logo = Image.asset('assets/images/cmslogo.jpg', width: 120, fit: BoxFit.cover);
  
+
+  int mobileVer =1; 
+  late Timer _timer;
+
+ Future<bool> _checkMobileVer() async {
+    bool check = true;
+    await API_Request.api_query('checkWebVer', {}).then((value) {
+      if (value['tk_status'] == 'OK') {
+        check = true;
+        var response = value['data'][0];      
+        print(response);  
+          int serverMobileVer = response['VERMOBILE'];
+          if(mobileVer < serverMobileVer) {
+            _timer.cancel();
+             AwesomeDialog(
+                  context: context,
+                  dialogType: DialogType.info,
+                  animType: AnimType.rightSlide,
+                  title: 'Thông báo',
+                  desc: 'Có phiên bản mới, update nhé !',
+                  btnCancelOnPress: () {},
+                  btnOkOnPress: () {                  
+                   tryOtaUpdate();
+                  },
+                ).show();            
+          }
+      } else {
+        check = false;
+      }
+    });
+    return check;
+  }
+
+@override
+void initState() {
+   _checkMobileVer();
+    _timer = Timer.periodic(Duration(seconds: 5), (timer) {
+      _checkMobileVer();
+    });
+  super.initState();}
+  
+  
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -517,8 +594,10 @@ class _HomePageState extends State<HomePage> {
         return FloatingActionButton(
           backgroundColor: Color.fromARGB(255, 207, 217, 236),
           child: Icon(Icons.menu),
-          onPressed: () =>
-              Scaffold.of(context).openDrawer(), // <-- Opens drawer.
+          onPressed: () {
+             tryOtaUpdate();
+            Scaffold.of(context).openDrawer(); // <-- Opens drawer.
+          }
         );
       }),
     );

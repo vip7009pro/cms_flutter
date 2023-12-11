@@ -17,7 +17,7 @@ dependencies:
   dio_cookie_manager: ^3.1.0+1
   cookie_jar: ^4.0.8
   get: ^4.6.5
-  syncfusion_flutter_datagrid: ^23.2.7
+
   flutter_barcode_scanner: ^2.0.0
   qr_code_scanner: ^1.0.1
   flutter_beep: ^1.0.0
@@ -30,6 +30,7 @@ dependencies:
   syncfusion_flutter_core: ^23.2.7
   syncfusion_flutter_gauges: ^23.2.7
   syncfusion_flutter_charts: ^23.2.7
+  syncfusion_flutter_datagrid: ^23.2.7
 
 dev_dependencies:
   flutter_test:
