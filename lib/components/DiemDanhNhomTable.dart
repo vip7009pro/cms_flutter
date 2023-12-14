@@ -16,7 +16,6 @@ class DiemDanhNhomTable extends StatefulWidget {
   _DiemDanhNhomTableState createState() => _DiemDanhNhomTableState();
 }
 class _DiemDanhNhomTableState extends State<DiemDanhNhomTable> {
-  List<DiemDanhNhom> employees = <DiemDanhNhom>[];
   @override
   void initState() {
     super.initState();

@@ -11,6 +11,7 @@ import 'package:cms_flutter/pages/phongban/nhansu/DiemDanhNhom.dart';
 import 'package:cms_flutter/pages/phongban/nhansu/DieuChuyenTeam.dart';
 import 'package:cms_flutter/pages/phongban/nhansu/LichSuDiLamList.dart';
 import 'package:cms_flutter/pages/phongban/nhansu/PheDuyetNghi.dart';
+import 'package:cms_flutter/pages/phongban/nhansu/QuanLyPhongBanNhanSu.dart';
 import 'package:cms_flutter/pages/phongban/sx/BarcodeScanner.dart';
 import 'package:cms_flutter/pages/phongban/sx/BarcodeScanner2.dart';
 import 'package:cms_flutter/pages/phongban/sx/InputLieu.dart';
@@ -64,7 +65,7 @@ Future<void> tryOtaUpdate() async {
   final logo = Image.asset('assets/images/cmslogo.jpg', width: 120, fit: BoxFit.cover);
  
 
-  int mobileVer =2; 
+  int mobileVer =4; 
   late Timer _timer;
 
  Future<bool> _checkMobileVer() async {
@@ -95,6 +96,7 @@ Future<void> tryOtaUpdate() async {
     });
     return check;
   }
+
 
 @override
 void initState() {
@@ -238,7 +240,7 @@ void initState() {
                   title: const Text("Quản lý phòng ban-nhân sự"),
                   onTap: () {
                     //action on press
-                    Get.to(() => const InputLieu());
+                    Get.to(() => const QuanLyPhongBanNhanSu());
                   },
                 ),
                 //more child menu

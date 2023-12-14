@@ -238,7 +238,7 @@ class _MyDiemDanhListState extends State<MyDiemDanhList> {
                           SizedBox(
                             width: 100,
                             child: Text(
-                              "${index +1}.${GlobalFunction.MyDate('yyyy-MM-dd', rowData.dATECOLUMN.toString())}",
+                              "${index + 1}.${GlobalFunction.MyDate('yyyy-MM-dd', rowData.dATECOLUMN.toString())}",
                               style: TextStyle(
                                   color: rowData.cHECK2 == null
                                       ? Colors.red
@@ -289,7 +289,12 @@ class _MyDiemDanhListState extends State<MyDiemDanhList> {
                                 : Text('-',
                                     style: TextStyle(color: Colors.grey)),
                           ),
-                          rowData.cHECK2 != null? Icon(Icons.check, color: Colors.green,): Icon(Icons.cancel, color: Colors.red)
+                          rowData.cHECK2 != null
+                              ? Icon(
+                                  Icons.check,
+                                  color: Colors.green,
+                                )
+                              : Icon(Icons.cancel, color: Colors.red)
                         ],
                       ),
                     );

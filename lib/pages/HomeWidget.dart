@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cms_flutter/controller/APIRequest.dart';
 import 'package:cms_flutter/controller/GlobalFunction.dart';
 import 'package:cms_flutter/controller/LocalDataAccess.dart';
@@ -7,13 +8,11 @@ import 'package:cms_flutter/model/DataInterfaceClass.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
-
 class HomeWidget extends StatefulWidget {
   const HomeWidget({Key? key}) : super(key: key);
   @override
   _HomeWidgetState createState() => _HomeWidgetState();
 }
-
 class _HomeWidgetState extends State<HomeWidget> {
   int _workDay = 1, _overTimeDay = 0, _OffDay = 0, _workingDay = 1;
   TextEditingController _verTextController = TextEditingController();
@@ -93,7 +92,6 @@ class _HomeWidgetState extends State<HomeWidget> {
     });
     return check;
   }
-
   Future<bool> _checkWorkDay() async {
     bool check = true;
     await API_Request.api_query('workdaycheck', {}).then((value) {
@@ -109,7 +107,6 @@ class _HomeWidgetState extends State<HomeWidget> {
     });
     return check;
   }
-
   Future<bool> _checkOverTimeDay() async {
     bool check = true;
     await API_Request.api_query('tangcadaycheck', {}).then((value) {
@@ -125,7 +122,6 @@ class _HomeWidgetState extends State<HomeWidget> {
     });
     return check;
   }
-
   Future<bool> _checkOffDay() async {
     bool check = true;
     await API_Request.api_query('nghidaycheck', {}).then((value) {
@@ -141,7 +137,6 @@ class _HomeWidgetState extends State<HomeWidget> {
     });
     return check;
   }
-
   Future<int> _countWorkingDays() async {
     DateTime startDate = DateTime(DateTime.now().year, 1, 1);
     DateTime endDate = DateTime.now();
@@ -160,16 +155,34 @@ class _HomeWidgetState extends State<HomeWidget> {
     _workingDay = workingDays;
     return workingDays;
   }
-
   Future<void> initFunction() async {
     _countWorkingDays();
     _checkMyChamCong();
     _checkWorkDay();
     _checkOffDay();
-    _checkOverTimeDay();   
+    _checkOverTimeDay();
   }
-
- late Timer _timer;
+  Future<bool> _setMobileVer() async {
+    bool check = true;
+    await API_Request.api_query(
+        'setMobileVer', {'VERMOBILE': _verTextController.text}).then((value) {
+      if (value['tk_status'] == 'OK') {
+        check = true;
+        AwesomeDialog(
+          context: context,
+          dialogType: DialogType.info,
+          animType: AnimType.rightSlide,
+          title: 'Thông báo',
+          desc: 'Up ver mobile thành công!',
+          btnOkOnPress: () {},
+        ).show();
+      } else {
+        check = false;
+      }
+    });
+    return check;
+  }
+  late Timer _timer;
   @override
   void initState() {
     LocalDataAccess.getVariable('userData').then(
@@ -180,20 +193,17 @@ class _HomeWidgetState extends State<HomeWidget> {
         });
       },
     );
-      
-     _timer = Timer.periodic(Duration(seconds: 30), (timer) {
+    _timer = Timer.periodic(Duration(seconds: 30), (timer) {
       initFunction();
     });
     initFunction();
     super.initState();
   }
-
   @override
   void dispose() {
     _timer.cancel();
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     final avatar = Container(
@@ -283,10 +293,10 @@ class _HomeWidgetState extends State<HomeWidget> {
                               const SizedBox(
                                 height: 8.0,
                               ),
-                              Row(                                
+                              Row(
                                 children: [
                                   Container(
-                                      width: 90,                                      
+                                      width: 90,
                                       padding: const EdgeInsets.all(8.0),
                                       margin: const EdgeInsets.only(right: 8.0),
                                       decoration: BoxDecoration(
@@ -294,8 +304,10 @@ class _HomeWidgetState extends State<HomeWidget> {
                                               Radius.circular(5)),
                                           gradient: const LinearGradient(
                                               colors: [
-                                                Color.fromARGB(255, 204, 234, 240),
-                                                Color.fromARGB(255, 158, 202, 239),
+                                                Color.fromARGB(
+                                                    255, 204, 234, 240),
+                                                Color.fromARGB(
+                                                    255, 158, 202, 239),
                                               ],
                                               begin: FractionalOffset(0.0, 1.0),
                                               end: FractionalOffset(0.0, 0.0),
@@ -311,22 +323,26 @@ class _HomeWidgetState extends State<HomeWidget> {
                                             ),
                                           ]),
                                       child: Row(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
                                           Text(_minTime),
                                         ],
                                       )),
                                   Container(
-                                      width: 90 ,   
+                                      width: 90,
                                       padding: const EdgeInsets.all(8.0),
                                       decoration: BoxDecoration(
                                           borderRadius: const BorderRadius.all(
                                               Radius.circular(5)),
                                           gradient: const LinearGradient(
                                               colors: [
-                                                Color.fromARGB(255, 204, 234, 240),
-                                                Color.fromARGB(255, 158, 202, 239),
+                                                Color.fromARGB(
+                                                    255, 204, 234, 240),
+                                                Color.fromARGB(
+                                                    255, 158, 202, 239),
                                               ],
                                               begin: FractionalOffset(0.0, 1.0),
                                               end: FractionalOffset(0.0, 0.0),
@@ -342,8 +358,10 @@ class _HomeWidgetState extends State<HomeWidget> {
                                             ),
                                           ]),
                                       child: Row(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
                                           Text(_maxTime),
                                         ],
@@ -376,7 +394,8 @@ class _HomeWidgetState extends State<HomeWidget> {
                                     strokeWidth: 5,
                                     value:
                                         (_overTimeDay * 1.0) / (_workDay * 1.0),
-                                    backgroundColor: Color.fromARGB(255, 185, 179, 179),
+                                    backgroundColor:
+                                        Color.fromARGB(255, 185, 179, 179),
                                     valueColor:
                                         const AlwaysStoppedAnimation<Color>(
                                             Color.fromARGB(255, 63, 242, 227)),
@@ -386,65 +405,75 @@ class _HomeWidgetState extends State<HomeWidget> {
                                       'Tỉ lệ tăng ca: ${((_overTimeDay * 1.0) / (_workDay * 1.0) * 100).toStringAsFixed(0)}% ($_overTimeDay/$_workDay)'),
                                   const SizedBox(
                                     height: 8.0,
-                                  ),                                  
+                                  ),
                                 ],
                               )
                             ],
                           ),
-                         
                         ],
                       ),
                     ),
-                     Container(                      
-                      width: double.infinity,                     
-                      margin: const EdgeInsets.only(top: 8.0),
-                      padding: const EdgeInsets.all(8.0),
-                      decoration: BoxDecoration(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(5)),
-                          gradient: const LinearGradient(
-                              colors: [
-                                Color.fromARGB(255, 237, 248, 243),
-                                Color.fromARGB(255, 125, 196, 217),
-                              ],
-                              begin: FractionalOffset(1.0, 0.5),
-                              end: FractionalOffset(0.0, 1.0),
-                              stops: [0.0, 1.0],
-                              tileMode: TileMode.clamp),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.2),
-                              spreadRadius: 5,
-                              blurRadius: 10,
-                              offset: const Offset(0, 3),
-                            ),
-                          ]),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                         Container(
-                  width: 100,
-                  height: 60,
-                  child: TextFormField(
-                    controller: _verTextController,
-                decoration: InputDecoration(labelText: 'Input Ver'),
-                onChanged: (value) {
-                  setState(() {
-                    _verTextController.text = value;
-                  });
-                },
-              ),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-
-                  
-                  },
-                  child: Text('Up Ver'),
-                ),]),
-                    ),
-                    
+                    _myUserData.eMPLNO == 'NHU1903'
+                        ? Container(
+                            width: double.infinity,
+                            margin: const EdgeInsets.only(top: 8.0),
+                            padding: const EdgeInsets.all(8.0),
+                            decoration: BoxDecoration(
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(5)),
+                                gradient: const LinearGradient(
+                                    colors: [
+                                      Color.fromARGB(255, 237, 248, 243),
+                                      Color.fromARGB(255, 125, 196, 217),
+                                    ],
+                                    begin: FractionalOffset(1.0, 0.5),
+                                    end: FractionalOffset(0.0, 1.0),
+                                    stops: [0.0, 1.0],
+                                    tileMode: TileMode.clamp),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.2),
+                                    spreadRadius: 5,
+                                    blurRadius: 10,
+                                    offset: const Offset(0, 3),
+                                  ),
+                                ]),
+                            child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    width: 100,
+                                    height: 60,
+                                    child: TextFormField(
+                                      keyboardType: TextInputType.number,
+                                      controller: _verTextController,
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return 'Please enter a numeric value';
+                                        }
+                                        // You can add additional validation logic here if needed
+                                        return null;
+                                      },
+                                      decoration: const InputDecoration(
+                                          labelText: 'Input Ver'),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          _verTextController.text = value;
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      _setMobileVer();
+                                    },
+                                    child: Text('Up Ver'),
+                                  ),
+                                ]),
+                          )
+                        : Text(''),
                     Container(
                       width: double.infinity,
                       margin: const EdgeInsets.only(top: 8.0),
@@ -537,7 +566,6 @@ class _HomeWidgetState extends State<HomeWidget> {
                         ],
                       ),
                     ),
-                   
                   ],
                 ),
               ],

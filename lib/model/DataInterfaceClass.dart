@@ -736,7 +736,7 @@ class DiemDanhNhomDataSummary {
   int? tOTAL;
   int? tOTALON;
   int? tOTALOFF;
-  double? oNRATE;
+  num? oNRATE;
 
   DiemDanhNhomDataSummary(
       {this.id,
@@ -762,6 +762,43 @@ class DiemDanhNhomDataSummary {
     data['TOTAL'] = this.tOTAL;
     data['TOTAL_ON'] = this.tOTALON;
     data['TOTAL_OFF'] = this.tOTALOFF;
+    data['ON_RATE'] = this.oNRATE;
+    return data;
+  }
+}
+
+class DIEMDANHMAINDEPT {
+  String? mAINDEPTNAME;
+  int? cOUNTTOTAL;
+  int? cOUTON;
+  int? cOUTOFF;
+  int? cOUNTCDD;
+  num? oNRATE;
+
+  DIEMDANHMAINDEPT(
+      {this.mAINDEPTNAME,
+      this.cOUNTTOTAL,
+      this.cOUTON,
+      this.cOUTOFF,
+      this.cOUNTCDD,
+      this.oNRATE});
+
+  DIEMDANHMAINDEPT.fromJson(Map<String, dynamic> json) {
+    mAINDEPTNAME = json['MAINDEPTNAME'];
+    cOUNTTOTAL = json['COUNT_TOTAL'];
+    cOUTON = json['COUT_ON'];
+    cOUTOFF = json['COUT_OFF'];
+    cOUNTCDD = json['COUNT_CDD'];
+    oNRATE = json['ON_RATE'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['MAINDEPTNAME'] = this.mAINDEPTNAME;
+    data['COUNT_TOTAL'] = this.cOUNTTOTAL;
+    data['COUT_ON'] = this.cOUTON;
+    data['COUT_OFF'] = this.cOUTOFF;
+    data['COUNT_CDD'] = this.cOUNTCDD;
     data['ON_RATE'] = this.oNRATE;
     return data;
   }
