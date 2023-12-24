@@ -90,8 +90,7 @@ class _MyListState extends State<MyList> {
               // Swiped to the right (approve)
              
             } else {
-              // Swiped to the left (delete)
-             
+              // Swiped to the left (delete)             
              
             }
           },
