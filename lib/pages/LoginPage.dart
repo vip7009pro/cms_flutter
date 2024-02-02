@@ -80,8 +80,7 @@ Future<void> _loadAccount() async{
           setState((() {
             if (value['tk_status'] == 'ok') {
               result = 1;
-              LocalDataAccess.saveVariable(
-                  'userData', jsonEncode(value['data']));
+              LocalDataAccess.saveVariable('userData', jsonEncode(value['data']));
               c.changeLoggedInUser(jsonEncode(value['data']));
               LocalDataAccess.getVariable('userData').then(
                 (value) {

@@ -98,7 +98,7 @@ class _MyDiemDanhListState extends State<MyDiemDanhList> {
   @override
   void initState() {
     DateTime rightnow = DateTime.now();
-    fromDate = DateTime.parse('${rightnow.year}-${rightnow.month}-01');
+    fromDate = DateTime.parse('${rightnow.year}-${rightnow.month.toString().padLeft(2,"0")}-01');
     _fromDateController.text =
         GlobalFunction.MyDate('yyyy-MM-dd', fromDate.toString());
     _toDateController.text =

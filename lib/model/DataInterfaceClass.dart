@@ -576,7 +576,6 @@ class PheDuyetNhomData {
     return data;
   }
 }
-
 class MyDiemDanhData {
   String? dATECOLUMN;
   int? nVCCID;
@@ -729,7 +728,6 @@ class MyDiemDanhData {
     return data;
   }
 }
-
 class DiemDanhNhomDataSummary {
   String? id;
   String? aPPLYDATE;
@@ -766,7 +764,6 @@ class DiemDanhNhomDataSummary {
     return data;
   }
 }
-
 class DIEMDANHMAINDEPT {
   String? mAINDEPTNAME;
   int? cOUNTTOTAL;
