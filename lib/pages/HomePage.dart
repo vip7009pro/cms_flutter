@@ -38,7 +38,7 @@ Future<void> tryOtaUpdate() async {
       //LINK CONTAINS APK OF FLUTTER HELLO WORLD FROM FLUTTER SDK EXAMPLES
       OtaUpdate()
           .execute(
-        'http://cms.ddns.net:3010/update/app-release.apk',
+        'https://cms.ddns.net/update/app-release.apk',
         destinationFilename: 'app-release.apk',
         //FOR NOW ANDROID ONLY - ABILITY TO VALIDATE CHECKSUM OF FILE:
         //sha256checksum: 'd6da28451a1e15cf7a75f2c3f151befad3b80ad0bb232ab15c20897e54f21478',
@@ -65,7 +65,7 @@ Future<void> tryOtaUpdate() async {
   final logo = Image.asset('assets/images/cmslogo.jpg', width: 120, fit: BoxFit.cover);
  
 
-  int mobileVer =4; 
+  int mobileVer =5; 
   late Timer _timer;
 
  Future<bool> _checkMobileVer() async {
