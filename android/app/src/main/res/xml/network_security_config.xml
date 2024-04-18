@@ -4,4 +4,5 @@
         <domain includeSubdomains="true">cms.ddns.net</domain>
         <domain includeSubdomains="true">14.160.33.94</domain>
     </domain-config>
+    <base-config cleartextTrafficPermitted="true" />
 </network-security-config>

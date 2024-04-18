@@ -909,3 +909,207 @@ class WORKPOSITIONDATA {
     return data;
   }
 }
+class EmployeeData {
+  dynamic nVCCID;
+  String? id;
+  String? eMPLNO;
+  String? cMSID;
+  String? fIRSTNAME;
+  String? mIDLASTNAME;
+  String? dOB;
+  String? hOMETOWN;
+  String? aDDPROVINCE;
+  String? aDDDISTRICT;
+  String? aDDCOMMUNE;
+  String? aDDVILLAGE;
+  String? pHONENUMBER;
+  String? wORKSTARTDATE;
+  String? pASSWORD;
+  String? eMAIL;
+  dynamic rEMARK;
+  dynamic oNLINEDATETIME;
+  String? cTRCD;
+  int? sEXCODE;
+  String? sEXNAME;
+  String? sEXNAMEKR;
+  int? wORKSTATUSCODE;
+  String? wORKSTATUSNAME;
+  String? wORKSTATUSNAMEKR;
+  int? fACTORYCODE;
+  String? fACTORYNAME;
+  String? fACTORYNAMEKR;
+  int? jOBCODE;
+  String? jOBNAME;
+  String? jOBNAMEKR;
+  int? pOSITIONCODE;
+  String? pOSITIONNAME;
+  String? pOSITIONNAMEKR;
+  int? wORKSHIFTCODE;
+  String? wORKSHIFNAME;
+  String? wORKSHIFNAMEKR;
+  int? wORKPOSITIONCODE;
+  String? wORKPOSITIONNAME;
+  String? wORKPOSITIONNAMEKR;
+  int? aTTGROUPCODE;
+  int? sUBDEPTCODE;
+  String? sUBDEPTNAME;
+  String? sUBDEPTNAMEKR;
+  int? mAINDEPTCODE;
+  String? mAINDEPTNAME;
+  String? mAINDEPTNAMEKR;
+  dynamic eMPLIMAGE;
+
+  EmployeeData(
+      {this.nVCCID,
+      this.id,
+      this.eMPLNO,
+      this.cMSID,
+      this.fIRSTNAME,
+      this.mIDLASTNAME,
+      this.dOB,
+      this.hOMETOWN,
+      this.aDDPROVINCE,
+      this.aDDDISTRICT,
+      this.aDDCOMMUNE,
+      this.aDDVILLAGE,
+      this.pHONENUMBER,
+      this.wORKSTARTDATE,
+      this.pASSWORD,
+      this.eMAIL,
+      this.rEMARK,
+      this.oNLINEDATETIME,
+      this.cTRCD,
+      this.sEXCODE,
+      this.sEXNAME,
+      this.sEXNAMEKR,
+      this.wORKSTATUSCODE,
+      this.wORKSTATUSNAME,
+      this.wORKSTATUSNAMEKR,
+      this.fACTORYCODE,
+      this.fACTORYNAME,
+      this.fACTORYNAMEKR,
+      this.jOBCODE,
+      this.jOBNAME,
+      this.jOBNAMEKR,
+      this.pOSITIONCODE,
+      this.pOSITIONNAME,
+      this.pOSITIONNAMEKR,
+      this.wORKSHIFTCODE,
+      this.wORKSHIFNAME,
+      this.wORKSHIFNAMEKR,
+      this.wORKPOSITIONCODE,
+      this.wORKPOSITIONNAME,
+      this.wORKPOSITIONNAMEKR,
+      this.aTTGROUPCODE,
+      this.sUBDEPTCODE,
+      this.sUBDEPTNAME,
+      this.sUBDEPTNAMEKR,
+      this.mAINDEPTCODE,
+      this.mAINDEPTNAME,
+      this.mAINDEPTNAMEKR,
+      this.eMPLIMAGE});
+
+  EmployeeData.fromJson(Map<String, dynamic> json) {
+    nVCCID = json['NV_CCID'];
+    id = json['id'];
+    eMPLNO = json['EMPL_NO'];
+    cMSID = json['CMS_ID'];
+    fIRSTNAME = json['FIRST_NAME'];
+    mIDLASTNAME = json['MIDLAST_NAME'];
+    dOB = json['DOB'];
+    hOMETOWN = json['HOMETOWN'];
+    aDDPROVINCE = json['ADD_PROVINCE'];
+    aDDDISTRICT = json['ADD_DISTRICT'];
+    aDDCOMMUNE = json['ADD_COMMUNE'];
+    aDDVILLAGE = json['ADD_VILLAGE'];
+    pHONENUMBER = json['PHONE_NUMBER'];
+    wORKSTARTDATE = json['WORK_START_DATE'];
+    pASSWORD = json['PASSWORD'];
+    eMAIL = json['EMAIL'];
+    rEMARK = json['REMARK'];
+    oNLINEDATETIME = json['ONLINE_DATETIME'];
+    cTRCD = json['CTR_CD'];
+    sEXCODE = json['SEX_CODE'];
+    sEXNAME = json['SEX_NAME'];
+    sEXNAMEKR = json['SEX_NAME_KR'];
+    wORKSTATUSCODE = json['WORK_STATUS_CODE'];
+    wORKSTATUSNAME = json['WORK_STATUS_NAME'];
+    wORKSTATUSNAMEKR = json['WORK_STATUS_NAME_KR'];
+    fACTORYCODE = json['FACTORY_CODE'];
+    fACTORYNAME = json['FACTORY_NAME'];
+    fACTORYNAMEKR = json['FACTORY_NAME_KR'];
+    jOBCODE = json['JOB_CODE'];
+    jOBNAME = json['JOB_NAME'];
+    jOBNAMEKR = json['JOB_NAME_KR'];
+    pOSITIONCODE = json['POSITION_CODE'];
+    pOSITIONNAME = json['POSITION_NAME'];
+    pOSITIONNAMEKR = json['POSITION_NAME_KR'];
+    wORKSHIFTCODE = json['WORK_SHIFT_CODE'];
+    wORKSHIFNAME = json['WORK_SHIF_NAME'];
+    wORKSHIFNAMEKR = json['WORK_SHIF_NAME_KR'];
+    wORKPOSITIONCODE = json['WORK_POSITION_CODE'];
+    wORKPOSITIONNAME = json['WORK_POSITION_NAME'];
+    wORKPOSITIONNAMEKR = json['WORK_POSITION_NAME_KR'];
+    aTTGROUPCODE = json['ATT_GROUP_CODE'];
+    sUBDEPTCODE = json['SUBDEPTCODE'];
+    sUBDEPTNAME = json['SUBDEPTNAME'];
+    sUBDEPTNAMEKR = json['SUBDEPTNAME_KR'];
+    mAINDEPTCODE = json['MAINDEPTCODE'];
+    mAINDEPTNAME = json['MAINDEPTNAME'];
+    mAINDEPTNAMEKR = json['MAINDEPTNAME_KR'];
+    eMPLIMAGE = json['EMPL_IMAGE'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['NV_CCID'] = this.nVCCID;
+    data['id'] = this.id;
+    data['EMPL_NO'] = this.eMPLNO;
+    data['CMS_ID'] = this.cMSID;
+    data['FIRST_NAME'] = this.fIRSTNAME;
+    data['MIDLAST_NAME'] = this.mIDLASTNAME;
+    data['DOB'] = this.dOB;
+    data['HOMETOWN'] = this.hOMETOWN;
+    data['ADD_PROVINCE'] = this.aDDPROVINCE;
+    data['ADD_DISTRICT'] = this.aDDDISTRICT;
+    data['ADD_COMMUNE'] = this.aDDCOMMUNE;
+    data['ADD_VILLAGE'] = this.aDDVILLAGE;
+    data['PHONE_NUMBER'] = this.pHONENUMBER;
+    data['WORK_START_DATE'] = this.wORKSTARTDATE;
+    data['PASSWORD'] = this.pASSWORD;
+    data['EMAIL'] = this.eMAIL;
+    data['REMARK'] = this.rEMARK;
+    data['ONLINE_DATETIME'] = this.oNLINEDATETIME;
+    data['CTR_CD'] = this.cTRCD;
+    data['SEX_CODE'] = this.sEXCODE;
+    data['SEX_NAME'] = this.sEXNAME;
+    data['SEX_NAME_KR'] = this.sEXNAMEKR;
+    data['WORK_STATUS_CODE'] = this.wORKSTATUSCODE;
+    data['WORK_STATUS_NAME'] = this.wORKSTATUSNAME;
+    data['WORK_STATUS_NAME_KR'] = this.wORKSTATUSNAMEKR;
+    data['FACTORY_CODE'] = this.fACTORYCODE;
+    data['FACTORY_NAME'] = this.fACTORYNAME;
+    data['FACTORY_NAME_KR'] = this.fACTORYNAMEKR;
+    data['JOB_CODE'] = this.jOBCODE;
+    data['JOB_NAME'] = this.jOBNAME;
+    data['JOB_NAME_KR'] = this.jOBNAMEKR;
+    data['POSITION_CODE'] = this.pOSITIONCODE;
+    data['POSITION_NAME'] = this.pOSITIONNAME;
+    data['POSITION_NAME_KR'] = this.pOSITIONNAMEKR;
+    data['WORK_SHIFT_CODE'] = this.wORKSHIFTCODE;
+    data['WORK_SHIF_NAME'] = this.wORKSHIFNAME;
+    data['WORK_SHIF_NAME_KR'] = this.wORKSHIFNAMEKR;
+    data['WORK_POSITION_CODE'] = this.wORKPOSITIONCODE;
+    data['WORK_POSITION_NAME'] = this.wORKPOSITIONNAME;
+    data['WORK_POSITION_NAME_KR'] = this.wORKPOSITIONNAMEKR;
+    data['ATT_GROUP_CODE'] = this.aTTGROUPCODE;
+    data['SUBDEPTCODE'] = this.sUBDEPTCODE;
+    data['SUBDEPTNAME'] = this.sUBDEPTNAME;
+    data['SUBDEPTNAME_KR'] = this.sUBDEPTNAMEKR;
+    data['MAINDEPTCODE'] = this.mAINDEPTCODE;
+    data['MAINDEPTNAME'] = this.mAINDEPTNAME;
+    data['MAINDEPTNAME_KR'] = this.mAINDEPTNAMEKR;
+    data['EMPL_IMAGE'] = this.eMPLIMAGE;
+    return data;
+  }
+}
