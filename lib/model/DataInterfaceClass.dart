@@ -800,3 +800,112 @@ class DIEMDANHMAINDEPT {
     return data;
   }
 }
+class MAINDEPTDATA {
+  int? id;
+  String? CTR_CD;
+  int? MAINDEPTCODE;
+  String? MAINDEPTNAME;
+  String? MAINDEPTNAME_KR;  
+
+  MAINDEPTDATA(
+      {this.id,
+      this.CTR_CD,
+      this.MAINDEPTCODE,
+      this.MAINDEPTNAME,
+      this.MAINDEPTNAME_KR,
+      });
+
+  MAINDEPTDATA.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    CTR_CD = json['CTR_CD'];
+    MAINDEPTCODE = json['MAINDEPTCODE'];
+    MAINDEPTNAME = json['MAINDEPTNAME'];
+    MAINDEPTNAME_KR = json['MAINDEPTNAME_KR'];    
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['CTR_CD'] = this.CTR_CD;
+    data['MAINDEPTCODE'] = this.MAINDEPTCODE;
+    data['MAINDEPTNAME'] = this.MAINDEPTNAME;
+    data['MAINDEPTNAME_KR'] = this.MAINDEPTNAME_KR;   
+    return data;
+  }
+}
+class SUBDEPTDATA {
+  int? id;
+  String? cTRCD;
+  int? mAINDEPTCODE;
+  int? sUBDEPTCODE;
+  String? sUBDEPTNAME;
+  String? sUBDEPTNAMEKR;
+
+  SUBDEPTDATA(
+      {this.id,
+      this.cTRCD,
+      this.mAINDEPTCODE,
+      this.sUBDEPTCODE,
+      this.sUBDEPTNAME,
+      this.sUBDEPTNAMEKR});
+
+  SUBDEPTDATA.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    cTRCD = json['CTR_CD'];
+    mAINDEPTCODE = json['MAINDEPTCODE'];
+    sUBDEPTCODE = json['SUBDEPTCODE'];
+    sUBDEPTNAME = json['SUBDEPTNAME'];
+    sUBDEPTNAMEKR = json['SUBDEPTNAME_KR'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['CTR_CD'] = this.cTRCD;
+    data['MAINDEPTCODE'] = this.mAINDEPTCODE;
+    data['SUBDEPTCODE'] = this.sUBDEPTCODE;
+    data['SUBDEPTNAME'] = this.sUBDEPTNAME;
+    data['SUBDEPTNAME_KR'] = this.sUBDEPTNAMEKR;
+    return data;
+  }
+}
+class WORKPOSITIONDATA {
+  int? id;
+  String? cTRCD;
+  int? sUBDEPTCODE;
+  int? wORKPOSITIONCODE;
+  String? wORKPOSITIONNAME;
+  String? wORKPOSITIONNAMEKR;
+  int? aTTGROUPCODE;
+
+  WORKPOSITIONDATA(
+      {this.id,
+      this.cTRCD,
+      this.sUBDEPTCODE,
+      this.wORKPOSITIONCODE,
+      this.wORKPOSITIONNAME,
+      this.wORKPOSITIONNAMEKR,
+      this.aTTGROUPCODE});
+
+  WORKPOSITIONDATA.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    cTRCD = json['CTR_CD'];
+    sUBDEPTCODE = json['SUBDEPTCODE'];
+    wORKPOSITIONCODE = json['WORK_POSITION_CODE'];
+    wORKPOSITIONNAME = json['WORK_POSITION_NAME'];
+    wORKPOSITIONNAMEKR = json['WORK_POSITION_NAME_KR'];
+    aTTGROUPCODE = json['ATT_GROUP_CODE'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['CTR_CD'] = this.cTRCD;
+    data['SUBDEPTCODE'] = this.sUBDEPTCODE;
+    data['WORK_POSITION_CODE'] = this.wORKPOSITIONCODE;
+    data['WORK_POSITION_NAME'] = this.wORKPOSITIONNAME;
+    data['WORK_POSITION_NAME_KR'] = this.wORKPOSITIONNAMEKR;
+    data['ATT_GROUP_CODE'] = this.aTTGROUPCODE;
+    return data;
+  }
+}

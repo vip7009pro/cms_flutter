@@ -31,7 +31,7 @@ class _DiemDanhMainDeptTableState extends State<DiemDanhMainDeptTable> {
   }
   @override
   Widget build(BuildContext context) {
-    return SfDataGrid(
+    return SfDataGrid(      
       allowColumnsResizing: true,
       onColumnResizeUpdate: (ColumnResizeUpdateDetails details) {
         setState(() {
