@@ -958,6 +958,7 @@ class EmployeeData {
   String? mAINDEPTNAME;
   String? mAINDEPTNAMEKR;
   dynamic eMPLIMAGE;
+  dynamic rESIGNDATE;
 
   EmployeeData(
       {this.nVCCID,
@@ -1007,7 +1008,8 @@ class EmployeeData {
       this.mAINDEPTCODE,
       this.mAINDEPTNAME,
       this.mAINDEPTNAMEKR,
-      this.eMPLIMAGE});
+      this.eMPLIMAGE,
+      this.rESIGNDATE});
 
   EmployeeData.fromJson(Map<String, dynamic> json) {
     nVCCID = json['NV_CCID'];
@@ -1058,6 +1060,7 @@ class EmployeeData {
     mAINDEPTNAME = json['MAINDEPTNAME'];
     mAINDEPTNAMEKR = json['MAINDEPTNAME_KR'];
     eMPLIMAGE = json['EMPL_IMAGE'];
+    rESIGNDATE = json['RESIGN_DATE'];
   }
 
   Map<String, dynamic> toJson() {
@@ -1110,6 +1113,7 @@ class EmployeeData {
     data['MAINDEPTNAME'] = this.mAINDEPTNAME;
     data['MAINDEPTNAME_KR'] = this.mAINDEPTNAMEKR;
     data['EMPL_IMAGE'] = this.eMPLIMAGE;
+    data['RESIGN_DATE'] = this.rESIGNDATE;
     return data;
   }
 }

@@ -214,7 +214,7 @@ class _SubDeptScreenState extends State<QuanLyNhanSu> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SizedBox(
-            width: 150,
+            width: 100,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -228,7 +228,7 @@ class _SubDeptScreenState extends State<QuanLyNhanSu> {
                         //_loadEmployeeList();
                       });
                     }),
-                Text("Cả nghỉ việc")
+                const Text("All")
               ],
             ),
           ),
