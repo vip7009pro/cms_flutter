@@ -66,7 +66,6 @@ Future<void> tryOtaUpdate() async {
         break;
         case 2:
         Get.to(()=> const DangKy());
-
         break;
 
         case 3:
