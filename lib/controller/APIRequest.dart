@@ -12,7 +12,7 @@ class API_Request {
     if (url == '' || url == 'MAIN_SERVER') {
       url = 'http://14.160.33.94:5013/api';
     } else if (url == 'TEST_SERVER') {
-      url = 'http://localhost:3007/api';
+      url = 'http://192.168.1.136:3007/api';
     } else {
       url = 'http://14.160.33.94:3007/api';
     }

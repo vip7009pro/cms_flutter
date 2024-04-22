@@ -60,6 +60,23 @@ Future<void> tryOtaUpdate() async {
   void _onBottomItemTapped(int index) {
     setState(() {
       _selectedBottomIndex = index;
+      switch(index) {
+        case 1: 
+        Get.to(() =>  LichSuDiLamTable());
+        break;
+        case 2:
+        Get.to(()=> const DangKy());
+
+        break;
+
+        case 3:
+
+        break;
+
+        case 4:
+
+        break;
+      }
     });
   }
   final logo = Image.asset('assets/images/cmslogo.jpg', width: 120, fit: BoxFit.cover);
@@ -573,13 +590,13 @@ void initState() {
             backgroundColor: Color.fromARGB(255, 100, 167, 191),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.business),
-            label: 'Business',
+            icon: Icon(Icons.history),
+            label: 'Work History',
             backgroundColor: Colors.green,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            label: 'School',
+            icon: Icon(Icons.app_registration),
+            label: 'Leave Reg',
             backgroundColor: Colors.purple,
           ),
           BottomNavigationBarItem(
@@ -592,7 +609,7 @@ void initState() {
         selectedItemColor: Color.fromARGB(255, 252, 238, 34),
         onTap: _onBottomItemTapped,
       ),
-      floatingActionButton: Builder(builder: (context) {
+      /* floatingActionButton: Builder(builder: (context) {
         return FloatingActionButton(
           backgroundColor: Color.fromARGB(255, 207, 217, 236),
           child: Icon(Icons.menu),
@@ -601,7 +618,7 @@ void initState() {
             Scaffold.of(context).openDrawer(); // <-- Opens drawer.
           }
         );
-      }),
+      }), */
     );
   }
 }
