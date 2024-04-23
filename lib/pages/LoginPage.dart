@@ -4,6 +4,7 @@ import 'package:cms_flutter/controller/APIRequest.dart';
 import 'package:cms_flutter/controller/GetXController.dart';
 import 'package:cms_flutter/controller/GlobalFunction.dart';
 import 'package:cms_flutter/controller/LocalDataAccess.dart';
+import 'package:cms_flutter/model/DataInterfaceClass.dart';
 import 'package:cms_flutter/pages/HomePage.dart';
 import 'package:cms_flutter/pages/phongban/sx/NHATKYKT.dart';
 import 'package:flutter/material.dart';
@@ -86,6 +87,7 @@ Future<void> _loadAccount() async{
                 (value) {
                   setState(() {
                     Map<String, dynamic> rawJson = jsonDecode(value);
+                    c.updateUserData(UserData.fromJson(rawJson));
                     userPosition = rawJson['POSITION_CODE'].toString();
                     if (userPosition == '4' || userPosition == '') {                     
                       Get.off(() => const HomePage());

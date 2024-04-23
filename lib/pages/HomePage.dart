@@ -16,7 +16,6 @@ import 'package:cms_flutter/pages/phongban/sx/BarcodeScanner.dart';
 import 'package:cms_flutter/pages/phongban/sx/BarcodeScanner2.dart';
 import 'package:cms_flutter/pages/phongban/sx/InputLieu.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'dart:async';
@@ -195,7 +194,19 @@ void initState() {
                   title: const Text("Điểm danh-điều chuyển"),
                   onTap: () {
                     //action on press
-                    Get.to(() => const DiemDanhNhom());
+                    if (!CheckPermission(c.userData, ['ALL'],
+                        ['Manager', 'AM', 'Senior', 'Staff'], ['ALL'], () {
+                      Get.to(() => const DiemDanhNhom());
+                    })) {
+                      AwesomeDialog(
+                        context: context,
+                        dialogType: DialogType.error,
+                        animType: AnimType.topSlide,
+                        title: 'Cảnh báo',
+                        desc: 'Không đủ quyền hạn!',
+                        btnCancelOnPress: () {},
+                      ).show();
+                    }
                   },
                 ),                
                 ListTile(
@@ -207,7 +218,7 @@ void initState() {
                   title: const Text("Đăng ký"),
                   onTap: () {
                     //action on press
-                    Get.to(() => const DangKy());
+                     Get.to(() => const DangKy());
                   },
                 ),
                 ListTile(
@@ -219,7 +230,19 @@ void initState() {
                   title: const Text("Phê duyệt nghỉ"),
                   onTap: () {
                     //action on press
-                    Get.to(() => const PheDuyetNghi());
+                    if (!CheckPermission(c.userData, ['ALL'],
+                        ['Manager', 'AM', 'Senior', 'Staff'], ['ALL'], () {
+                       Get.to(() => const PheDuyetNghi());
+                    })) {
+                      AwesomeDialog(
+                        context: context,
+                        dialogType: DialogType.error,
+                        animType: AnimType.topSlide,
+                        title: 'Cảnh báo',
+                        desc: 'Không đủ quyền hạn!',
+                        btnCancelOnPress: () {},
+                      ).show();
+                    }                    
                   },
                 ),
                 ListTile(
@@ -255,7 +278,19 @@ void initState() {
                   title: const Text("Quản lý phòng ban-nhân sự"),
                   onTap: () {
                     //action on press
-                    Get.to(() => const QuanLyPhongBanNhanSu());
+                    if (!CheckPermission(c.userData, ['NHANSU'],
+                        ['Manager', 'AM', 'Senior', 'Staff'], ['ALL'], () {
+                      Get.to(() => const QuanLyPhongBanNhanSu());
+                    })) {
+                      AwesomeDialog(
+                        context: context,
+                        dialogType: DialogType.error,
+                        animType: AnimType.topSlide,
+                        title: 'Cảnh báo',
+                        desc: 'Không đủ quyền hạn!',
+                        btnCancelOnPress: () {},
+                      ).show();
+                    }
                   },
                 ),
                 //more child menu

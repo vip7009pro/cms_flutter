@@ -1,12 +1,12 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cms_flutter/controller/APIRequest.dart';
+import 'package:cms_flutter/controller/GetXController.dart';
 import 'package:cms_flutter/controller/GlobalFunction.dart';
 import 'package:cms_flutter/model/DataInterfaceClass.dart';
 import 'package:cms_flutter/pages/phongban/nhansu/screen/employee_info_screen.dart';
 import 'package:cms_flutter/pages/phongban/nhansu/screen/work_position_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 class QuanLyNhanSu extends StatefulWidget {
   const QuanLyNhanSu({
     Key? key,
@@ -14,12 +14,12 @@ class QuanLyNhanSu extends StatefulWidget {
   @override
   _SubDeptScreenState createState() => _SubDeptScreenState();
 }
-
 class _SubDeptScreenState extends State<QuanLyNhanSu> {
-    String _searchString = "";
+  final GlobalController globalC = Get.put(GlobalController());
+  String _searchString = "";
   String _teamNameList = "ALL";
   bool _allTeam = false;
-    TextEditingController _filterController = TextEditingController();
+  TextEditingController _filterController = TextEditingController();
   List<SUBDEPTDATA> _subDeptList = List.empty();
   List<EmployeeData> _employeeList = List.empty();
   List<EmployeeData> _org_employeeList = List.empty();
@@ -44,8 +44,7 @@ class _SubDeptScreenState extends State<QuanLyNhanSu> {
       } else {}
     });
   }
-
-   void filteringList() {  
+  void filteringList() {
     setState(() {
       _employeeList = GlobalFunction.convertVietnameseString(
                       _filterController.text.toLowerCase()) !=
@@ -58,17 +57,15 @@ class _SubDeptScreenState extends State<QuanLyNhanSu> {
               String searchString = GlobalFunction.convertVietnameseString(
                       _filterController.text.toLowerCase())
                   .trim();
-              bool checknghi = element.wORKSTATUSCODE !=0 || _allTeam == true;
+              bool checknghi = element.wORKSTATUSCODE != 0 || _allTeam == true;
               bool checkTeam = element.wORKSHIFNAME == _teamNameList ||
-                  _teamNameList == 'ALL';             
-              
+                  _teamNameList == 'ALL';
               //print('checknghi' + checknghi.toString());
               return fullName.contains(searchString) && checkTeam && checknghi;
             }).toList()
           : _org_employeeList;
     });
   }
-
   Future<void> _loadSubDept() async {
     await API_Request.api_query('getsubdept', {'MAINDEPTCODE': 1})
         .then((value) {
@@ -90,7 +87,6 @@ class _SubDeptScreenState extends State<QuanLyNhanSu> {
       } else {}
     });
   }
-
   Future<void> _addSubDept(int MAINDEPTCODE, int sUBDEPTCODE,
       String sUBDEPTNAME, String sUBDEPTNAMEKR) async {
     await API_Request.api_query('insertsubdept', {
@@ -121,7 +117,6 @@ class _SubDeptScreenState extends State<QuanLyNhanSu> {
       }
     });
   }
-
   Future<void> _updateSubDept(
       int sUBDEPTCODE, String sUBDEPTNAME, String sUBDEPTNAMEKR) async {
     await API_Request.api_query('updatesubdept', {
@@ -151,7 +146,6 @@ class _SubDeptScreenState extends State<QuanLyNhanSu> {
       }
     });
   }
-
   Future<void> _deleteSubDept(int sUBDEPTCODE) async {
     await API_Request.api_query('deletesubdept', {
       'SUBDEPTCODE': sUBDEPTCODE,
@@ -178,17 +172,14 @@ class _SubDeptScreenState extends State<QuanLyNhanSu> {
       }
     });
   }
-
   @override
   void initState() {
     _loadEmployeeList();
     super.initState();
   }
-
   @override
   Widget build(BuildContext context) {
-
-     final search = Container(
+    final search = Container(
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
@@ -220,7 +211,7 @@ class _SubDeptScreenState extends State<QuanLyNhanSu> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Checkbox(
-                    value: _allTeam,                    
+                    value: _allTeam,
                     onChanged: (value) {
                       setState(() {
                         _allTeam = value!;
@@ -280,7 +271,6 @@ class _SubDeptScreenState extends State<QuanLyNhanSu> {
         ],
       ),
     );
-
     return Container(
       margin: const EdgeInsets.all(2.0),
       child: Column(
@@ -314,10 +304,15 @@ class _SubDeptScreenState extends State<QuanLyNhanSu> {
                               ],
                               borderRadius:
                                   const BorderRadius.all(Radius.circular(5.0)),
-                              gradient:  LinearGradient(
+                              gradient: LinearGradient(
                                   colors: [
-                                    _employeeList[index].wORKSTATUSCODE == 1 ?
-                                    Color.fromARGB(255, 229, 178, 245):_employeeList[index].wORKSTATUSCODE == 2 ? Color.fromARGB(255, 211, 231, 119): Color.fromARGB(255, 144, 139, 146),
+                                    _employeeList[index].wORKSTATUSCODE == 1
+                                        ? Color.fromARGB(255, 229, 178, 245)
+                                        : _employeeList[index].wORKSTATUSCODE ==
+                                                2
+                                            ? Color.fromARGB(255, 211, 231, 119)
+                                            : Color.fromARGB(
+                                                255, 144, 139, 146),
                                     Color.fromARGB(255, 245, 235, 248),
                                   ],
                                   begin: FractionalOffset(0.0, 0.0),
@@ -332,7 +327,8 @@ class _SubDeptScreenState extends State<QuanLyNhanSu> {
                                     '${_employeeList[index].mAINDEPTNAME ?? ""}/${_employeeList[index].sUBDEPTNAME ?? ""}/${_employeeList[index].wORKPOSITIONNAME ?? ""}'),
                                 iconColor: Colors.black,
                                 onTap: () {
-                                  Get.to(()=> EmployeeInfoScreen(userData: _employeeList[index]));
+                                  Get.to(() => EmployeeInfoScreen(
+                                      userData: _employeeList[index]));
                                 },
                                 leading: Container(
                                   width: 50,
@@ -350,7 +346,7 @@ class _SubDeptScreenState extends State<QuanLyNhanSu> {
                                   child: avatar,
                                 ),
                                 /* Icon(Icons.man, color: Colors.red, size: 30,), */
-                                trailing: Icon(
+                                trailing: const Icon(
                                   Icons.arrow_circle_right,
                                   color: Colors.black,
                                 )),
@@ -363,7 +359,71 @@ class _SubDeptScreenState extends State<QuanLyNhanSu> {
                             backgroundColor:
                                 const Color.fromARGB(255, 60, 137, 236),
                             child: const Icon(Icons.add),
-                            onPressed: () {});
+                            onPressed: () {
+                              if (!CheckPermission(globalC.userData, ['NHANSU'],
+                                  ['ALL'], ['ALL'], () {
+                                Get.to(() => EmployeeInfoScreen(
+                                    userData: EmployeeData(
+                                        aDDCOMMUNE: "",
+                                        aDDDISTRICT: "",
+                                        aDDPROVINCE: "",
+                                        aDDVILLAGE: "",
+                                        aTTGROUPCODE: 1,
+                                        cMSID: "---",
+                                        cTRCD: "002",
+                                        dOB: "1900-01-01",
+                                        eMAIL: "",
+                                        eMPLIMAGE: "",
+                                        eMPLNO: "xxxx",
+                                        fACTORYCODE: 1,
+                                        fACTORYNAME: "NM1",
+                                        fACTORYNAMEKR: "NM1",
+                                        fIRSTNAME: "",
+                                        hOMETOWN: "",
+                                        id: "1",
+                                        jOBCODE: 1,
+                                        jOBNAME: "",
+                                        jOBNAMEKR: "",
+                                        mAINDEPTCODE: 1,
+                                        mAINDEPTNAME: "",
+                                        mAINDEPTNAMEKR: "",
+                                        mIDLASTNAME: "",
+                                        nVCCID: 1,
+                                        oNLINEDATETIME: "",
+                                        pASSWORD: "",
+                                        pHONENUMBER: "",
+                                        pOSITIONCODE: 1,
+                                        pOSITIONNAME: "",
+                                        pOSITIONNAMEKR: "",
+                                        rEMARK: "",
+                                        rESIGNDATE: "1900-01-01",
+                                        sEXCODE: 1,
+                                        sEXNAME: "",
+                                        sEXNAMEKR: "",
+                                        sUBDEPTCODE: 1,
+                                        sUBDEPTNAME: "",
+                                        sUBDEPTNAMEKR: "",
+                                        wORKPOSITIONCODE: 1,
+                                        wORKPOSITIONNAME: "",
+                                        wORKPOSITIONNAMEKR: "",
+                                        wORKSHIFNAME: "",
+                                        wORKSHIFNAMEKR: "",
+                                        wORKSHIFTCODE: 1,
+                                        wORKSTARTDATE: "1900-01-01",
+                                        wORKSTATUSCODE: 1,
+                                        wORKSTATUSNAME: "",
+                                        wORKSTATUSNAMEKR: "")));
+                              })) {
+                                AwesomeDialog(
+                                  context: context,
+                                  dialogType: DialogType.error,
+                                  animType: AnimType.topSlide,
+                                  title: 'Cảnh báo',
+                                  desc: 'Không đủ quyền hạn!',
+                                  btnCancelOnPress: () {},
+                                ).show();
+                              }
+                            });
                       }),
                       floatingActionButtonLocation:
                           FloatingActionButtonLocation.centerFloat))),
