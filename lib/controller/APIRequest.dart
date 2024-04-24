@@ -46,8 +46,7 @@ class API_Request {
       return {'tk_status': 'NG', 'message': '$e'};
     }
   }
-  static Future<Map<String, dynamic>> api_upload_query(
-      String filepath, String filename, String uploadfoldername) async {
+  static Future<Map<String, dynamic>> api_upload_query(File file, String filename, String uploadfoldername) async {
     String url = '';
     url = await LocalDataAccess.getVariable('serverIP');
     if (url == '' || url == 'MAIN_SERVER') {
@@ -70,23 +69,17 @@ class API_Request {
     dio.interceptors.add(CookieManager(cookieJar));
     String savedToken = await LocalDataAccess.getVariable("token");
     FormData body = FormData.fromMap({
-      'uploadedfile':
-          await MultipartFile.fromFile(filepath, filename: filename),
+      'uploadedfile': await MultipartFile.fromFile(file.path, filename: file.path.split('/').last),
       'filename': filename,
+      /* 'filename': file.path.split('/').last, */
       'uploadfoldername': uploadfoldername,
       'token_string': savedToken,
-    });
-    print(body.fields);
-    final body2 = {
-      'uploadedfile': '123456789',
-      'filename': filename,
-      'uploadfoldername': uploadfoldername,
-      'token_string': savedToken,
-    };
+    });    
+
     try {
       final response = await dio.post(
         url,
-        data: jsonEncode(body2),
+        data: body,
         onSendProgress: (int sent, int total) {
           print('Uploading: $sent/$total');
         },

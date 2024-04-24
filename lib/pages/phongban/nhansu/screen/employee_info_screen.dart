@@ -1,10 +1,14 @@
+import 'dart:io';
+
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cms_flutter/controller/APIRequest.dart';
 import 'package:cms_flutter/controller/GlobalFunction.dart';
 import 'package:cms_flutter/model/DataInterfaceClass.dart';
 import 'package:flutter/material.dart';
-import 'package:dropdown_model_list/dropdown_model_list.dart';
 import 'package:dropdown_search/dropdown_search.dart';
+import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
+
 class EmployeeInfoScreen extends StatefulWidget {
   final EmployeeData userData;
   const EmployeeInfoScreen({Key? key, required this.userData})
@@ -13,6 +17,7 @@ class EmployeeInfoScreen extends StatefulWidget {
   _EmployeeInfoScreenState createState() => _EmployeeInfoScreenState();
 }
 class _EmployeeInfoScreenState extends State<EmployeeInfoScreen> {
+  File? _selectedFile;
   List<WORKPOSITIONDATA> listWorkPosition_org = List.empty();
   TextEditingController controller = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -48,6 +53,27 @@ class _EmployeeInfoScreenState extends State<EmployeeInfoScreen> {
   String userWorkPositionName = "Rau má";
   List<String> listPosition = ['Manager', 'AM', 'Senior', 'Staff', 'NoPos'];
   List<String> listWorkStatus = ['Đã nghỉ', 'Đang làm', 'Nghỉ sinh'];
+
+  Future<void> _selectFile() async {
+    try {
+      final XFile? file = await ImagePicker().pickImage(source: ImageSource.gallery,);      
+      if (file != null) {
+        setState(() {
+          _selectedFile = File(file.path);
+          if(_selectedFile != null) {
+            API_Request.api_upload_query(_selectedFile!, 'NS_${_user_EMPL_NO_ctrl.text}.jpg', 'Picture_NS');
+          }
+          else {
+            print('Chưa chọn file');
+          }
+        });
+      }
+    } on PlatformException catch (e) {
+      print("Failed to pick image: $e");
+    }
+  }
+
+
   Future<void> _loadWorkPosition() async {
     await API_Request.api_query('workpositionlist', {}).then((value) {
       if (value['tk_status'] == 'OK') {
@@ -201,23 +227,29 @@ class _EmployeeInfoScreenState extends State<EmployeeInfoScreen> {
   }
   @override
   Widget build(BuildContext context) {
-    final avatar = Container(
-      width: 150,
-      height: 390,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10.0),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.2), // Shadow color
-              spreadRadius: 3, // Spread radius
-              blurRadius: 10, // Blur radius
-              offset: Offset(0, 3), // Offset in the x, y direction
-            )
-          ],
-          image: DecorationImage(
-              image: NetworkImage(
-                  'http://14.160.33.94/Picture_NS/NS_${widget.userData.eMPLNO}.jpg'),
-              fit: BoxFit.cover)),
+    final avatar = GestureDetector(
+      onTap: () {
+        _selectFile();
+      },
+      child: Container(
+        width: 150,
+        height: 390,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10.0),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2), // Shadow color
+                spreadRadius: 3, // Spread radius
+                blurRadius: 10, // Blur radius
+                offset: Offset(0, 3), // Offset in the x, y direction
+              )
+            ],
+            image: DecorationImage(
+                image: NetworkImage(
+                    'http://14.160.33.94/Picture_NS/NS_${widget.userData.eMPLNO}.jpg'),
+                fit: BoxFit.cover)),
+                
+      ),
     );
     return SafeArea(
       child: Scaffold(
