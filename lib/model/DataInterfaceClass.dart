@@ -1117,3 +1117,127 @@ class EmployeeData {
     return data;
   }
 }
+class PODATA {
+  int? pOID;
+  String? cUSTNAMEKD;
+  String? pONO;
+  String? gNAME;
+  String? gNAMEKD;
+  String? gCODE;
+  String? pODATE;
+  String? rDDATE;
+  int? bEP;
+  double? pRODPRICE;
+  int? pOQTY;
+  int? tOTALDELIVERED;
+  int? pOBALANCE;
+  double? pOAMOUNT;
+  double? dELIVEREDAMOUNT;
+  int? bALANCEAMOUNT;
+  int? dELIVEREDBEPAMOUNT;
+  String? eMPLNAME;
+  String? pRODTYPE;
+  dynamic mNAMEFULLBOM;
+  String? pRODMAINMATERIAL;
+  String? cUSTCD;
+  String? eMPLNO;
+  int? pOMONTH;
+  int? pOWEEKNUM;
+  String? oVERDUE;
+  dynamic rEMARK;
+  String? fINAL;
+
+  PODATA(
+      {this.pOID,
+      this.cUSTNAMEKD,
+      this.pONO,
+      this.gNAME,
+      this.gNAMEKD,
+      this.gCODE,
+      this.pODATE,
+      this.rDDATE,
+      this.bEP,
+      this.pRODPRICE,
+      this.pOQTY,
+      this.tOTALDELIVERED,
+      this.pOBALANCE,
+      this.pOAMOUNT,
+      this.dELIVEREDAMOUNT,
+      this.bALANCEAMOUNT,
+      this.dELIVEREDBEPAMOUNT,
+      this.eMPLNAME,
+      this.pRODTYPE,
+      this.mNAMEFULLBOM,
+      this.pRODMAINMATERIAL,
+      this.cUSTCD,
+      this.eMPLNO,
+      this.pOMONTH,
+      this.pOWEEKNUM,
+      this.oVERDUE,
+      this.rEMARK,
+      this.fINAL});
+
+  PODATA.fromJson(Map<String, dynamic> json) {
+    pOID = json['PO_ID'];
+    cUSTNAMEKD = json['CUST_NAME_KD'];
+    pONO = json['PO_NO'];
+    gNAME = json['G_NAME'];
+    gNAMEKD = json['G_NAME_KD'];
+    gCODE = json['G_CODE'];
+    pODATE = json['PO_DATE'];
+    rDDATE = json['RD_DATE'];
+    bEP = json['BEP'];
+    pRODPRICE = json['PROD_PRICE'];
+    pOQTY = json['PO_QTY'];
+    tOTALDELIVERED = json['TOTAL_DELIVERED'];
+    pOBALANCE = json['PO_BALANCE'];
+    pOAMOUNT = json['PO_AMOUNT'];
+    dELIVEREDAMOUNT = json['DELIVERED_AMOUNT'];
+    bALANCEAMOUNT = json['BALANCE_AMOUNT'];
+    dELIVEREDBEPAMOUNT = json['DELIVERED_BEP_AMOUNT'];
+    eMPLNAME = json['EMPL_NAME'];
+    pRODTYPE = json['PROD_TYPE'];
+    mNAMEFULLBOM = json['M_NAME_FULLBOM'];
+    pRODMAINMATERIAL = json['PROD_MAIN_MATERIAL'];
+    cUSTCD = json['CUST_CD'];
+    eMPLNO = json['EMPL_NO'];
+    pOMONTH = json['POMONTH'];
+    pOWEEKNUM = json['POWEEKNUM'];
+    oVERDUE = json['OVERDUE'];
+    rEMARK = json['REMARK'];
+    fINAL = json['FINAL'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['PO_ID'] = this.pOID;
+    data['CUST_NAME_KD'] = this.cUSTNAMEKD;
+    data['PO_NO'] = this.pONO;
+    data['G_NAME'] = this.gNAME;
+    data['G_NAME_KD'] = this.gNAMEKD;
+    data['G_CODE'] = this.gCODE;
+    data['PO_DATE'] = this.pODATE;
+    data['RD_DATE'] = this.rDDATE;
+    data['BEP'] = this.bEP;
+    data['PROD_PRICE'] = this.pRODPRICE;
+    data['PO_QTY'] = this.pOQTY;
+    data['TOTAL_DELIVERED'] = this.tOTALDELIVERED;
+    data['PO_BALANCE'] = this.pOBALANCE;
+    data['PO_AMOUNT'] = this.pOAMOUNT;
+    data['DELIVERED_AMOUNT'] = this.dELIVEREDAMOUNT;
+    data['BALANCE_AMOUNT'] = this.bALANCEAMOUNT;
+    data['DELIVERED_BEP_AMOUNT'] = this.dELIVEREDBEPAMOUNT;
+    data['EMPL_NAME'] = this.eMPLNAME;
+    data['PROD_TYPE'] = this.pRODTYPE;
+    data['M_NAME_FULLBOM'] = this.mNAMEFULLBOM;
+    data['PROD_MAIN_MATERIAL'] = this.pRODMAINMATERIAL;
+    data['CUST_CD'] = this.cUSTCD;
+    data['EMPL_NO'] = this.eMPLNO;
+    data['POMONTH'] = this.pOMONTH;
+    data['POWEEKNUM'] = this.pOWEEKNUM;
+    data['OVERDUE'] = this.oVERDUE;
+    data['REMARK'] = this.rEMARK;
+    data['FINAL'] = this.fINAL;
+    return data;
+  }
+}
