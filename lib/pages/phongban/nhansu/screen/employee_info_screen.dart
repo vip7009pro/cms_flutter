@@ -56,7 +56,7 @@ class _EmployeeInfoScreenState extends State<EmployeeInfoScreen> {
 
   Future<void> _selectFile() async {
     try {
-      final XFile? file = await ImagePicker().pickImage(source: ImageSource.gallery,);      
+      final XFile? file = await ImagePicker().pickImage(source: ImageSource.camera,imageQuality: 100, preferredCameraDevice: CameraDevice.rear);      
       if (file != null) {
         setState(() {
           _selectedFile = File(file.path);

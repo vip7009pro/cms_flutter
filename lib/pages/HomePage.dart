@@ -5,6 +5,7 @@ import 'package:cms_flutter/controller/GetXController.dart';
 import 'package:cms_flutter/controller/GlobalFunction.dart';
 import 'package:cms_flutter/pages/HomeWidget.dart';
 import 'package:cms_flutter/pages/LoginPage.dart';
+import 'package:cms_flutter/pages/phongban/kinhdoanh/quan_ly_po.dart';
 import 'package:cms_flutter/pages/phongban/nhansu/BaoCaoNhanSu.dart';
 import 'package:cms_flutter/pages/phongban/nhansu/DangKy.dart';
 import 'package:cms_flutter/pages/phongban/nhansu/DiemDanhNhom.dart';
@@ -313,7 +314,7 @@ void initState() {
                   ),
                   title: const Text("Quản lý PO"),
                   onTap: () {
-                    
+                    Get.to(()=> const QuanLyPo());
                     //action on press
                   },
                 ),
