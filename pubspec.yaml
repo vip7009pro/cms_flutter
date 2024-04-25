@@ -34,6 +34,7 @@ dependencies:
   dropdown_model_list: ^2.1.0
   dropdown_search: ^5.0.6
   image_picker: ^1.1.0
+  bottom_sheet: ^4.0.4
 
 dev_dependencies:
   flutter_test:
