@@ -4,11 +4,14 @@ import 'package:cms_flutter/controller/GlobalFunction.dart';
 import 'package:cms_flutter/model/DataInterfaceClass.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'package:intl/intl.dart';
+
 class QuanLyPo extends StatefulWidget {
   const QuanLyPo({Key? key}) : super(key: key);
   @override
   _QuanLyPoState createState() => _QuanLyPoState();
 }
+
 class _QuanLyPoState extends State<QuanLyPo> {
   DateTime _fromDate = DateTime.now();
   DateTime _toDate = DateTime.now();
@@ -22,8 +25,8 @@ class _QuanLyPoState extends State<QuanLyPo> {
   String _mainMaterial = "";
   String _overDue = "";
   String _invoiceNo = "";
-  bool _allTime = false;
-  bool _justPOBalance = false;
+  bool _allTime = true;
+  bool _justPOBalance = true;
   TextEditingController _fromDateController = TextEditingController();
   TextEditingController _toDateController = TextEditingController();
   TextEditingController _gNameController = TextEditingController();
@@ -36,8 +39,6 @@ class _QuanLyPoState extends State<QuanLyPo> {
   TextEditingController _mainMaterialController = TextEditingController();
   TextEditingController _overDueController = TextEditingController();
   TextEditingController _invoiceNoController = TextEditingController();
-  TextEditingController _allTimeController = TextEditingController();
-  TextEditingController _justPOBalanceController = TextEditingController();
   List<PODATA> _poDataTable = List.empty();
   Future<void> _loadPOData() async {
     await API_Request.api_query('traPODataFull', {
@@ -73,6 +74,7 @@ class _QuanLyPoState extends State<QuanLyPo> {
       } else {}
     });
   }
+
   Color getColor(Set<MaterialState> states) {
     const Set<MaterialState> interactiveStates = <MaterialState>{
       MaterialState.pressed,
@@ -84,9 +86,10 @@ class _QuanLyPoState extends State<QuanLyPo> {
     }
     return Colors.red;
   }
+
   void showBTSheet() {
     showModalBottomSheet<void>(
-      isScrollControlled: true,      
+      isScrollControlled: true,
       context: context,
       builder: (BuildContext context) {
         return StatefulBuilder(
@@ -116,7 +119,8 @@ class _QuanLyPoState extends State<QuanLyPo> {
                                 firstDate: DateTime(1900),
                                 lastDate: DateTime(2101),
                               );
-                              if (pickedDate != null && pickedDate != _fromDate) {
+                              if (pickedDate != null &&
+                                  pickedDate != _fromDate) {
                                 setState(() {
                                   _fromDate = pickedDate;
                                   _fromDateController.text =
@@ -138,7 +142,8 @@ class _QuanLyPoState extends State<QuanLyPo> {
                                 firstDate: DateTime(1900),
                                 lastDate: DateTime(2101),
                               );
-                              if (pickedDate != null && pickedDate != _fromDate) {
+                              if (pickedDate != null &&
+                                  pickedDate != _fromDate) {
                                 setState(() {
                                   _fromDate = pickedDate;
                                   _fromDateController.text =
@@ -170,8 +175,8 @@ class _QuanLyPoState extends State<QuanLyPo> {
                           ),
                           TextFormField(
                             controller: _emplNameController,
-                            decoration:
-                                const InputDecoration(labelText: 'Tên nhân viên'),
+                            decoration: const InputDecoration(
+                                labelText: 'Tên nhân viên'),
                             onChanged: (value) {
                               setState(() {
                                 _emplName = value;
@@ -190,8 +195,8 @@ class _QuanLyPoState extends State<QuanLyPo> {
                           ),
                           TextFormField(
                             controller: _prodTypeController,
-                            decoration:
-                                const InputDecoration(labelText: 'Loại sản phẩm'),
+                            decoration: const InputDecoration(
+                                labelText: 'Loại sản phẩm'),
                             onChanged: (value) {
                               setState(() {
                                 _prodType = value;
@@ -209,7 +214,8 @@ class _QuanLyPoState extends State<QuanLyPo> {
                           ),
                           TextFormField(
                             controller: _poNoController,
-                            decoration: const InputDecoration(labelText: 'PO NO'),
+                            decoration:
+                                const InputDecoration(labelText: 'PO NO'),
                             onChanged: (value) {
                               setState(() {
                                 _poNo = value;
@@ -218,8 +224,8 @@ class _QuanLyPoState extends State<QuanLyPo> {
                           ),
                           TextFormField(
                             controller: _mainMaterialController,
-                            decoration:
-                                const InputDecoration(labelText: 'Main Material'),
+                            decoration: const InputDecoration(
+                                labelText: 'Main Material'),
                             onChanged: (value) {
                               setState(() {
                                 _mainMaterial = value;
@@ -252,14 +258,15 @@ class _QuanLyPoState extends State<QuanLyPo> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Checkbox(
-                                    checkColor:
-                                        const Color.fromARGB(255, 255, 255, 255),
-                                    fillColor: MaterialStateProperty.resolveWith(
-                                        getColor),
+                                    checkColor: const Color.fromARGB(
+                                        255, 255, 255, 255),
+                                    fillColor:
+                                        MaterialStateProperty.resolveWith(
+                                            getColor),
                                     value: _allTime,
                                     onChanged: (bool? value) {
                                       setState(() {
-                                        _allTime = value!;                                      
+                                        _allTime = value!;
                                       });
                                     },
                                   ),
@@ -270,14 +277,15 @@ class _QuanLyPoState extends State<QuanLyPo> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Checkbox(
-                                    checkColor:
-                                        const Color.fromARGB(255, 255, 255, 255),
-                                    fillColor: MaterialStateProperty.resolveWith(
-                                        getColor),
+                                    checkColor: const Color.fromARGB(
+                                        255, 255, 255, 255),
+                                    fillColor:
+                                        MaterialStateProperty.resolveWith(
+                                            getColor),
                                     value: _justPOBalance,
                                     onChanged: (bool? value) {
                                       setState(() {
-                                        _justPOBalance = value!;                                      
+                                        _justPOBalance = value!;
                                       });
                                     },
                                   ),
@@ -305,6 +313,7 @@ class _QuanLyPoState extends State<QuanLyPo> {
       },
     );
   }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -314,6 +323,7 @@ class _QuanLyPoState extends State<QuanLyPo> {
         GlobalFunction.MyDate('yyyy-MM-dd', _toDate.toString());
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -337,145 +347,194 @@ class _QuanLyPoState extends State<QuanLyPo> {
         ),
       ),
       body: ListView.builder(
-                      itemBuilder: ((BuildContext context, int index) {
-                        return Container(
-                          margin: const EdgeInsets.all(2.0),
-                          padding: const EdgeInsets.all(2.0),
-                          decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.3),
-                                spreadRadius: 2.0,
-                                blurRadius: 5.0,
-                                offset: const Offset(
-                                    0, 3), // Changes the position of the shadow
-                              )
-                            ],
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(5.0)),
-                            gradient: const LinearGradient(
-                                colors: [
-                                  Color.fromARGB(255, 240, 238, 131),
-                                  Color.fromARGB(255, 245, 235, 248),
-                                ],
-                                begin: FractionalOffset(0.0, 0.0),
-                                end: FractionalOffset(1.0, 0.0),
-                                stops: [0.0, 1.0],
-                                tileMode: TileMode.clamp),
-                          ),
-                          child: ListTile(
-                            title:
-                                Text("${_poDataTable[index].pOID ?? ""}_${_poDataTable[index].gNAMEKD ?? ""}"),
-                            subtitle: Text(
-                                _poDataTable[index].cUSTNAMEKD ?? ""),
-                            iconColor: Colors.black,
-                            onTap: () {
-                            
-                            },
-                            leading: Container(
-                              width: 50,
-                              height: 50,
-                              decoration: BoxDecoration(
-                                gradient: const LinearGradient(
-                                  colors: [
-                                    Color.fromARGB(255, 156, 198, 233),
-                                    Color.fromARGB(255, 108, 231, 110)
-                                  ], // Your gradient colors
+        itemBuilder: ((BuildContext context, int index) {
+          final child = Container(
+            alignment: Alignment.topLeft,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      overflow: TextOverflow.clip,
+                       textAlign: TextAlign.justify,
+                      maxLines: 1,
+                      "${index+1}.${_poDataTable[index].gNAME ?? ""}",
+                      style: const TextStyle(
+                          color: Colors.blue, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      GlobalFunction.MyDate('yyyy-MM-dd', _poDataTable[index].pODATE??"") ,
+                      style: const TextStyle(
+                          color: Color.fromARGB(255, 104, 122, 3),
+                          fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(width: 10,),
+                    Text(
+                      GlobalFunction.MyDate('yyyy-MM-dd', _poDataTable[index].rDDATE??"") ,
+                      style: const TextStyle(
+                          color: Color.fromARGB(255, 204, 1, 153),
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      NumberFormat.decimalPattern('en_US')
+                          .format(_poDataTable[index].pOQTY),
+                      style: const TextStyle(
+                          color: Color.fromARGB(255, 0, 160, 40),
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+                
+              ],
+            ),
+          );
+          final leading = Container(
+              width: 60,
+              height: 60,
+              padding: EdgeInsets.all(8),
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  colors: [
+                    Color.fromARGB(255, 156, 198, 233),
+                    Color.fromARGB(255, 51, 168, 51)
+                  ], // Your gradient colors
+                ),
+                borderRadius:
+                    BorderRadius.circular(25), // Optional: for rounded corners
+              ),
+              child: Text(
+                '${_poDataTable[index].cUSTNAMEKD}',
+                style: const TextStyle(color: Colors.white, fontSize: 13),
+              ));
+          final trailing = GestureDetector(
+            onTapDown: (TapDownDetails details) {
+              showMenu(
+                context: context,
+                position: RelativeRect.fromLTRB(
+                  details.globalPosition.dx,
+                  details.globalPosition.dy,
+                  details.globalPosition.dx + 1,
+                  details.globalPosition.dy + 1,
+                ),
+                items: <PopupMenuEntry>[
+                  const PopupMenuItem(
+                    value: 'edit',
+                    child: Text('Edit'),
+                  ),
+                  const PopupMenuItem(
+                    value: 'delete',
+                    child: Text('Delete'),
+                  ),
+                ],
+              ).then((value) {
+                if (value != null) {
+                  if (value == 'edit') {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        TextEditingController maindeptnamevnctrl =
+                            TextEditingController();
+                        TextEditingController maindeptnamekrctrl =
+                            TextEditingController();
+                        maindeptnamevnctrl.text =
+                            _poDataTable[index].eMPLNAME ?? "";
+                        maindeptnamekrctrl.text =
+                            _poDataTable[index].gNAME ?? "";
+                        return AlertDialog(
+                          title: const Text('Edit Deparment'),
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              TextField(
+                                decoration: const InputDecoration(
+                                  hintText: 'Main Dept Name VN',
                                 ),
-                                borderRadius: BorderRadius.circular(
-                                    25), // Optional: for rounded corners
+                                controller: maindeptnamevnctrl,
                               ),
-                              child:
-                                  const Icon(Icons.house, color: Colors.white),
-                            ),
-                            /* Icon(Icons.man, color: Colors.red, size: 30,), */
-                            trailing: GestureDetector(
-                              onTapDown: (TapDownDetails details) {
-                                showMenu(
-                                  context: context,
-                                  position: RelativeRect.fromLTRB(
-                                    details.globalPosition.dx,
-                                    details.globalPosition.dy,
-                                    details.globalPosition.dx + 1,
-                                    details.globalPosition.dy + 1,
-                                  ),
-                                  items: <PopupMenuEntry>[
-                                    const PopupMenuItem(
-                                      value: 'edit',
-                                      child: Text('Edit'),
-                                    ),
-                                    const PopupMenuItem(
-                                      value: 'delete',
-                                      child: Text('Delete'),
-                                    ),
-                                  ],
-                                ).then((value) {
-                                  if (value != null) {                                    
-                                    if(value=='edit')
-                                    {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                            TextEditingController _maindeptnamevnctrl = TextEditingController();
-                                            TextEditingController _maindeptnamekrctrl = TextEditingController();
-                                            _maindeptnamevnctrl.text = _poDataTable[index].eMPLNAME??"";
-                                            _maindeptnamekrctrl.text = _poDataTable[index].gNAME??"";
-                                          return AlertDialog(
-                                            title: const Text('Edit Deparment'),
-                                            content: Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: <Widget>[
-                                                 TextField(
-                                                  decoration:  const InputDecoration(
-                                                    hintText: 'Main Dept Name VN',
-                                                  ),
-                                                  controller: _maindeptnamevnctrl,
-                                                ),
-                                                 TextField(
-                                                  decoration:  const  InputDecoration(
-                                                    hintText: 'Main Dept Name KR',
-                                                  ),
-                                                  controller: _maindeptnamekrctrl,
-                                                ),
-                                                const SizedBox(height: 20),
-                                                ElevatedButton(
-                                                  onPressed: () {
-                                                                                                   
-
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                  child: const  Text('Save'),
-                                                ),
-                                              ],
-                                            ),
-                                          );
-                                        },
-                                      );
-
-                                    }
-                                    else if(value=='delete') {
-                                       AwesomeDialog(
-                                        context: context,
-                                        dialogType: DialogType.question,
-                                        animType: AnimType.rightSlide,
-                                        title: 'Cảnh báo',
-                                        desc: 'Bạn muốn xóa maindept: ${_poDataTable[index].cUSTNAMEKD?? ""}',
-                                        btnCancelOnPress: () {},
-                                        btnOkOnPress: () {
-                                          
-                                        },
-                                      ).show();                                      
-                                    }   
-                                  }
-                                });
-                              },
-                              child: const Icon(Icons.more_vert),
-                            ),
+                              TextField(
+                                decoration: const InputDecoration(
+                                  hintText: 'Main Dept Name KR',
+                                ),
+                                controller: maindeptnamekrctrl,
+                              ),
+                              const SizedBox(height: 20),
+                              ElevatedButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: const Text('Save'),
+                              ),
+                            ],
                           ),
                         );
-                      }),
-                      itemCount: _poDataTable.length,
-                    ),
+                      },
+                    );
+                  } else if (value == 'delete') {
+                    AwesomeDialog(
+                      context: context,
+                      dialogType: DialogType.question,
+                      animType: AnimType.rightSlide,
+                      title: 'Cảnh báo',
+                      desc:
+                          'Bạn muốn xóa maindept: ${_poDataTable[index].cUSTNAMEKD ?? ""}',
+                      btnCancelOnPress: () {},
+                      btnOkOnPress: () {},
+                    ).show();
+                  }
+                }
+              });
+            },
+            child: const Icon(Icons.more_vert),
+          );
+          return Container(
+              margin: const EdgeInsets.all(2.0),
+              padding: const EdgeInsets.all(2.0),
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.3),
+                    spreadRadius: 2.0,
+                    blurRadius: 5.0,
+                    offset: const Offset(
+                        0, 3), // Changes the position of the shadow
+                  )
+                ],
+                borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                gradient: const LinearGradient(
+                    colors: [
+                      Color.fromARGB(255, 240, 238, 131),
+                      Color.fromARGB(255, 245, 235, 248),
+                    ],
+                    begin: FractionalOffset(0.0, 0.0),
+                    end: FractionalOffset(1.0, 0.0),
+                    stops: [0.0, 1.0],
+                    tileMode: TileMode.clamp),
+              ),
+              child: Row(                
+                mainAxisAlignment: MainAxisAlignment.start,
+                
+                children: [leading, SizedBox(width: 8,),child],
+              ));
+        }),
+        itemCount: _poDataTable.length,
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Builder(builder: (context) {
         return FloatingActionButton(
@@ -484,7 +543,7 @@ class _QuanLyPoState extends State<QuanLyPo> {
               Icons.search,
             ),
             onPressed: () {
-              showBTSheet();              
+              showBTSheet();
             });
       }),
     );
