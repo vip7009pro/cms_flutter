@@ -75,11 +75,11 @@ class _QuanLyPoState extends State<QuanLyPo> {
     });
   }
 
-  Color getColor(Set<MaterialState> states) {
-    const Set<MaterialState> interactiveStates = <MaterialState>{
-      MaterialState.pressed,
-      MaterialState.hovered,
-      MaterialState.focused,
+  Color getColor(Set<WidgetState> states) {
+    const Set<WidgetState> interactiveStates = <WidgetState>{
+      WidgetState.pressed,
+      WidgetState.hovered,
+      WidgetState.focused,
     };
     if (states.any(interactiveStates.contains)) {
       return Colors.blue;
@@ -354,15 +354,19 @@ class _QuanLyPoState extends State<QuanLyPo> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Text(
+                '${_poDataTable[index].cUSTNAMEKD}',
+                style: const TextStyle(color: Color.fromARGB(255, 59, 132, 228), fontSize: 12),
+              ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      overflow: TextOverflow.clip,
+                      overflow: TextOverflow.ellipsis,
                        textAlign: TextAlign.justify,
                       maxLines: 1,
-                      "${index+1}.${_poDataTable[index].gNAME ?? ""}",
+                      "${index+1}.${(_poDataTable[index].gNAME ?? "").length > 30? (_poDataTable[index].gNAME ?? "").substring(0,30) : (_poDataTable[index].gNAME ?? "")}",
                       style: const TextStyle(
                           color: Colors.blue, fontWeight: FontWeight.bold),
                     ),
@@ -378,7 +382,7 @@ class _QuanLyPoState extends State<QuanLyPo> {
                           color: Color.fromARGB(255, 104, 122, 3),
                           fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(width: 10,),
+                    const SizedBox(width: 10,),
                     Text(
                       GlobalFunction.MyDate('yyyy-MM-dd', _poDataTable[index].rDDATE??"") ,
                       style: const TextStyle(
@@ -389,13 +393,29 @@ class _QuanLyPoState extends State<QuanLyPo> {
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,                  
                   children: [
                     Text(
                       NumberFormat.decimalPattern('en_US')
                           .format(_poDataTable[index].pOQTY),
                       style: const TextStyle(
-                          color: Color.fromARGB(255, 0, 160, 40),
+                          color: Color.fromARGB(255, 80, 44, 236),
+                          fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(width: 8.0,),                   
+                    Text(
+                      NumberFormat.decimalPattern('en_US')
+                          .format(_poDataTable[index].tOTALDELIVERED),
+                      style: const TextStyle(
+                          color: Color.fromARGB(255, 9, 177, 18),
+                          fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(width: 8.0,),                   
+                    Text(
+                      NumberFormat.decimalPattern('en_US')
+                          .format(_poDataTable[index].pOBALANCE),
+                      style: const TextStyle(
+                          color: Color.fromARGB(255, 197, 1, 1),
                           fontWeight: FontWeight.bold),
                     ),
                   ],
@@ -412,17 +432,19 @@ class _QuanLyPoState extends State<QuanLyPo> {
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
                   colors: [
-                    Color.fromARGB(255, 156, 198, 233),
-                    Color.fromARGB(255, 51, 168, 51)
+                    Color.fromARGB(255, 243, 242, 245),
+                    Color.fromARGB(255, 153, 209, 247)
                   ], // Your gradient colors
                 ),
                 borderRadius:
                     BorderRadius.circular(25), // Optional: for rounded corners
               ),
-              child: Text(
-                '${_poDataTable[index].cUSTNAMEKD}',
-                style: const TextStyle(color: Colors.white, fontSize: 13),
-              ));
+              child: 
+              Text(
+                '${((_poDataTable[index].cUSTNAMEKD ?? "").length> 4 ? _poDataTable[index].cUSTNAMEKD!.substring(0,4) : _poDataTable[index].cUSTNAMEKD)}',
+                style: const TextStyle(color: Color.fromARGB(255, 59, 132, 228), fontSize: 12, fontWeight: FontWeight.bold),
+              ),
+              );
           final trailing = GestureDetector(
             onTapDown: (TapDownDetails details) {
               showMenu(
@@ -458,7 +480,7 @@ class _QuanLyPoState extends State<QuanLyPo> {
                         maindeptnamekrctrl.text =
                             _poDataTable[index].gNAME ?? "";
                         return AlertDialog(
-                          title: const Text('Edit Deparment'),
+                          title: const Text('Edit PO'),
                           content: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
@@ -503,35 +525,52 @@ class _QuanLyPoState extends State<QuanLyPo> {
             },
             child: const Icon(Icons.more_vert),
           );
-          return Container(
-              margin: const EdgeInsets.all(2.0),
-              padding: const EdgeInsets.all(2.0),
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.3),
-                    spreadRadius: 2.0,
-                    blurRadius: 5.0,
-                    offset: const Offset(
-                        0, 3), // Changes the position of the shadow
-                  )
-                ],
-                borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-                gradient: const LinearGradient(
-                    colors: [
-                      Color.fromARGB(255, 240, 238, 131),
-                      Color.fromARGB(255, 245, 235, 248),
+          return GestureDetector(
+            onLongPress: () {
+               AwesomeDialog(
+            context: context,
+            dialogType: DialogType.info,
+            animType: AnimType.rightSlide,
+            title: 'Thông báo',
+            desc: 'Đã chọn',
+            btnOkOnPress: () {},
+          ).show();
+
+            },
+            child: Container(            
+                margin: const EdgeInsets.all(2.0),
+                padding: const EdgeInsets.all(2.0),              
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.3),
+                      spreadRadius: 2.0,
+                      blurRadius: 5.0,
+                      offset: const Offset(
+                          0, 3), // Changes the position of the shadow
+                    )
+                  ],
+                  borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                  gradient: const LinearGradient(
+                      colors: [
+                        Color.fromARGB(255, 255, 255, 254),
+                        Color.fromARGB(255, 245, 235, 248),
+                      ],
+                      begin: FractionalOffset(0.0, 0.0),
+                      end: FractionalOffset(1.0, 0.0),
+                      stops: [0.0, 1.0],
+                      tileMode: TileMode.clamp),
+                ),
+                child: Row(                
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(children: [
+                      leading, SizedBox(width: 8,),child
+                    ],)
+                    ,trailing
                     ],
-                    begin: FractionalOffset(0.0, 0.0),
-                    end: FractionalOffset(1.0, 0.0),
-                    stops: [0.0, 1.0],
-                    tileMode: TileMode.clamp),
-              ),
-              child: Row(                
-                mainAxisAlignment: MainAxisAlignment.start,
-                
-                children: [leading, SizedBox(width: 8,),child],
-              ));
+                )),
+          );
         }),
         itemCount: _poDataTable.length,
       ),

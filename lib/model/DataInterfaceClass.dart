@@ -1128,9 +1128,9 @@ class PODATA {
   String? rDDATE;
   num? bEP;
   num? pRODPRICE;
-  int? pOQTY;
-  int? tOTALDELIVERED;
-  int? pOBALANCE;
+  num? pOQTY;
+  num? tOTALDELIVERED;
+  num? pOBALANCE;
   num? pOAMOUNT;
   num? dELIVEREDAMOUNT;
   num? bALANCEAMOUNT;
@@ -1141,8 +1141,8 @@ class PODATA {
   String? pRODMAINMATERIAL;
   String? cUSTCD;
   String? eMPLNO;
-  int? pOMONTH;
-  int? pOWEEKNUM;
+  num? pOMONTH;
+  num? pOWEEKNUM;
   String? oVERDUE;
   dynamic rEMARK;
   String? fINAL;

@@ -16,7 +16,7 @@ class GlobalController extends GetxController {
   updateUserData(UserData usr) {
     userData = usr;
   }
-  String serverIP = 'http:/14.160.33.94:3007/api';
+  String serverIP = 'http://14.160.33.94:3007/api';
   void changeServerIP(String newIP) {
     serverIP = newIP;
   }
