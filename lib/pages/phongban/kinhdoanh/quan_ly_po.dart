@@ -2,7 +2,9 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cms_flutter/controller/APIRequest.dart';
 import 'package:cms_flutter/controller/GlobalFunction.dart';
 import 'package:cms_flutter/model/DataInterfaceClass.dart';
+import 'package:cms_flutter/pages/phongban/kinhdoanh/po_detail.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'dart:async';
 import 'package:intl/intl.dart';
 
@@ -527,14 +529,7 @@ class _QuanLyPoState extends State<QuanLyPo> {
           );
           return GestureDetector(
             onLongPress: () {
-               AwesomeDialog(
-            context: context,
-            dialogType: DialogType.info,
-            animType: AnimType.rightSlide,
-            title: 'Thông báo',
-            desc: 'Đã chọn',
-            btnOkOnPress: () {},
-          ).show();
+               Get.to(()=> PoDetail(currentPO: _poDataTable[index]));
 
             },
             child: Container(            
