@@ -34,22 +34,16 @@ class _EmployeeInfoScreenState extends State<EmployeeInfoScreen> {
   final TextEditingController _user_ADD_COMMUNE_ctrl = TextEditingController();
   final TextEditingController _user_ADD_VILLAGE_ctrl = TextEditingController();
   final TextEditingController _user_PHONE_NUMBER_ctrl = TextEditingController();
-  final TextEditingController _user_WORK_START_DATE_ctrl =
-      TextEditingController();
-  final TextEditingController _user_WORK_END_DATE_ctrl =
-      TextEditingController();
+  final TextEditingController _user_WORK_START_DATE_ctrl = TextEditingController();
+  final TextEditingController _user_WORK_END_DATE_ctrl = TextEditingController();
   final TextEditingController _user_PASSWORD_ctrl = TextEditingController();
   final TextEditingController _user_EMAIL_ctrl = TextEditingController();
-  final TextEditingController _user_WORK_POSITION_CODE_ctrl =
-      TextEditingController();
-  final TextEditingController _user_WORK_SHIFT_CODE_ctrl =
-      TextEditingController();
-  final TextEditingController _user_POSITION_CODE_ctrl =
-      TextEditingController();
+  final TextEditingController _user_WORK_POSITION_CODE_ctrl = TextEditingController();
+  final TextEditingController _user_WORK_SHIFT_CODE_ctrl = TextEditingController();
+  final TextEditingController _user_POSITION_CODE_ctrl = TextEditingController();
   final TextEditingController _user_JOB_CODE_ctrl = TextEditingController();
   final TextEditingController _user_FACTORY_CODE_ctrl = TextEditingController();
-  final TextEditingController _user_WORK_STATUS_CODE_ctrl =
-      TextEditingController();
+  final TextEditingController _user_WORK_STATUS_CODE_ctrl = TextEditingController();
   String userWorkPositionName = "Rau má";
   List<String> listPosition = ['Manager', 'AM', 'Senior', 'Staff', 'NoPos'];
   List<String> listWorkStatus = ['Đã nghỉ', 'Đang làm', 'Nghỉ sinh'];
