@@ -1241,3 +1241,50 @@ class PODATA {
     return data;
   }
 }
+class CustomerListData {
+  String? cUSTCD;
+  String? cUSTNAMEKD;
+
+  CustomerListData({this.cUSTCD, this.cUSTNAMEKD});
+
+  CustomerListData.fromJson(Map<String, dynamic> json) {
+    cUSTCD = json['CUST_CD'];
+    cUSTNAMEKD = json['CUST_NAME_KD'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['CUST_CD'] = this.cUSTCD;
+    data['CUST_NAME_KD'] = this.cUSTNAMEKD;
+    return data;
+  }
+}
+
+class CodeListData {
+  String? gCODE;
+  String? gNAME;
+  String? gNAMEKD;
+  num? pRODLASTPRICE;
+  String? uSEYN;
+
+  CodeListData(
+      {this.gCODE, this.gNAME, this.gNAMEKD, this.pRODLASTPRICE, this.uSEYN});
+
+  CodeListData.fromJson(Map<String, dynamic> json) {
+    gCODE = json['G_CODE'];
+    gNAME = json['G_NAME'];
+    gNAMEKD = json['G_NAME_KD'];
+    pRODLASTPRICE = json['PROD_LAST_PRICE'];
+    uSEYN = json['USE_YN'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['G_CODE'] = this.gCODE;
+    data['G_NAME'] = this.gNAME;
+    data['G_NAME_KD'] = this.gNAMEKD;
+    data['PROD_LAST_PRICE'] = this.pRODLASTPRICE;
+    data['USE_YN'] = this.uSEYN;
+    return data;
+  }
+}
