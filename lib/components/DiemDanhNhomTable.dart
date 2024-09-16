@@ -10,7 +10,7 @@ import 'package:intl/intl.dart';
 class DiemDanhNhomTable extends StatefulWidget {
   /// Creates the home page.
   // ignore: prefer_const_constructors_in_immutables
-  DiemDanhNhomTable({Key? key}) : super(key: key);
+  DiemDanhNhomTable({super.key});
   @override
   // ignore: library_private_types_in_public_api
   _DiemDanhNhomTableState createState() => _DiemDanhNhomTableState();
@@ -39,7 +39,7 @@ class _DiemDanhNhomTableState extends State<DiemDanhNhomTable> {
   }
 }
 class DiemDanhNhomList extends StatefulWidget {
-  const DiemDanhNhomList({Key? key}) : super(key: key);
+  const DiemDanhNhomList({super.key});
   @override
   _DiemDanhNhomListState createState() => _DiemDanhNhomListState();
 }
@@ -47,8 +47,8 @@ class _DiemDanhNhomListState extends State<DiemDanhNhomList> {
   List<DiemDanhNhom> _listDiemDanh = List.empty(),
       _orgListDiemDanh = List.empty();
   List<WorkPositionTableData> _workPositionTable = List.empty();
-  TextEditingController _filterController = TextEditingController();
-  String _searchString = "";
+  final TextEditingController _filterController = TextEditingController();
+  final String _searchString = "";
   String _teamNameList = "ALL";
   bool _allTeam = false;
   Future<bool> setDiemDanhNhom(
@@ -293,7 +293,7 @@ class _DiemDanhNhomListState extends State<DiemDanhNhomList> {
                         loadDiemDanhNhom();
                       });
                     }),
-                Text("Cấp cao")
+                const Text("Cấp cao")
               ],
             ),
           ),
@@ -612,7 +612,7 @@ class _DiemDanhNhomListState extends State<DiemDanhNhomList> {
                               value: value,
                               child: Text(
                                 value,
-                                style: TextStyle(fontSize: 12),
+                                style: const TextStyle(fontSize: 12),
                               ),
                             );
                           }).toList(),
@@ -641,7 +641,7 @@ class _DiemDanhNhomListState extends State<DiemDanhNhomList> {
                               value: value,
                               child: Text(
                                 value,
-                                style: TextStyle(fontSize: 12),
+                                style: const TextStyle(fontSize: 12),
                               ),
                             );
                           }).toList(),

@@ -7,7 +7,7 @@ import 'package:marquee_text/marquee_text.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 class PoDetail extends StatefulWidget {
   final PODATA currentPO;
-  const PoDetail({Key? key, required this.currentPO}) : super(key: key);
+  const PoDetail({super.key, required this.currentPO});
   @override
   _PoDetailState createState() => _PoDetailState();
 }
@@ -98,7 +98,7 @@ class _PoDetailState extends State<PoDetail> {
   Widget _customPopupItemBuilderExample2(
       BuildContext context, CodeListData item, bool isSelected) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 8),
+      margin: const EdgeInsets.symmetric(horizontal: 8),
       decoration: !isSelected
           ? null
           : BoxDecoration(
@@ -166,7 +166,7 @@ class _PoDetailState extends State<PoDetail> {
                         asyncItems: (filter) => getData(filter),
                         items: _codeList,
                         itemAsString: (CodeListData u) =>
-                            u.gCODE! + '_' + u.gNAME!,
+                            '${u.gCODE!}_${u.gNAME!}',
                         onChanged: (CodeListData? data) {
                           setState(() {
                             _poG_CODE.text = data?.gCODE ?? '';
@@ -211,7 +211,7 @@ class _PoDetailState extends State<PoDetail> {
                       DropdownSearch<CustomerListData>(
                         items: _filteredCustomerList,
                         itemAsString: (CustomerListData u) =>
-                            u.cUSTCD! + '_' + u.cUSTNAMEKD!,
+                            '${u.cUSTCD!}_${u.cUSTNAMEKD!}',
                         onChanged: (CustomerListData? data) {
                           setState(() {
                             _poCUST_CD.text = data?.cUSTCD ?? '';

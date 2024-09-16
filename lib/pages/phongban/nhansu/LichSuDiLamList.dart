@@ -10,7 +10,7 @@ import 'package:intl/intl.dart';
 class LichSuDiLamTable extends StatefulWidget {
   /// Creates the home page.
   // ignore: prefer_const_constructors_in_immutables
-  LichSuDiLamTable({Key? key}) : super(key: key);
+  LichSuDiLamTable({super.key});
   @override
   // ignore: library_private_types_in_public_api
   _LichSuDiLamtableState createState() => _LichSuDiLamtableState();
@@ -42,29 +42,29 @@ class _LichSuDiLamtableState extends State<LichSuDiLamTable> {
             style: TextStyle(color: Colors.blueAccent),
           ),
         ),
-        body: MyDiemDanhList());
+        body: const MyDiemDanhList());
   }
 }
 class MyDiemDanhList extends StatefulWidget {
-  const MyDiemDanhList({Key? key}) : super(key: key);
+  const MyDiemDanhList({super.key});
   @override
   _MyDiemDanhListState createState() => _MyDiemDanhListState();
 }
 class _MyDiemDanhListState extends State<MyDiemDanhList> {
   List<MyDiemDanhData> _listDiemDanh = List.empty(),
       _orgListDiemDanh = List.empty();
-  List<WorkPositionTableData> _workPositionTable = List.empty();
-  TextEditingController _filterController = TextEditingController();
-  TextEditingController _fromDateController = TextEditingController();
-  TextEditingController _toDateController = TextEditingController();
+  final List<WorkPositionTableData> _workPositionTable = List.empty();
+  final TextEditingController _filterController = TextEditingController();
+  final TextEditingController _fromDateController = TextEditingController();
+  final TextEditingController _toDateController = TextEditingController();
   DateTime fromDate = DateTime.now();
   DateTime toDate = DateTime.now();
-  String _searchString = "";
-  String _teamNameList = "ALL";
-  bool _allTeam = false;
-  Future<void> loadDiemDanhNhom(String from_date, String to_date) async {
+  final String _searchString = "";
+  final String _teamNameList = "ALL";
+  final bool _allTeam = false;
+  Future<void> loadDiemDanhNhom(String fromDate, String toDate) async {
     API_Request.api_query(
-            'mydiemdanhnhom', {'from_date': from_date, 'to_date': to_date})
+            'mydiemdanhnhom', {'from_date': fromDate, 'to_date': toDate})
         .then((value) {
       setState((() {
         if (value['tk_status'] == 'OK') {
@@ -109,7 +109,7 @@ class _MyDiemDanhListState extends State<MyDiemDanhList> {
   }
   @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.start,
@@ -127,17 +127,17 @@ class _MyDiemDanhListState extends State<MyDiemDanhList> {
                 tileMode: TileMode.clamp),
           ),
           child: Form(
-            key: _formKey,
+            key: formKey,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
+                SizedBox(
                   width: 100,
                   height: 60,
                   child: TextFormField(
                     readOnly: true,
                     controller: _fromDateController,
-                    decoration: InputDecoration(labelText: 'From Date'),
+                    decoration: const InputDecoration(labelText: 'From Date'),
                     onTap: () async {
                       DateTime? pickedDate = await showDatePicker(
                         context: context,
@@ -145,23 +145,24 @@ class _MyDiemDanhListState extends State<MyDiemDanhList> {
                         firstDate: DateTime(1900),
                         lastDate: DateTime(2101),
                       );
-                      if (pickedDate != null && pickedDate != fromDate)
+                      if (pickedDate != null && pickedDate != fromDate) {
                         setState(() {
                           fromDate = pickedDate;
                           _fromDateController.text = GlobalFunction.MyDate(
                               'yyyy-MM-dd', fromDate.toString());
                         });
+                      }
                     },
                   ),
                 ),
-                SizedBox(width: 16),
-                Container(
+                const SizedBox(width: 16),
+                SizedBox(
                   width: 100,
                   height: 60,
                   child: TextFormField(
                     readOnly: true,
                     controller: _toDateController,
-                    decoration: InputDecoration(labelText: 'To Date'),
+                    decoration: const InputDecoration(labelText: 'To Date'),
                     onTap: () async {
                       DateTime? pickedDate = await showDatePicker(
                         context: context,
@@ -169,24 +170,25 @@ class _MyDiemDanhListState extends State<MyDiemDanhList> {
                         firstDate: DateTime(1900),
                         lastDate: DateTime(2101),
                       );
-                      if (pickedDate != null && pickedDate != toDate)
+                      if (pickedDate != null && pickedDate != toDate) {
                         setState(() {
                           toDate = pickedDate;
                           _toDateController.text = GlobalFunction.MyDate(
                               'yyyy-MM-dd', toDate.toString());
                         });
+                      }
                     },
                   ),
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    if (_formKey.currentState!.validate()) {
+                    if (formKey.currentState!.validate()) {
                       loadDiemDanhNhom(
                           _fromDateController.text, _toDateController.text);
-                      _formKey.currentState!.reset();
+                      formKey.currentState!.reset();
                     }
                   },
-                  child: Text('Load'),
+                  child: const Text('Load'),
                 ),
               ],
             ),
@@ -251,50 +253,50 @@ class _MyDiemDanhListState extends State<MyDiemDanhList> {
                             width: 80,
                             child: rowData.cHECK1 != null
                                 ? Text(
-                                    "${GlobalFunction.MyDate('HH:mm:ss', rowData.cHECK1.toString())}",
+                                    GlobalFunction.MyDate('HH:mm:ss', rowData.cHECK1.toString()),
                                     style: const TextStyle(
                                         color: Color.fromARGB(255, 0, 32, 211),
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold,
                                         fontStyle: FontStyle.italic),
                                   )
-                                : Text('-',
+                                : const Text('-',
                                     style: TextStyle(color: Colors.grey)),
                           ),
                           SizedBox(
                             width: 80,
                             child: rowData.cHECK2 != null
                                 ? Text(
-                                    "${GlobalFunction.MyDate('HH:mm:ss', rowData.cHECK2.toString())}",
+                                    GlobalFunction.MyDate('HH:mm:ss', rowData.cHECK2.toString()),
                                     style: const TextStyle(
                                         color: Color.fromARGB(255, 0, 32, 211),
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold,
                                         fontStyle: FontStyle.italic),
                                   )
-                                : Text('-',
+                                : const Text('-',
                                     style: TextStyle(color: Colors.grey)),
                           ),
                           SizedBox(
                             width: 80,
                             child: rowData.cHECK3 != null
                                 ? Text(
-                                    "${GlobalFunction.MyDate('HH:mm:ss', rowData.cHECK3.toString())}",
+                                    GlobalFunction.MyDate('HH:mm:ss', rowData.cHECK3.toString()),
                                     style: const TextStyle(
                                         color: Colors.green,
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold,
                                         fontStyle: FontStyle.italic),
                                   )
-                                : Text('-',
+                                : const Text('-',
                                     style: TextStyle(color: Colors.grey)),
                           ),
                           rowData.cHECK2 != null
-                              ? Icon(
+                              ? const Icon(
                                   Icons.check,
                                   color: Colors.green,
                                 )
-                              : Icon(Icons.cancel, color: Colors.red)
+                              : const Icon(Icons.cancel, color: Colors.red)
                         ],
                       ),
                     );

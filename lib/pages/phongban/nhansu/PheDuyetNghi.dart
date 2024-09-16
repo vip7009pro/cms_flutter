@@ -4,7 +4,7 @@ import 'package:cms_flutter/controller/GlobalFunction.dart';
 import 'package:cms_flutter/model/DataInterfaceClass.dart';
 import 'package:flutter/material.dart';
 class PheDuyetNghi extends StatefulWidget {
-  const PheDuyetNghi({Key? key}) : super(key: key);
+  const PheDuyetNghi({super.key});
   @override
   _PheDuyetNghiState createState() => _PheDuyetNghiState();
 }
@@ -18,6 +18,8 @@ class _PheDuyetNghiState extends State<PheDuyetNghi> {
 }
 
 class LeaveApprovalForm extends StatefulWidget {
+  const LeaveApprovalForm({super.key});
+
   @override
   _LeaveApprovalFormState createState() => _LeaveApprovalFormState();
 }
@@ -26,9 +28,9 @@ class _LeaveApprovalFormState extends State<LeaveApprovalForm> {
   List<PheDuyetNhomData> _listPheDuyet = List.empty(),
       _orgListPheDuyet = List.empty();
   bool _allTeam = false;
-  String _searchString = "";
+  final String _searchString = "";
   String _teamNameList = "ALL";
-  TextEditingController _filterController = TextEditingController();
+  final TextEditingController _filterController = TextEditingController();
 
   void filteringList() {
     setState(() {
@@ -150,7 +152,7 @@ class _LeaveApprovalFormState extends State<LeaveApprovalForm> {
                         loadPheDuyetNghi();
                       });
                     }),
-                Text("Cấp cao")
+                const Text("Cấp cao")
               ],
             ),
           ),
@@ -232,7 +234,7 @@ class _LeaveApprovalFormState extends State<LeaveApprovalForm> {
                 itemBuilder: (context, index) {
                   final request = _listPheDuyet[index];
                   return Container(
-                    margin: EdgeInsets.all(8.0),
+                    margin: const EdgeInsets.all(8.0),
                     decoration: BoxDecoration(
                       boxShadow: [
                         BoxShadow(
@@ -262,7 +264,7 @@ class _LeaveApprovalFormState extends State<LeaveApprovalForm> {
                         children: [
                           Row(
                             children: [
-                              Container(
+                              SizedBox(
                                 width: 185,
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
@@ -283,7 +285,7 @@ class _LeaveApprovalFormState extends State<LeaveApprovalForm> {
                                 ),
                               ),
                               const SizedBox(height: 15),
-                              Container(
+                              SizedBox(
                                 width: 175,
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
@@ -297,7 +299,7 @@ class _LeaveApprovalFormState extends State<LeaveApprovalForm> {
                                     ),
                                     Row(
                                       children: [
-                                        Text('Trạng thái:'),
+                                        const Text('Trạng thái:'),
                                         Text(
                                             ' ${request.aPPROVALSTATUS == 1 ? 'Phê duyệt' : request.aPPROVALSTATUS == 0 ? 'Từ chối' : 'Chờ duyệt'}',
                                             overflow: TextOverflow.clip,
@@ -344,7 +346,7 @@ class _LeaveApprovalFormState extends State<LeaveApprovalForm> {
                                                 padding: const EdgeInsets.all(5.0),
                                                 foregroundColor: Colors.white,
                                                 backgroundColor: Colors.green),
-                                            child: Text(
+                                            child: const Text(
                                               'Phê duyệt',
                                               style: TextStyle(
                                                 fontSize: 12.0,
@@ -367,7 +369,7 @@ class _LeaveApprovalFormState extends State<LeaveApprovalForm> {
                                                 padding: const EdgeInsets.all(5.0),
                                                 foregroundColor: Colors.white,
                                                 backgroundColor: Colors.red),
-                                            child: Text(
+                                            child: const Text(
                                               'Từ chối X',
                                               style: TextStyle(
                                                 fontSize: 12.0,
@@ -376,7 +378,7 @@ class _LeaveApprovalFormState extends State<LeaveApprovalForm> {
                                           ),
                                         ],
                                       )
-                                    : Text(''),
+                                    : const Text(''),
                                 ElevatedButton(
                                   onPressed: () {
                                     // Logic to cancel leave request
@@ -404,7 +406,7 @@ class _LeaveApprovalFormState extends State<LeaveApprovalForm> {
                                       padding: const EdgeInsets.all(5.0),
                                       foregroundColor: Colors.white,
                                       backgroundColor: Colors.grey),
-                                  child: Text(
+                                  child: const Text(
                                     'Xóa Đ. Ký',
                                     style: TextStyle(
                                       fontSize: 12.0,
@@ -423,8 +425,8 @@ class _LeaveApprovalFormState extends State<LeaveApprovalForm> {
                                       padding: const EdgeInsets.all(5.0),
                                       foregroundColor: Colors.white,
                                       backgroundColor:
-                                          Color.fromARGB(255, 226, 155, 48)),
-                                  child: Text(
+                                          const Color.fromARGB(255, 226, 155, 48)),
+                                  child: const Text(
                                     'Reset Đ.Ký',
                                     style: TextStyle(
                                       fontSize: 12.0,

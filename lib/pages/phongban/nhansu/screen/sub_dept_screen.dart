@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 class SubDeptScreen extends StatefulWidget {
   final int MAINDEPTCODE;
-  const SubDeptScreen({Key? key, required this.MAINDEPTCODE}) : super(key: key);
+  const SubDeptScreen({super.key, required this.MAINDEPTCODE});
   @override
   _SubDeptScreenState createState() => _SubDeptScreenState();
 }
@@ -218,16 +218,16 @@ class _SubDeptScreenState extends State<SubDeptScreen> {
                                           context: context,
                                           builder: (BuildContext context) {
                                             TextEditingController
-                                                _subdeptnamevnctrl =
+                                                subdeptnamevnctrl =
                                                 TextEditingController();
                                             TextEditingController
-                                                _subdeptnamekrctrl =
+                                                subdeptnamekrctrl =
                                                 TextEditingController();
-                                            _subdeptnamevnctrl.text =
+                                            subdeptnamevnctrl.text =
                                                 _subDeptList[index]
                                                         .sUBDEPTNAME ??
                                                     "";
-                                            _subdeptnamekrctrl.text =
+                                            subdeptnamekrctrl.text =
                                                 _subDeptList[index]
                                                         .sUBDEPTNAMEKR ??
                                                     "";
@@ -244,7 +244,7 @@ class _SubDeptScreenState extends State<SubDeptScreen> {
                                                           'Sub Dept Name VN',
                                                     ),
                                                     controller:
-                                                        _subdeptnamevnctrl,
+                                                        subdeptnamevnctrl,
                                                   ),
                                                   TextField(
                                                     decoration:
@@ -253,7 +253,7 @@ class _SubDeptScreenState extends State<SubDeptScreen> {
                                                           'Sub Dept Name KR',
                                                     ),
                                                     controller:
-                                                        _subdeptnamekrctrl,
+                                                        subdeptnamekrctrl,
                                                   ),
                                                   const SizedBox(height: 20),
                                                   ElevatedButton(
@@ -263,9 +263,9 @@ class _SubDeptScreenState extends State<SubDeptScreen> {
                                                           _subDeptList[index]
                                                                   .sUBDEPTCODE ??
                                                               111111,
-                                                          _subdeptnamevnctrl
+                                                          subdeptnamevnctrl
                                                               .text,
-                                                          _subdeptnamekrctrl
+                                                          subdeptnamekrctrl
                                                               .text);
                                                       Navigator.of(context)
                                                           .pop();
@@ -312,15 +312,15 @@ class _SubDeptScreenState extends State<SubDeptScreen> {
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
-                                  TextEditingController _subdeptcodectrl =
+                                  TextEditingController subdeptcodectrl =
                                       TextEditingController();
-                                  TextEditingController _subdeptnamevnctrl =
+                                  TextEditingController subdeptnamevnctrl =
                                       TextEditingController();
-                                  TextEditingController _subdeptnamekrctrl =
+                                  TextEditingController subdeptnamekrctrl =
                                       TextEditingController();
-                                  _subdeptcodectrl.text = "";
-                                  _subdeptnamevnctrl.text = "";
-                                  _subdeptnamekrctrl.text = "";
+                                  subdeptcodectrl.text = "";
+                                  subdeptnamevnctrl.text = "";
+                                  subdeptnamekrctrl.text = "";
                                   return AlertDialog(
                                     title: const Text('Add Sub Deparment'),
                                     content: Column(
@@ -330,19 +330,19 @@ class _SubDeptScreenState extends State<SubDeptScreen> {
                                           decoration: const InputDecoration(
                                             hintText: 'Sub Dept Code',
                                           ),
-                                          controller: _subdeptcodectrl,
+                                          controller: subdeptcodectrl,
                                         ),
                                         TextField(
                                           decoration: const InputDecoration(
                                             hintText: 'Sub Dept Name VN',
                                           ),
-                                          controller: _subdeptnamevnctrl,
+                                          controller: subdeptnamevnctrl,
                                         ),
                                         TextField(
                                           decoration: const InputDecoration(
                                             hintText: 'Sub Dept Name KR',
                                           ),
-                                          controller: _subdeptnamekrctrl,
+                                          controller: subdeptnamekrctrl,
                                         ),
                                         const SizedBox(height: 20),
                                         ElevatedButton(
@@ -351,9 +351,9 @@ class _SubDeptScreenState extends State<SubDeptScreen> {
                                             _addSubDept(
                                                 widget.MAINDEPTCODE,
                                                 int.parse(
-                                                    _subdeptcodectrl.text),
-                                                _subdeptnamevnctrl.text,
-                                                _subdeptnamekrctrl.text);
+                                                    subdeptcodectrl.text),
+                                                subdeptnamevnctrl.text,
+                                                subdeptnamekrctrl.text);
                                             Navigator.of(context).pop();
                                           },
                                           child: const Text('Create New'),

@@ -5,7 +5,7 @@ import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 class BangData extends StatefulWidget {
   /// Creates the home page.
   // ignore: prefer_const_constructors_in_immutables
-  BangData({Key? key}) : super(key: key);
+  BangData({super.key});
   @override
   // ignore: library_private_types_in_public_api
   _BangDataState createState() => _BangDataState();

@@ -116,7 +116,7 @@ Future<void> tryOtaUpdate() async {
 @override
 void initState() {
    //_checkMobileVer();
-    _timer = Timer.periodic(Duration(seconds: 5), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 5), (timer) {
       _checkMobileVer();
     });
   super.initState();}
@@ -140,7 +140,7 @@ void initState() {
                 "Home",
               ),
               logo,
-              Text("Ver: ${mobileVer}", style: TextStyle(fontSize: 10),)
+              Text("Ver: $mobileVer", style: const TextStyle(fontSize: 10),)
             ],
           ),
           backgroundColor: Colors.transparent,
@@ -611,7 +611,7 @@ void initState() {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         )),
-        child: HomeWidget(),
+        child: const HomeWidget(),
         /* child: Obx(() =>  Container(
           height: double.infinity,
           width: double.infinity,
@@ -642,7 +642,7 @@ void initState() {
           ),
         ],
         currentIndex: _selectedBottomIndex,
-        selectedItemColor: Color.fromARGB(255, 252, 238, 34),
+        selectedItemColor: const Color.fromARGB(255, 252, 238, 34),
         onTap: _onBottomItemTapped,
       ),
       /* floatingActionButton: Builder(builder: (context) {

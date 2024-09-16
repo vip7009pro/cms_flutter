@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class KinhDoanh extends StatefulWidget {
-  const KinhDoanh({Key? key}) : super(key: key);
+  const KinhDoanh({super.key});
 
   @override
   _KinhDoanhState createState() => _KinhDoanhState();

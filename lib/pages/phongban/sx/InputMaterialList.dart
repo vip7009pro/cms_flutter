@@ -8,7 +8,7 @@ import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 class InputMaterialList extends StatefulWidget {
   final String planID;
-  const InputMaterialList({Key? key, required this.planID}) : super(key: key);
+  const InputMaterialList({super.key, required this.planID});
   @override
   _InputMaterialListState createState() => _InputMaterialListState();
 }

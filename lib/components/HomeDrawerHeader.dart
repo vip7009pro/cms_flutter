@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class HomeDrawerHeader extends StatefulWidget {
-  const HomeDrawerHeader({Key? key}) : super(key: key);
+  const HomeDrawerHeader({super.key});
   @override
   _HomeDrawerHeaderState createState() => _HomeDrawerHeaderState();
 }

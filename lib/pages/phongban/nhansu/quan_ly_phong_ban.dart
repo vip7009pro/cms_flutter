@@ -33,11 +33,11 @@ class _QuanLyPhongBanState extends State<QuanLyPhongBan> {
       } else {}
     });
   }
-  Future<void> _addMainDept(int MAINDEPTCODE, String MAINDEPTNAME, String MAINDEPTNAME_KR) async {
+  Future<void> _addMainDept(int MAINDEPTCODE, String MAINDEPTNAME, String maindeptnameKr) async {
     await API_Request.api_query('insertmaindept', {
       'MAINDEPTCODE':MAINDEPTCODE,
       'MAINDEPTNAME':MAINDEPTNAME,
-      'MAINDEPTNAME_KR':MAINDEPTNAME_KR,
+      'MAINDEPTNAME_KR':maindeptnameKr,
     }).then((value) {
       if (value['tk_status'] == 'OK') {        
         AwesomeDialog(
@@ -61,12 +61,12 @@ class _QuanLyPhongBanState extends State<QuanLyPhongBan> {
       }
     });
   }
-  Future<void> _updateMainDept(int MAINDEPTCODE, String MAINDEPTNAME, String MAINDEPTNAME_KR) async {
+  Future<void> _updateMainDept(int MAINDEPTCODE, String MAINDEPTNAME, String maindeptnameKr) async {
     
      await API_Request.api_query('updatemaindept', {
       'MAINDEPTCODE':MAINDEPTCODE,
       'MAINDEPTNAME':MAINDEPTNAME,
-      'MAINDEPTNAME_KR':MAINDEPTNAME_KR,
+      'MAINDEPTNAME_KR':maindeptnameKr,
     }).then((value) {
       if (value['tk_status'] == 'OK') {        
         AwesomeDialog(
@@ -217,10 +217,10 @@ class _QuanLyPhongBanState extends State<QuanLyPhongBan> {
                                       showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
-                                            TextEditingController _maindeptnamevnctrl = TextEditingController();
-                                            TextEditingController _maindeptnamekrctrl = TextEditingController();
-                                            _maindeptnamevnctrl.text = _mainDeptList[index].MAINDEPTNAME??"";
-                                            _maindeptnamekrctrl.text = _mainDeptList[index].MAINDEPTNAME_KR??"";
+                                            TextEditingController maindeptnamevnctrl = TextEditingController();
+                                            TextEditingController maindeptnamekrctrl = TextEditingController();
+                                            maindeptnamevnctrl.text = _mainDeptList[index].MAINDEPTNAME??"";
+                                            maindeptnamekrctrl.text = _mainDeptList[index].MAINDEPTNAME_KR??"";
                                           return AlertDialog(
                                             title: const Text('Edit Deparment'),
                                             content: Column(
@@ -230,19 +230,19 @@ class _QuanLyPhongBanState extends State<QuanLyPhongBan> {
                                                   decoration:  const InputDecoration(
                                                     hintText: 'Main Dept Name VN',
                                                   ),
-                                                  controller: _maindeptnamevnctrl,
+                                                  controller: maindeptnamevnctrl,
                                                 ),
                                                  TextField(
                                                   decoration:  const  InputDecoration(
                                                     hintText: 'Main Dept Name KR',
                                                   ),
-                                                  controller: _maindeptnamekrctrl,
+                                                  controller: maindeptnamekrctrl,
                                                 ),
                                                 const SizedBox(height: 20),
                                                 ElevatedButton(
                                                   onPressed: () {
                                                     // Implement the button functionality here                                                   
-                                                    _updateMainDept(_mainDeptList[index].MAINDEPTCODE ?? 111111, _maindeptnamevnctrl.text, _maindeptnamekrctrl.text);                                                     
+                                                    _updateMainDept(_mainDeptList[index].MAINDEPTCODE ?? 111111, maindeptnamevnctrl.text, maindeptnamekrctrl.text);                                                     
 
                                                     Navigator.of(context).pop();
                                                   },
@@ -286,12 +286,12 @@ class _QuanLyPhongBanState extends State<QuanLyPhongBan> {
                             showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
-                                            TextEditingController _maindeptcodectrl = TextEditingController();
-                                            TextEditingController _maindeptnamevnctrl = TextEditingController();
-                                            TextEditingController _maindeptnamekrctrl = TextEditingController();
-                                            _maindeptcodectrl.text = "";
-                                            _maindeptnamevnctrl.text = "";
-                                            _maindeptnamekrctrl.text = "";
+                                            TextEditingController maindeptcodectrl = TextEditingController();
+                                            TextEditingController maindeptnamevnctrl = TextEditingController();
+                                            TextEditingController maindeptnamekrctrl = TextEditingController();
+                                            maindeptcodectrl.text = "";
+                                            maindeptnamevnctrl.text = "";
+                                            maindeptnamekrctrl.text = "";
                                           return AlertDialog(
                                             title: const Text('Add Deparment'),
                                             content: Column(
@@ -301,25 +301,25 @@ class _QuanLyPhongBanState extends State<QuanLyPhongBan> {
                                                   decoration:  const InputDecoration(
                                                     hintText: 'Main Dept Code',
                                                   ),
-                                                  controller: _maindeptcodectrl,
+                                                  controller: maindeptcodectrl,
                                                 ),
                                                  TextField(
                                                   decoration:  const InputDecoration(
                                                     hintText: 'Main Dept Name VN',
                                                   ),
-                                                  controller: _maindeptnamevnctrl,
+                                                  controller: maindeptnamevnctrl,
                                                 ),
                                                  TextField(
                                                   decoration:  const  InputDecoration(
                                                     hintText: 'Main Dept Name KR',
                                                   ),
-                                                  controller: _maindeptnamekrctrl,
+                                                  controller: maindeptnamekrctrl,
                                                 ),
                                                 const SizedBox(height: 20),
                                                 ElevatedButton(
                                                   onPressed: () {
                                                     // Implement the button functionality here
-                                                    _addMainDept(int.parse(_maindeptcodectrl.text), _maindeptnamevnctrl.text, _maindeptnamekrctrl.text);
+                                                    _addMainDept(int.parse(maindeptcodectrl.text), maindeptnamevnctrl.text, maindeptnamekrctrl.text);
                                                     Navigator.of(context).pop();
                                                   },
                                                   child: const  Text('Create New'),

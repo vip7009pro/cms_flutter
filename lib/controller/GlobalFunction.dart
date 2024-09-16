@@ -34,37 +34,35 @@ class GlobalFunction {
   return input.split('').map((char) => vietnameseCharacters[char] ?? char).join();
 }
 static String MyDate(String format, String datetimedata) {
-  if(datetimedata == null)  
-  return "";
   return DateFormat(format).format(DateTime.parse(datetimedata));
 }
 }
-bool CheckPermission(UserData userData, List<String> permitted_main_dept,
-    List<String> permitted_position, List<String> permitted_empl, void func()) {
+bool CheckPermission(UserData userData, List<String> permittedMainDept,
+    List<String> permittedPosition, List<String> permittedEmpl, void Function() func) {
   bool check = false;
   if (userData.eMPLNO == 'NHU1903') {
     func();
     check = true;
   } else {
-    if (permitted_main_dept.contains('ALL')) {
-      if (permitted_position.contains('ALL')) {
-        if (permitted_empl.contains('ALL')) {
+    if (permittedMainDept.contains('ALL')) {
+      if (permittedPosition.contains('ALL')) {
+        if (permittedEmpl.contains('ALL')) {
           func();
           check = true;
         } else {
-          if (permitted_empl.contains(userData.eMPLNO)) {
+          if (permittedEmpl.contains(userData.eMPLNO)) {
             check = true;
             func();
           }
         }
       } else {
-        if (permitted_position.contains(userData.pOSITIONNAME)) {
+        if (permittedPosition.contains(userData.pOSITIONNAME)) {
           check = true;
           func();
         }
       }
     } else {
-      if (permitted_main_dept.contains(userData.mAINDEPTNAME)) {
+      if (permittedMainDept.contains(userData.mAINDEPTNAME)) {
         check = true;
         func();
       }

@@ -9,17 +9,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 class QuanLyNhanSu extends StatefulWidget {
   const QuanLyNhanSu({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
   @override
   _SubDeptScreenState createState() => _SubDeptScreenState();
 }
 class _SubDeptScreenState extends State<QuanLyNhanSu> {
   final GlobalController globalC = Get.put(GlobalController());
-  String _searchString = "";
+  final String _searchString = "";
   String _teamNameList = "ALL";
   bool _allTeam = false;
-  TextEditingController _filterController = TextEditingController();
+  final TextEditingController _filterController = TextEditingController();
   List<SUBDEPTDATA> _subDeptList = List.empty();
   List<EmployeeData> _employeeList = List.empty();
   List<EmployeeData> _org_employeeList = List.empty();
@@ -307,17 +307,17 @@ class _SubDeptScreenState extends State<QuanLyNhanSu> {
                               gradient: LinearGradient(
                                   colors: [
                                     _employeeList[index].wORKSTATUSCODE == 1
-                                        ? Color.fromARGB(255, 229, 178, 245)
+                                        ? const Color.fromARGB(255, 229, 178, 245)
                                         : _employeeList[index].wORKSTATUSCODE ==
                                                 2
-                                            ? Color.fromARGB(255, 211, 231, 119)
-                                            : Color.fromARGB(
+                                            ? const Color.fromARGB(255, 211, 231, 119)
+                                            : const Color.fromARGB(
                                                 255, 144, 139, 146),
-                                    Color.fromARGB(255, 245, 235, 248),
+                                    const Color.fromARGB(255, 245, 235, 248),
                                   ],
-                                  begin: FractionalOffset(0.0, 0.0),
-                                  end: FractionalOffset(1.0, 0.0),
-                                  stops: [0.0, 1.0],
+                                  begin: const FractionalOffset(0.0, 0.0),
+                                  end: const FractionalOffset(1.0, 0.0),
+                                  stops: const [0.0, 1.0],
                                   tileMode: TileMode.clamp),
                             ),
                             child: ListTile(
