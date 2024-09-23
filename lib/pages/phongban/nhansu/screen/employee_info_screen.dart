@@ -11,8 +11,7 @@ import 'package:image_picker/image_picker.dart';
 
 class EmployeeInfoScreen extends StatefulWidget {
   final EmployeeData userData;
-  const EmployeeInfoScreen({Key? key, required this.userData})
-      : super(key: key);
+  const EmployeeInfoScreen({super.key, required this.userData});
   @override
   _EmployeeInfoScreenState createState() => _EmployeeInfoScreenState();
 }
@@ -235,7 +234,7 @@ class _EmployeeInfoScreenState extends State<EmployeeInfoScreen> {
                 color: Colors.black.withOpacity(0.2), // Shadow color
                 spreadRadius: 3, // Spread radius
                 blurRadius: 10, // Blur radius
-                offset: Offset(0, 3), // Offset in the x, y direction
+                offset: const Offset(0, 3), // Offset in the x, y direction
               )
             ],
             image: DecorationImage(
@@ -271,7 +270,7 @@ class _EmployeeInfoScreenState extends State<EmployeeInfoScreen> {
               ),
             )),
         body: Container(
-          padding: EdgeInsets.all(10),
+          padding: const EdgeInsets.all(10),
           child: Column(
             children: [
               Flexible(

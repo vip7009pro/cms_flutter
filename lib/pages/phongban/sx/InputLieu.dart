@@ -16,7 +16,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ota_update/ota_update.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 class InputLieu extends StatefulWidget {
-  const InputLieu({Key? key}) : super(key: key);
+  const InputLieu({super.key});
   @override
   _InputLieuState createState() => _InputLieuState();
 }
@@ -450,11 +450,11 @@ class _InputLieuState extends State<InputLieu> {
     });
   }
   final _formKey = GlobalKey<FormState>();
-  Color getColor(Set<MaterialState> states) {
-    const Set<MaterialState> interactiveStates = <MaterialState>{
-      MaterialState.pressed,
-      MaterialState.hovered,
-      MaterialState.focused,
+  Color getColor(Set<WidgetState> states) {
+    const Set<WidgetState> interactiveStates = <WidgetState>{
+      WidgetState.pressed,
+      WidgetState.hovered,
+      WidgetState.focused,
     };
     if (states.any(interactiveStates.contains)) {
       return Colors.blue;
@@ -615,7 +615,7 @@ class _InputLieuState extends State<InputLieu> {
                           Checkbox(
                             checkColor: Colors.green,
                             fillColor:
-                                MaterialStateProperty.resolveWith(getColor),
+                                WidgetStateProperty.resolveWith(getColor),
                             value: _useScanner,
                             onChanged: (bool? value) {
                               setState(() {

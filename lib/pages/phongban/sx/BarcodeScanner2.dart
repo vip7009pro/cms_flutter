@@ -7,7 +7,7 @@ const frontCamera = 'FRONT CAMERA';
 const backCamera = 'BACK CAMERA';
 
 class QRViewExample2 extends StatefulWidget {
-  const QRViewExample2({Key? key}) : super(key: key);
+  const QRViewExample2({super.key});
   @override
   State<StatefulWidget> createState() => _QRViewExample2State();
 }

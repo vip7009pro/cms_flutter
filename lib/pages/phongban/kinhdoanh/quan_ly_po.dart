@@ -11,14 +11,14 @@ import 'package:marquee_text/marquee_direction.dart';
 import 'package:marquee_text/marquee_text.dart';
 
 class QuanLyPo extends StatefulWidget {
-  const QuanLyPo({Key? key}) : super(key: key);
+  const QuanLyPo({super.key});
   @override
   _QuanLyPoState createState() => _QuanLyPoState();
 }
 
 class _QuanLyPoState extends State<QuanLyPo> {
   DateTime _fromDate = DateTime.now();
-  DateTime _toDate = DateTime.now();
+  final DateTime _toDate = DateTime.now();
   String _gName = "";
   String _gCode = "";
   String _emplName = "";
@@ -31,18 +31,18 @@ class _QuanLyPoState extends State<QuanLyPo> {
   String _invoiceNo = "";
   bool _allTime = true;
   bool _justPOBalance = true;
-  TextEditingController _fromDateController = TextEditingController();
-  TextEditingController _toDateController = TextEditingController();
-  TextEditingController _gNameController = TextEditingController();
-  TextEditingController _gCodeController = TextEditingController();
-  TextEditingController _emplNameController = TextEditingController();
-  TextEditingController _custNameController = TextEditingController();
-  TextEditingController _prodTypeController = TextEditingController();
-  TextEditingController _idController = TextEditingController();
-  TextEditingController _poNoController = TextEditingController();
-  TextEditingController _mainMaterialController = TextEditingController();
-  TextEditingController _overDueController = TextEditingController();
-  TextEditingController _invoiceNoController = TextEditingController();
+  final TextEditingController _fromDateController = TextEditingController();
+  final TextEditingController _toDateController = TextEditingController();
+  final TextEditingController _gNameController = TextEditingController();
+  final TextEditingController _gCodeController = TextEditingController();
+  final TextEditingController _emplNameController = TextEditingController();
+  final TextEditingController _custNameController = TextEditingController();
+  final TextEditingController _prodTypeController = TextEditingController();
+  final TextEditingController _idController = TextEditingController();
+  final TextEditingController _poNoController = TextEditingController();
+  final TextEditingController _mainMaterialController = TextEditingController();
+  final TextEditingController _overDueController = TextEditingController();
+  final TextEditingController _invoiceNoController = TextEditingController();
   List<PODATA> _poDataTable = List.empty();
   Future<void> _loadPOData() async {
     await API_Request.api_query('traPODataFull', {
@@ -265,7 +265,7 @@ class _QuanLyPoState extends State<QuanLyPo> {
                                     checkColor: const Color.fromARGB(
                                         255, 255, 255, 255),
                                     fillColor:
-                                        MaterialStateProperty.resolveWith(
+                                        WidgetStateProperty.resolveWith(
                                             getColor),
                                     value: _allTime,
                                     onChanged: (bool? value) {
@@ -284,7 +284,7 @@ class _QuanLyPoState extends State<QuanLyPo> {
                                     checkColor: const Color.fromARGB(
                                         255, 255, 255, 255),
                                     fillColor:
-                                        MaterialStateProperty.resolveWith(
+                                        WidgetStateProperty.resolveWith(
                                             getColor),
                                     value: _justPOBalance,
                                     onChanged: (bool? value) {
@@ -452,7 +452,7 @@ class _QuanLyPoState extends State<QuanLyPo> {
           final leading = Container(
             width: 60,
             height: 60,
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             alignment: Alignment.center,
             decoration: BoxDecoration(
               gradient: const LinearGradient(
@@ -586,7 +586,7 @@ class _QuanLyPoState extends State<QuanLyPo> {
                     Row(
                       children: [
                         leading,
-                        SizedBox(
+                        const SizedBox(
                           width: 8,
                         ),
                         child

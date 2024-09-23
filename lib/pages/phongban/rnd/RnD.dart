@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class RnD extends StatefulWidget {
-  const RnD({Key? key}) : super(key: key);
+  const RnD({super.key});
 
   @override
   _RnDState createState() => _RnDState();

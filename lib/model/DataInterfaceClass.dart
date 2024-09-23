@@ -515,64 +515,64 @@ class PheDuyetNhomData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['CTR_CD'] = this.cTRCD;
-    data['EMPL_NO'] = this.eMPLNO;
-    data['REQUEST_DATE'] = this.rEQUESTDATE;
-    data['APPLY_DATE'] = this.aPPLYDATE;
-    data['REASON_CODE'] = this.rEASONCODE;
-    data['REMARK'] = this.rEMARK;
-    data['APPROVAL_STATUS'] = this.aPPROVALSTATUS;
-    data['OFF_ID'] = this.oFFID;
-    data['CA_NGHI'] = this.cANGHI;
-    data['CMS_ID'] = this.cMSID;
-    data['FIRST_NAME'] = this.fIRSTNAME;
-    data['MIDLAST_NAME'] = this.mIDLASTNAME;
-    data['DOB'] = this.dOB;
-    data['HOMETOWN'] = this.hOMETOWN;
-    data['SEX_CODE'] = this.sEXCODE;
-    data['ADD_PROVINCE'] = this.aDDPROVINCE;
-    data['ADD_DISTRICT'] = this.aDDDISTRICT;
-    data['ADD_COMMUNE'] = this.aDDCOMMUNE;
-    data['ADD_VILLAGE'] = this.aDDVILLAGE;
-    data['PHONE_NUMBER'] = this.pHONENUMBER;
-    data['WORK_START_DATE'] = this.wORKSTARTDATE;
-    data['PASSWORD'] = this.pASSWORD;
-    data['EMAIL'] = this.eMAIL;
-    data['WORK_POSITION_CODE'] = this.wORKPOSITIONCODE;
-    data['WORK_SHIFT_CODE'] = this.wORKSHIFTCODE;
-    data['POSITION_CODE'] = this.pOSITIONCODE;
-    data['JOB_CODE'] = this.jOBCODE;
-    data['FACTORY_CODE'] = this.fACTORYCODE;
-    data['WORK_STATUS_CODE'] = this.wORKSTATUSCODE;
-    data['ONLINE_DATETIME'] = this.oNLINEDATETIME;
-    data['SEX_NAME'] = this.sEXNAME;
-    data['SEX_NAME_KR'] = this.sEXNAMEKR;
-    data['WORK_STATUS_NAME'] = this.wORKSTATUSNAME;
-    data['WORK_STATUS_NAME_KR'] = this.wORKSTATUSNAMEKR;
-    data['FACTORY_NAME'] = this.fACTORYNAME;
-    data['FACTORY_NAME_KR'] = this.fACTORYNAMEKR;
-    data['JOB_NAME'] = this.jOBNAME;
-    data['JOB_NAME_KR'] = this.jOBNAMEKR;
-    data['POSITION_NAME'] = this.pOSITIONNAME;
-    data['POSITION_NAME_KR'] = this.pOSITIONNAMEKR;
-    data['WORK_SHIF_NAME'] = this.wORKSHIFNAME;
-    data['WORK_SHIF_NAME_KR'] = this.wORKSHIFNAMEKR;
-    data['SUBDEPTCODE'] = this.sUBDEPTCODE;
-    data['WORK_POSITION_NAME'] = this.wORKPOSITIONNAME;
-    data['WORK_POSITION_NAME_KR'] = this.wORKPOSITIONNAMEKR;
-    data['ATT_GROUP_CODE'] = this.aTTGROUPCODE;
-    data['MAINDEPTCODE'] = this.mAINDEPTCODE;
-    data['SUBDEPTNAME'] = this.sUBDEPTNAME;
-    data['SUBDEPTNAME_KR'] = this.sUBDEPTNAMEKR;
-    data['MAINDEPTNAME'] = this.mAINDEPTNAME;
-    data['MAINDEPTNAME_KR'] = this.mAINDEPTNAMEKR;
-    data['REASON_NAME'] = this.rEASONNAME;
-    data['REASON_NAME_KR'] = this.rEASONNAMEKR;
-    data['ON_OFF'] = this.oNOFF;
-    data['OVERTIME_INFO'] = this.oVERTIMEINFO;
-    data['OVERTIME'] = this.oVERTIME;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['CTR_CD'] = cTRCD;
+    data['EMPL_NO'] = eMPLNO;
+    data['REQUEST_DATE'] = rEQUESTDATE;
+    data['APPLY_DATE'] = aPPLYDATE;
+    data['REASON_CODE'] = rEASONCODE;
+    data['REMARK'] = rEMARK;
+    data['APPROVAL_STATUS'] = aPPROVALSTATUS;
+    data['OFF_ID'] = oFFID;
+    data['CA_NGHI'] = cANGHI;
+    data['CMS_ID'] = cMSID;
+    data['FIRST_NAME'] = fIRSTNAME;
+    data['MIDLAST_NAME'] = mIDLASTNAME;
+    data['DOB'] = dOB;
+    data['HOMETOWN'] = hOMETOWN;
+    data['SEX_CODE'] = sEXCODE;
+    data['ADD_PROVINCE'] = aDDPROVINCE;
+    data['ADD_DISTRICT'] = aDDDISTRICT;
+    data['ADD_COMMUNE'] = aDDCOMMUNE;
+    data['ADD_VILLAGE'] = aDDVILLAGE;
+    data['PHONE_NUMBER'] = pHONENUMBER;
+    data['WORK_START_DATE'] = wORKSTARTDATE;
+    data['PASSWORD'] = pASSWORD;
+    data['EMAIL'] = eMAIL;
+    data['WORK_POSITION_CODE'] = wORKPOSITIONCODE;
+    data['WORK_SHIFT_CODE'] = wORKSHIFTCODE;
+    data['POSITION_CODE'] = pOSITIONCODE;
+    data['JOB_CODE'] = jOBCODE;
+    data['FACTORY_CODE'] = fACTORYCODE;
+    data['WORK_STATUS_CODE'] = wORKSTATUSCODE;
+    data['ONLINE_DATETIME'] = oNLINEDATETIME;
+    data['SEX_NAME'] = sEXNAME;
+    data['SEX_NAME_KR'] = sEXNAMEKR;
+    data['WORK_STATUS_NAME'] = wORKSTATUSNAME;
+    data['WORK_STATUS_NAME_KR'] = wORKSTATUSNAMEKR;
+    data['FACTORY_NAME'] = fACTORYNAME;
+    data['FACTORY_NAME_KR'] = fACTORYNAMEKR;
+    data['JOB_NAME'] = jOBNAME;
+    data['JOB_NAME_KR'] = jOBNAMEKR;
+    data['POSITION_NAME'] = pOSITIONNAME;
+    data['POSITION_NAME_KR'] = pOSITIONNAMEKR;
+    data['WORK_SHIF_NAME'] = wORKSHIFNAME;
+    data['WORK_SHIF_NAME_KR'] = wORKSHIFNAMEKR;
+    data['SUBDEPTCODE'] = sUBDEPTCODE;
+    data['WORK_POSITION_NAME'] = wORKPOSITIONNAME;
+    data['WORK_POSITION_NAME_KR'] = wORKPOSITIONNAMEKR;
+    data['ATT_GROUP_CODE'] = aTTGROUPCODE;
+    data['MAINDEPTCODE'] = mAINDEPTCODE;
+    data['SUBDEPTNAME'] = sUBDEPTNAME;
+    data['SUBDEPTNAME_KR'] = sUBDEPTNAMEKR;
+    data['MAINDEPTNAME'] = mAINDEPTNAME;
+    data['MAINDEPTNAME_KR'] = mAINDEPTNAMEKR;
+    data['REASON_NAME'] = rEASONNAME;
+    data['REASON_NAME_KR'] = rEASONNAMEKR;
+    data['ON_OFF'] = oNOFF;
+    data['OVERTIME_INFO'] = oVERTIMEINFO;
+    data['OVERTIME'] = oVERTIME;
     return data;
   }
 }
@@ -689,42 +689,42 @@ class MyDiemDanhData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['DATE_COLUMN'] = this.dATECOLUMN;
-    data['NV_CCID'] = this.nVCCID;
-    data['EMPL_NO'] = this.eMPLNO;
-    data['CMS_ID'] = this.cMSID;
-    data['MIDLAST_NAME'] = this.mIDLASTNAME;
-    data['FIRST_NAME'] = this.fIRSTNAME;
-    data['PHONE_NUMBER'] = this.pHONENUMBER;
-    data['SEX_NAME'] = this.sEXNAME;
-    data['WORK_STATUS_NAME'] = this.wORKSTATUSNAME;
-    data['FACTORY_NAME'] = this.fACTORYNAME;
-    data['JOB_NAME'] = this.jOBNAME;
-    data['WORK_SHIF_NAME'] = this.wORKSHIFNAME;
-    data['WORK_POSITION_NAME'] = this.wORKPOSITIONNAME;
-    data['SUBDEPTNAME'] = this.sUBDEPTNAME;
-    data['MAINDEPTNAME'] = this.mAINDEPTNAME;
-    data['REQUEST_DATE'] = this.rEQUESTDATE;
-    data['APPLY_DATE'] = this.aPPLYDATE;
-    data['APPROVAL_STATUS'] = this.aPPROVALSTATUS;
-    data['OFF_ID'] = this.oFFID;
-    data['CA_NGHI'] = this.cANGHI;
-    data['ON_OFF'] = this.oNOFF;
-    data['OVERTIME_INFO'] = this.oVERTIMEINFO;
-    data['OVERTIME'] = this.oVERTIME;
-    data['REASON_NAME'] = this.rEASONNAME;
-    data['REMARK'] = this.rEMARK;
-    data['XACNHAN'] = this.xACNHAN;
-    data['CA_CODE'] = this.cACODE;
-    data['CA_NAME'] = this.cANAME;
-    data['IN_START'] = this.iNSTART;
-    data['IN_END'] = this.iNEND;
-    data['OUT_START'] = this.oUTSTART;
-    data['OUT_END'] = this.oUTEND;
-    data['CHECK1'] = this.cHECK1;
-    data['CHECK2'] = this.cHECK2;
-    data['CHECK3'] = this.cHECK3;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['DATE_COLUMN'] = dATECOLUMN;
+    data['NV_CCID'] = nVCCID;
+    data['EMPL_NO'] = eMPLNO;
+    data['CMS_ID'] = cMSID;
+    data['MIDLAST_NAME'] = mIDLASTNAME;
+    data['FIRST_NAME'] = fIRSTNAME;
+    data['PHONE_NUMBER'] = pHONENUMBER;
+    data['SEX_NAME'] = sEXNAME;
+    data['WORK_STATUS_NAME'] = wORKSTATUSNAME;
+    data['FACTORY_NAME'] = fACTORYNAME;
+    data['JOB_NAME'] = jOBNAME;
+    data['WORK_SHIF_NAME'] = wORKSHIFNAME;
+    data['WORK_POSITION_NAME'] = wORKPOSITIONNAME;
+    data['SUBDEPTNAME'] = sUBDEPTNAME;
+    data['MAINDEPTNAME'] = mAINDEPTNAME;
+    data['REQUEST_DATE'] = rEQUESTDATE;
+    data['APPLY_DATE'] = aPPLYDATE;
+    data['APPROVAL_STATUS'] = aPPROVALSTATUS;
+    data['OFF_ID'] = oFFID;
+    data['CA_NGHI'] = cANGHI;
+    data['ON_OFF'] = oNOFF;
+    data['OVERTIME_INFO'] = oVERTIMEINFO;
+    data['OVERTIME'] = oVERTIME;
+    data['REASON_NAME'] = rEASONNAME;
+    data['REMARK'] = rEMARK;
+    data['XACNHAN'] = xACNHAN;
+    data['CA_CODE'] = cACODE;
+    data['CA_NAME'] = cANAME;
+    data['IN_START'] = iNSTART;
+    data['IN_END'] = iNEND;
+    data['OUT_START'] = oUTSTART;
+    data['OUT_END'] = oUTEND;
+    data['CHECK1'] = cHECK1;
+    data['CHECK2'] = cHECK2;
+    data['CHECK3'] = cHECK3;
     return data;
   }
 }
@@ -754,13 +754,13 @@ class DiemDanhNhomDataSummary {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['APPLY_DATE'] = this.aPPLYDATE;
-    data['TOTAL'] = this.tOTAL;
-    data['TOTAL_ON'] = this.tOTALON;
-    data['TOTAL_OFF'] = this.tOTALOFF;
-    data['ON_RATE'] = this.oNRATE;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['APPLY_DATE'] = aPPLYDATE;
+    data['TOTAL'] = tOTAL;
+    data['TOTAL_ON'] = tOTALON;
+    data['TOTAL_OFF'] = tOTALOFF;
+    data['ON_RATE'] = oNRATE;
     return data;
   }
 }
@@ -790,13 +790,13 @@ class DIEMDANHMAINDEPT {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['MAINDEPTNAME'] = this.mAINDEPTNAME;
-    data['COUNT_TOTAL'] = this.cOUNTTOTAL;
-    data['COUT_ON'] = this.cOUTON;
-    data['COUT_OFF'] = this.cOUTOFF;
-    data['COUNT_CDD'] = this.cOUNTCDD;
-    data['ON_RATE'] = this.oNRATE;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['MAINDEPTNAME'] = mAINDEPTNAME;
+    data['COUNT_TOTAL'] = cOUNTTOTAL;
+    data['COUT_ON'] = cOUTON;
+    data['COUT_OFF'] = cOUTOFF;
+    data['COUNT_CDD'] = cOUNTCDD;
+    data['ON_RATE'] = oNRATE;
     return data;
   }
 }
@@ -824,12 +824,12 @@ class MAINDEPTDATA {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['CTR_CD'] = this.CTR_CD;
-    data['MAINDEPTCODE'] = this.MAINDEPTCODE;
-    data['MAINDEPTNAME'] = this.MAINDEPTNAME;
-    data['MAINDEPTNAME_KR'] = this.MAINDEPTNAME_KR;   
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['CTR_CD'] = CTR_CD;
+    data['MAINDEPTCODE'] = MAINDEPTCODE;
+    data['MAINDEPTNAME'] = MAINDEPTNAME;
+    data['MAINDEPTNAME_KR'] = MAINDEPTNAME_KR;   
     return data;
   }
 }
@@ -859,13 +859,13 @@ class SUBDEPTDATA {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['CTR_CD'] = this.cTRCD;
-    data['MAINDEPTCODE'] = this.mAINDEPTCODE;
-    data['SUBDEPTCODE'] = this.sUBDEPTCODE;
-    data['SUBDEPTNAME'] = this.sUBDEPTNAME;
-    data['SUBDEPTNAME_KR'] = this.sUBDEPTNAMEKR;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['CTR_CD'] = cTRCD;
+    data['MAINDEPTCODE'] = mAINDEPTCODE;
+    data['SUBDEPTCODE'] = sUBDEPTCODE;
+    data['SUBDEPTNAME'] = sUBDEPTNAME;
+    data['SUBDEPTNAME_KR'] = sUBDEPTNAMEKR;
     return data;
   }
 }
@@ -898,14 +898,14 @@ class WORKPOSITIONDATA {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['CTR_CD'] = this.cTRCD;
-    data['SUBDEPTCODE'] = this.sUBDEPTCODE;
-    data['WORK_POSITION_CODE'] = this.wORKPOSITIONCODE;
-    data['WORK_POSITION_NAME'] = this.wORKPOSITIONNAME;
-    data['WORK_POSITION_NAME_KR'] = this.wORKPOSITIONNAMEKR;
-    data['ATT_GROUP_CODE'] = this.aTTGROUPCODE;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['CTR_CD'] = cTRCD;
+    data['SUBDEPTCODE'] = sUBDEPTCODE;
+    data['WORK_POSITION_CODE'] = wORKPOSITIONCODE;
+    data['WORK_POSITION_NAME'] = wORKPOSITIONNAME;
+    data['WORK_POSITION_NAME_KR'] = wORKPOSITIONNAMEKR;
+    data['ATT_GROUP_CODE'] = aTTGROUPCODE;
     return data;
   }
 }
@@ -1064,56 +1064,56 @@ class EmployeeData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['NV_CCID'] = this.nVCCID;
-    data['id'] = this.id;
-    data['EMPL_NO'] = this.eMPLNO;
-    data['CMS_ID'] = this.cMSID;
-    data['FIRST_NAME'] = this.fIRSTNAME;
-    data['MIDLAST_NAME'] = this.mIDLASTNAME;
-    data['DOB'] = this.dOB;
-    data['HOMETOWN'] = this.hOMETOWN;
-    data['ADD_PROVINCE'] = this.aDDPROVINCE;
-    data['ADD_DISTRICT'] = this.aDDDISTRICT;
-    data['ADD_COMMUNE'] = this.aDDCOMMUNE;
-    data['ADD_VILLAGE'] = this.aDDVILLAGE;
-    data['PHONE_NUMBER'] = this.pHONENUMBER;
-    data['WORK_START_DATE'] = this.wORKSTARTDATE;
-    data['PASSWORD'] = this.pASSWORD;
-    data['EMAIL'] = this.eMAIL;
-    data['REMARK'] = this.rEMARK;
-    data['ONLINE_DATETIME'] = this.oNLINEDATETIME;
-    data['CTR_CD'] = this.cTRCD;
-    data['SEX_CODE'] = this.sEXCODE;
-    data['SEX_NAME'] = this.sEXNAME;
-    data['SEX_NAME_KR'] = this.sEXNAMEKR;
-    data['WORK_STATUS_CODE'] = this.wORKSTATUSCODE;
-    data['WORK_STATUS_NAME'] = this.wORKSTATUSNAME;
-    data['WORK_STATUS_NAME_KR'] = this.wORKSTATUSNAMEKR;
-    data['FACTORY_CODE'] = this.fACTORYCODE;
-    data['FACTORY_NAME'] = this.fACTORYNAME;
-    data['FACTORY_NAME_KR'] = this.fACTORYNAMEKR;
-    data['JOB_CODE'] = this.jOBCODE;
-    data['JOB_NAME'] = this.jOBNAME;
-    data['JOB_NAME_KR'] = this.jOBNAMEKR;
-    data['POSITION_CODE'] = this.pOSITIONCODE;
-    data['POSITION_NAME'] = this.pOSITIONNAME;
-    data['POSITION_NAME_KR'] = this.pOSITIONNAMEKR;
-    data['WORK_SHIFT_CODE'] = this.wORKSHIFTCODE;
-    data['WORK_SHIF_NAME'] = this.wORKSHIFNAME;
-    data['WORK_SHIF_NAME_KR'] = this.wORKSHIFNAMEKR;
-    data['WORK_POSITION_CODE'] = this.wORKPOSITIONCODE;
-    data['WORK_POSITION_NAME'] = this.wORKPOSITIONNAME;
-    data['WORK_POSITION_NAME_KR'] = this.wORKPOSITIONNAMEKR;
-    data['ATT_GROUP_CODE'] = this.aTTGROUPCODE;
-    data['SUBDEPTCODE'] = this.sUBDEPTCODE;
-    data['SUBDEPTNAME'] = this.sUBDEPTNAME;
-    data['SUBDEPTNAME_KR'] = this.sUBDEPTNAMEKR;
-    data['MAINDEPTCODE'] = this.mAINDEPTCODE;
-    data['MAINDEPTNAME'] = this.mAINDEPTNAME;
-    data['MAINDEPTNAME_KR'] = this.mAINDEPTNAMEKR;
-    data['EMPL_IMAGE'] = this.eMPLIMAGE;
-    data['RESIGN_DATE'] = this.rESIGNDATE;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['NV_CCID'] = nVCCID;
+    data['id'] = id;
+    data['EMPL_NO'] = eMPLNO;
+    data['CMS_ID'] = cMSID;
+    data['FIRST_NAME'] = fIRSTNAME;
+    data['MIDLAST_NAME'] = mIDLASTNAME;
+    data['DOB'] = dOB;
+    data['HOMETOWN'] = hOMETOWN;
+    data['ADD_PROVINCE'] = aDDPROVINCE;
+    data['ADD_DISTRICT'] = aDDDISTRICT;
+    data['ADD_COMMUNE'] = aDDCOMMUNE;
+    data['ADD_VILLAGE'] = aDDVILLAGE;
+    data['PHONE_NUMBER'] = pHONENUMBER;
+    data['WORK_START_DATE'] = wORKSTARTDATE;
+    data['PASSWORD'] = pASSWORD;
+    data['EMAIL'] = eMAIL;
+    data['REMARK'] = rEMARK;
+    data['ONLINE_DATETIME'] = oNLINEDATETIME;
+    data['CTR_CD'] = cTRCD;
+    data['SEX_CODE'] = sEXCODE;
+    data['SEX_NAME'] = sEXNAME;
+    data['SEX_NAME_KR'] = sEXNAMEKR;
+    data['WORK_STATUS_CODE'] = wORKSTATUSCODE;
+    data['WORK_STATUS_NAME'] = wORKSTATUSNAME;
+    data['WORK_STATUS_NAME_KR'] = wORKSTATUSNAMEKR;
+    data['FACTORY_CODE'] = fACTORYCODE;
+    data['FACTORY_NAME'] = fACTORYNAME;
+    data['FACTORY_NAME_KR'] = fACTORYNAMEKR;
+    data['JOB_CODE'] = jOBCODE;
+    data['JOB_NAME'] = jOBNAME;
+    data['JOB_NAME_KR'] = jOBNAMEKR;
+    data['POSITION_CODE'] = pOSITIONCODE;
+    data['POSITION_NAME'] = pOSITIONNAME;
+    data['POSITION_NAME_KR'] = pOSITIONNAMEKR;
+    data['WORK_SHIFT_CODE'] = wORKSHIFTCODE;
+    data['WORK_SHIF_NAME'] = wORKSHIFNAME;
+    data['WORK_SHIF_NAME_KR'] = wORKSHIFNAMEKR;
+    data['WORK_POSITION_CODE'] = wORKPOSITIONCODE;
+    data['WORK_POSITION_NAME'] = wORKPOSITIONNAME;
+    data['WORK_POSITION_NAME_KR'] = wORKPOSITIONNAMEKR;
+    data['ATT_GROUP_CODE'] = aTTGROUPCODE;
+    data['SUBDEPTCODE'] = sUBDEPTCODE;
+    data['SUBDEPTNAME'] = sUBDEPTNAME;
+    data['SUBDEPTNAME_KR'] = sUBDEPTNAMEKR;
+    data['MAINDEPTCODE'] = mAINDEPTCODE;
+    data['MAINDEPTNAME'] = mAINDEPTNAME;
+    data['MAINDEPTNAME_KR'] = mAINDEPTNAMEKR;
+    data['EMPL_IMAGE'] = eMPLIMAGE;
+    data['RESIGN_DATE'] = rESIGNDATE;
     return data;
   }
 }
@@ -1209,35 +1209,35 @@ class PODATA {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['PO_ID'] = this.pOID;
-    data['CUST_NAME_KD'] = this.cUSTNAMEKD;
-    data['PO_NO'] = this.pONO;
-    data['G_NAME'] = this.gNAME;
-    data['G_NAME_KD'] = this.gNAMEKD;
-    data['G_CODE'] = this.gCODE;
-    data['PO_DATE'] = this.pODATE;
-    data['RD_DATE'] = this.rDDATE;
-    data['BEP'] = this.bEP;
-    data['PROD_PRICE'] = this.pRODPRICE;
-    data['PO_QTY'] = this.pOQTY;
-    data['TOTAL_DELIVERED'] = this.tOTALDELIVERED;
-    data['PO_BALANCE'] = this.pOBALANCE;
-    data['PO_AMOUNT'] = this.pOAMOUNT;
-    data['DELIVERED_AMOUNT'] = this.dELIVEREDAMOUNT;
-    data['BALANCE_AMOUNT'] = this.bALANCEAMOUNT;
-    data['DELIVERED_BEP_AMOUNT'] = this.dELIVEREDBEPAMOUNT;
-    data['EMPL_NAME'] = this.eMPLNAME;
-    data['PROD_TYPE'] = this.pRODTYPE;
-    data['M_NAME_FULLBOM'] = this.mNAMEFULLBOM;
-    data['PROD_MAIN_MATERIAL'] = this.pRODMAINMATERIAL;
-    data['CUST_CD'] = this.cUSTCD;
-    data['EMPL_NO'] = this.eMPLNO;
-    data['POMONTH'] = this.pOMONTH;
-    data['POWEEKNUM'] = this.pOWEEKNUM;
-    data['OVERDUE'] = this.oVERDUE;
-    data['REMARK'] = this.rEMARK;
-    data['FINAL'] = this.fINAL;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['PO_ID'] = pOID;
+    data['CUST_NAME_KD'] = cUSTNAMEKD;
+    data['PO_NO'] = pONO;
+    data['G_NAME'] = gNAME;
+    data['G_NAME_KD'] = gNAMEKD;
+    data['G_CODE'] = gCODE;
+    data['PO_DATE'] = pODATE;
+    data['RD_DATE'] = rDDATE;
+    data['BEP'] = bEP;
+    data['PROD_PRICE'] = pRODPRICE;
+    data['PO_QTY'] = pOQTY;
+    data['TOTAL_DELIVERED'] = tOTALDELIVERED;
+    data['PO_BALANCE'] = pOBALANCE;
+    data['PO_AMOUNT'] = pOAMOUNT;
+    data['DELIVERED_AMOUNT'] = dELIVEREDAMOUNT;
+    data['BALANCE_AMOUNT'] = bALANCEAMOUNT;
+    data['DELIVERED_BEP_AMOUNT'] = dELIVEREDBEPAMOUNT;
+    data['EMPL_NAME'] = eMPLNAME;
+    data['PROD_TYPE'] = pRODTYPE;
+    data['M_NAME_FULLBOM'] = mNAMEFULLBOM;
+    data['PROD_MAIN_MATERIAL'] = pRODMAINMATERIAL;
+    data['CUST_CD'] = cUSTCD;
+    data['EMPL_NO'] = eMPLNO;
+    data['POMONTH'] = pOMONTH;
+    data['POWEEKNUM'] = pOWEEKNUM;
+    data['OVERDUE'] = oVERDUE;
+    data['REMARK'] = rEMARK;
+    data['FINAL'] = fINAL;
     return data;
   }
 }
@@ -1253,9 +1253,9 @@ class CustomerListData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['CUST_CD'] = this.cUSTCD;
-    data['CUST_NAME_KD'] = this.cUSTNAMEKD;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['CUST_CD'] = cUSTCD;
+    data['CUST_NAME_KD'] = cUSTNAMEKD;
     return data;
   }
 }
@@ -1279,12 +1279,12 @@ class CodeListData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['G_CODE'] = this.gCODE;
-    data['G_NAME'] = this.gNAME;
-    data['G_NAME_KD'] = this.gNAMEKD;
-    data['PROD_LAST_PRICE'] = this.pRODLASTPRICE;
-    data['USE_YN'] = this.uSEYN;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['G_CODE'] = gCODE;
+    data['G_NAME'] = gNAME;
+    data['G_NAME_KD'] = gNAMEKD;
+    data['PROD_LAST_PRICE'] = pRODLASTPRICE;
+    data['USE_YN'] = uSEYN;
     return data;
   }
 }

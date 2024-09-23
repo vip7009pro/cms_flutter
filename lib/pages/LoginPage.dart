@@ -27,8 +27,8 @@ class _LoginPageState extends State<LoginPage> {
   final GlobalController c = Get.put(GlobalController());  
   String _user = '';
   String _pass = '';
-TextEditingController _textFieldUserController = TextEditingController();
-TextEditingController _textFieldPassController = TextEditingController();
+final TextEditingController _textFieldUserController = TextEditingController();
+final TextEditingController _textFieldPassController = TextEditingController();
 
 Future<void> _loadAccount() async{
   String savedUser = await LocalDataAccess.getVariable("user");
@@ -192,7 +192,7 @@ Future<void> _loadAccount() async{
           });
 
         }),
-        Text("Nhớ tài khoản")
+        const Text("Nhớ tài khoản")
       ],
     );
     return SafeArea(

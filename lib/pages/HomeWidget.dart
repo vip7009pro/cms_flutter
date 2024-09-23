@@ -9,13 +9,13 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 class HomeWidget extends StatefulWidget {
-  const HomeWidget({Key? key}) : super(key: key);
+  const HomeWidget({super.key});
   @override
   _HomeWidgetState createState() => _HomeWidgetState();
 }
 class _HomeWidgetState extends State<HomeWidget> {
   int _workDay = 1, _overTimeDay = 0, _OffDay = 0, _workingDay = 1;
-  TextEditingController _verTextController = TextEditingController();
+  final TextEditingController _verTextController = TextEditingController();
   UserData _myUserData = UserData(
       aDDCOMMUNE: '',
       aDDDISTRICT: '',
@@ -146,7 +146,7 @@ class _HomeWidgetState extends State<HomeWidget> {
     // Iterate through each day in the range
     for (DateTime date = startDate;
         date.isBefore(endDate);
-        date = date.add(Duration(days: 1))) {
+        date = date.add(const Duration(days: 1))) {
       // Check if the current day is a weekday (not a weekend day)
       if (!weekendDays.contains(date.weekday)) {
         workingDays++;
@@ -193,7 +193,7 @@ class _HomeWidgetState extends State<HomeWidget> {
         });
       },
     );
-    _timer = Timer.periodic(Duration(seconds: 30), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 30), (timer) {
       initFunction();
     });
     initFunction();
@@ -216,7 +216,7 @@ class _HomeWidgetState extends State<HomeWidget> {
               color: Colors.black.withOpacity(0.2), // Shadow color
               spreadRadius: 3, // Spread radius
               blurRadius: 10, // Blur radius
-              offset: Offset(0, 3), // Offset in the x, y direction
+              offset: const Offset(0, 3), // Offset in the x, y direction
             )
           ],
           image: DecorationImage(
@@ -395,7 +395,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                     value:
                                         (_overTimeDay * 1.0) / (_workDay * 1.0),
                                     backgroundColor:
-                                        Color.fromARGB(255, 185, 179, 179),
+                                        const Color.fromARGB(255, 185, 179, 179),
                                     valueColor:
                                         const AlwaysStoppedAnimation<Color>(
                                             Color.fromARGB(255, 63, 242, 227)),
@@ -443,7 +443,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                     MainAxisAlignment.spaceAround,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Container(
+                                  SizedBox(
                                     width: 100,
                                     height: 60,
                                     child: TextFormField(
@@ -469,11 +469,11 @@ class _HomeWidgetState extends State<HomeWidget> {
                                     onPressed: () {
                                       _setMobileVer();
                                     },
-                                    child: Text('Up Ver'),
+                                    child: const Text('Up Ver'),
                                   ),
                                 ]),
                           )
-                        : Text(''),
+                        : const Text(''),
                     Container(
                       width: double.infinity,
                       margin: const EdgeInsets.only(top: 8.0),

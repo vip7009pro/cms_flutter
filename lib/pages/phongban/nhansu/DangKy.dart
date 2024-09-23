@@ -3,7 +3,7 @@ import 'package:cms_flutter/controller/APIRequest.dart';
 import 'package:cms_flutter/controller/GlobalFunction.dart';
 import 'package:flutter/material.dart';
 class DangKy extends StatefulWidget {
-  const DangKy({Key? key}) : super(key: key);
+  const DangKy({super.key});
   @override
   _DangKyState createState() => _DangKyState();
 }
@@ -64,6 +64,8 @@ class _DangKyState extends State<DangKy> {
   }
 }
 class MyLeaveForm extends StatefulWidget {
+  const MyLeaveForm({super.key});
+
   @override
   _MyLeaveFormState createState() => _MyLeaveFormState();
 }
@@ -74,8 +76,8 @@ class _MyLeaveFormState extends State<MyLeaveForm> {
   DateTime fromDate = DateTime.now();
   DateTime toDate = DateTime.now();
   String remark = "";
-  TextEditingController _fromDateController = TextEditingController();
-  TextEditingController _toDateController = TextEditingController();
+  final TextEditingController _fromDateController = TextEditingController();
+  final TextEditingController _toDateController = TextEditingController();
   var kieuNghi = <String>[
     "Phép năm",
     "Nửa phép",
@@ -150,13 +152,13 @@ class _MyLeaveFormState extends State<MyLeaveForm> {
                               child: Text(value),
                             ))
                     .toList(),
-                decoration: InputDecoration(labelText: 'Ca nghỉ'),
+                decoration: const InputDecoration(labelText: 'Ca nghỉ'),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               TextFormField(
                 readOnly: true,
                 controller: _fromDateController,
-                decoration: InputDecoration(labelText: 'From Date'),
+                decoration: const InputDecoration(labelText: 'From Date'),
                 onTap: () async {
                   DateTime? pickedDate = await showDatePicker(
                     context: context,
@@ -164,19 +166,20 @@ class _MyLeaveFormState extends State<MyLeaveForm> {
                     firstDate: DateTime(1900),
                     lastDate: DateTime(2101),
                   );
-                  if (pickedDate != null && pickedDate != fromDate)
+                  if (pickedDate != null && pickedDate != fromDate) {
                     setState(() {
                       fromDate = pickedDate;
                       _fromDateController.text = GlobalFunction.MyDate(
                           'yyyy-MM-dd', fromDate.toString());
                     });
+                  }
                 },
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               TextFormField(
                 readOnly: true,
                 controller: _toDateController,
-                decoration: InputDecoration(labelText: 'To Date'),
+                decoration: const InputDecoration(labelText: 'To Date'),
                 onTap: () async {
                   DateTime? pickedDate = await showDatePicker(
                     context: context,
@@ -184,15 +187,16 @@ class _MyLeaveFormState extends State<MyLeaveForm> {
                     firstDate: DateTime(1900),
                     lastDate: DateTime(2101),
                   );
-                  if (pickedDate != null && pickedDate != toDate)
+                  if (pickedDate != null && pickedDate != toDate) {
                     setState(() {
                       toDate = pickedDate;
                       _toDateController.text = GlobalFunction.MyDate(
                           'yyyy-MM-dd', toDate.toString());
                     });
+                  }
                 },
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               DropdownButtonFormField<String>(
                 value: selectedLeaveType,
                 onChanged: (value) {
@@ -207,18 +211,18 @@ class _MyLeaveFormState extends State<MyLeaveForm> {
                               child: Text(value),
                             ))
                     .toList(),
-                decoration: InputDecoration(labelText: 'Phân loại nghỉ'),
+                decoration: const InputDecoration(labelText: 'Phân loại nghỉ'),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Remark'),
+                decoration: const InputDecoration(labelText: 'Remark'),
                 onChanged: (value) {
                   setState(() {
                     remark = value;
                   });
                 },
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -232,14 +236,14 @@ class _MyLeaveFormState extends State<MyLeaveForm> {
                         _formKey.currentState!.reset();
                       }
                     },
-                    child: Text('Đăng ký nghỉ'),
+                    child: const Text('Đăng ký nghỉ'),
                   ),
-                  SizedBox(width: 16),
+                  const SizedBox(width: 16),
                   ElevatedButton(
                     onPressed: () {
                       _formKey.currentState!.reset();
                     },
-                    child: Text('Clear Form'),
+                    child: const Text('Clear Form'),
                   ),
                 ],
               ),
@@ -251,6 +255,8 @@ class _MyLeaveFormState extends State<MyLeaveForm> {
   }
 }
 class OvertimeRegistrationForm extends StatefulWidget {
+  const OvertimeRegistrationForm({super.key});
+
   @override
   _OvertimeRegistrationFormState createState() =>
       _OvertimeRegistrationFormState();
@@ -259,8 +265,8 @@ class _OvertimeRegistrationFormState extends State<OvertimeRegistrationForm> {
   final _formKey = GlobalKey<FormState>();
   String startTime = "";
   String endTime = "";
-  TextEditingController _startTimeController = TextEditingController();
-  TextEditingController _endTimeController = TextEditingController();
+  final TextEditingController _startTimeController = TextEditingController();
+  final TextEditingController _endTimeController = TextEditingController();
   Future<bool> dangKyTangCa(String overStart, String overFinish) async {
     bool check = true;
     await API_Request.api_query('dangkytangcacanhan', {
@@ -308,7 +314,7 @@ class _OvertimeRegistrationFormState extends State<OvertimeRegistrationForm> {
           children: <Widget>[
             TextFormField(
               controller: _startTimeController,
-              decoration: InputDecoration(labelText: 'Start Time'),
+              decoration: const InputDecoration(labelText: 'Start Time'),
               onChanged: (value) {
                 setState(() {
                   startTime = value;
@@ -316,10 +322,10 @@ class _OvertimeRegistrationFormState extends State<OvertimeRegistrationForm> {
                 });
               },
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             TextFormField(
               controller: _endTimeController,
-              decoration: InputDecoration(labelText: 'End Time'),
+              decoration: const InputDecoration(labelText: 'End Time'),
               onChanged: (value) {
                 setState(() {
                   endTime = value;
@@ -327,7 +333,7 @@ class _OvertimeRegistrationFormState extends State<OvertimeRegistrationForm> {
                 });
               },
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -344,16 +350,16 @@ class _OvertimeRegistrationFormState extends State<OvertimeRegistrationForm> {
                       _endTimeController.text = endTime.toString();
                     }
                   },
-                  child: Text('Đăng ký'),
+                  child: const Text('Đăng ký'),
                 ),
-                SizedBox(width: 16),
+                const SizedBox(width: 16),
                 ElevatedButton(
                   onPressed: () {
                     _formKey.currentState!.reset();
                     _startTimeController.text = startTime.toString();
                     _endTimeController.text = endTime.toString();
                   },
-                  child: Text('Clear Form'),
+                  child: const Text('Clear Form'),
                 ),
               ],
             ),
@@ -364,6 +370,8 @@ class _OvertimeRegistrationFormState extends State<OvertimeRegistrationForm> {
   }
 }
 class ForgotAttendanceForm extends StatefulWidget {
+  const ForgotAttendanceForm({super.key});
+
   @override
   _ForgotAttendanceFormState createState() => _ForgotAttendanceFormState();
 }
@@ -430,17 +438,17 @@ class _ForgotAttendanceFormState extends State<ForgotAttendanceForm> {
                     ),
                   )
                   .toList(),
-              decoration: InputDecoration(labelText: 'Kiểu nghỉ'),
+              decoration: const InputDecoration(labelText: 'Kiểu nghỉ'),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             TextFormField(
               readOnly: true,
               onTap: () async {
                 DateTime? pickedDate = await showDatePicker(
                   context: context,
                   initialDate: selectedDate,
-                  firstDate: DateTime(1900).subtract(Duration(days: 365)),
-                  lastDate: DateTime.now().add(Duration(days: 365)),
+                  firstDate: DateTime(1900).subtract(const Duration(days: 365)),
+                  lastDate: DateTime.now().add(const Duration(days: 365)),
                 );
                 if (pickedDate != null && pickedDate != selectedDate) {
                   setState(() {
@@ -448,21 +456,21 @@ class _ForgotAttendanceFormState extends State<ForgotAttendanceForm> {
                   });
                 }
               },
-              decoration: InputDecoration(labelText: 'Ngày quên'),
+              decoration: const InputDecoration(labelText: 'Ngày quên'),
               controller: TextEditingController(
                 text: selectedDate.toLocal().toString().split(' ')[0],
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             TextFormField(
-              decoration: InputDecoration(labelText: 'Giờ quên cụ thể'),
+              decoration: const InputDecoration(labelText: 'Giờ quên cụ thể'),
               onChanged: (value) {
                 setState(() {
                   specificTime = value;
                 });
               },
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -478,15 +486,15 @@ class _ForgotAttendanceFormState extends State<ForgotAttendanceForm> {
                       selectedDate = DateTime.now();
                     }
                   },
-                  child: Text('Xác nhận'),
+                  child: const Text('Xác nhận'),
                 ),
-                SizedBox(width: 16),
+                const SizedBox(width: 16),
                 ElevatedButton(
                   onPressed: () {
                     _formKey.currentState!.reset();
                     selectedDate = DateTime.now();
                   },
-                  child: Text('Clear Form'),
+                  child: const Text('Clear Form'),
                 ),
               ],
             ),

@@ -9,7 +9,7 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 class BaoCaoNhanSu extends StatefulWidget {
-  const BaoCaoNhanSu({Key? key}) : super(key: key);
+  const BaoCaoNhanSu({super.key});
   @override
   _BaoCaoNhanSuState createState() => _BaoCaoNhanSuState();
 }
@@ -18,9 +18,9 @@ class BaoCaoNhanSu extends StatefulWidget {
 
 
 class _BaoCaoNhanSuState extends State<BaoCaoNhanSu> {
-  TextEditingController _fromDateController = TextEditingController();
-  TextEditingController _toDateController = TextEditingController();
-  String _teamNameList = "ALL";
+  final TextEditingController _fromDateController = TextEditingController();
+  final TextEditingController _toDateController = TextEditingController();
+  final String _teamNameList = "ALL";
   DateTime fromDate = DateTime.now();
   DateTime toDate = DateTime.now();
 
@@ -108,7 +108,7 @@ class _BaoCaoNhanSuState extends State<BaoCaoNhanSu> {
 
   @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
 
 final searchBar = Container(
           decoration: const BoxDecoration(
@@ -123,17 +123,17 @@ final searchBar = Container(
                 tileMode: TileMode.clamp),
           ),
           child: Form(
-            key: _formKey,
+            key: formKey,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
+                SizedBox(
                   width: 100,
                   height: 60,
                   child: TextFormField(
                     readOnly: true,
                     controller: _fromDateController,
-                    decoration: InputDecoration(labelText: 'From Date'),
+                    decoration: const InputDecoration(labelText: 'From Date'),
                     onTap: () async {
                       DateTime? pickedDate = await showDatePicker(
                         context: context,
@@ -141,23 +141,24 @@ final searchBar = Container(
                         firstDate: DateTime(1900),
                         lastDate: DateTime(2101),
                       );
-                      if (pickedDate != null && pickedDate != fromDate)
+                      if (pickedDate != null && pickedDate != fromDate) {
                         setState(() {
                           fromDate = pickedDate;
                           _fromDateController.text = GlobalFunction.MyDate(
                               'yyyy-MM-dd', fromDate.toString());
                         });
+                      }
                     },
                   ),
                 ),
-                SizedBox(width: 16),
-                Container(
+                const SizedBox(width: 16),
+                SizedBox(
                   width: 100,
                   height: 60,
                   child: TextFormField(
                     readOnly: true,
                     controller: _toDateController,
-                    decoration: InputDecoration(labelText: 'To Date'),
+                    decoration: const InputDecoration(labelText: 'To Date'),
                     onTap: () async {
                       DateTime? pickedDate = await showDatePicker(
                         context: context,
@@ -165,30 +166,31 @@ final searchBar = Container(
                         firstDate: DateTime(1900),
                         lastDate: DateTime(2101),
                       );
-                      if (pickedDate != null && pickedDate != toDate)
+                      if (pickedDate != null && pickedDate != toDate) {
                         setState(() {
                           toDate = pickedDate;
                           _toDateController.text = GlobalFunction.MyDate(
                               'yyyy-MM-dd', toDate.toString());
                         });
+                      }
                     },
                   ),
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    if (_formKey.currentState!.validate()) {
+                    if (formKey.currentState!.validate()) {
                       loadDiemDanhNhomSummary();
-                      _formKey.currentState!.reset();
+                      formKey.currentState!.reset();
                     }
                   },
-                  child: Text('Load'),
+                  child: const Text('Load'),
                 ),
               ],
             ),
           ),
         );
 
-    final bieudonhansu = Container(
+    final bieudonhansu = SizedBox(
       height: 400,
       child: SfCartesianChart(
         title: ChartTitle(text: 'Daily status'),
@@ -216,7 +218,7 @@ final searchBar = Container(
               xValueMapper: (DiemDanhNhomDataSummary data, _) =>
                   DateTime.parse(data.aPPLYDATE.toString()),
               yValueMapper: (DiemDanhNhomDataSummary data, _) => data.tOTALON,
-              dataLabelSettings: DataLabelSettings(isVisible: true),
+              dataLabelSettings: const DataLabelSettings(isVisible: true),
               yAxisName: 'ON_QTY'),
           StackedColumnSeries<DiemDanhNhomDataSummary, DateTime>(
               name: 'OFF',
@@ -225,7 +227,7 @@ final searchBar = Container(
               xValueMapper: (DiemDanhNhomDataSummary data, _) =>
                   DateTime.parse(data.aPPLYDATE.toString()),
               yValueMapper: (DiemDanhNhomDataSummary data, _) => data.tOTALOFF,
-              dataLabelSettings: DataLabelSettings(isVisible: true),
+              dataLabelSettings: const DataLabelSettings(isVisible: true),
               yAxisName: 'ON_QTY'),
           LineSeries<DiemDanhNhomDataSummary, DateTime>(
               name: 'ON_RATE',
@@ -234,30 +236,30 @@ final searchBar = Container(
               xValueMapper: (DiemDanhNhomDataSummary data, _) =>
                   DateTime.parse(data.aPPLYDATE.toString()),
               yValueMapper: (DiemDanhNhomDataSummary data, _) => data.oNRATE,
-              dataLabelSettings: DataLabelSettings(isVisible: true),
+              dataLabelSettings: const DataLabelSettings(isVisible: true),
               yAxisName: 'ON_RATE'),
         ],
       ),
     );
 
-    final bieudophongban = Container(
+    final bieudophongban = SizedBox(
         width: 500,
         height: 500,
         child: SfCircularChart(
           title: ChartTitle(text: 'Tỉ trọng nhân sự'),
-          legend: Legend(isVisible: true, position: LegendPosition.bottom),          
+          legend: const Legend(isVisible: true, position: LegendPosition.bottom),          
           series: <CircularSeries>[
             // Default Pie series
             PieSeries<DIEMDANHMAINDEPT, String>(
               dataSource: _listDiemDanhMainDept,
               xValueMapper: (DIEMDANHMAINDEPT data, _) => data.mAINDEPTNAME,
               yValueMapper: (DIEMDANHMAINDEPT data, _) => data.cOUNTTOTAL,
-              dataLabelSettings: DataLabelSettings(isVisible: true),
+              dataLabelSettings: const DataLabelSettings(isVisible: true),
             ),
           ],
         ));
 
-    var diemdanhmaindeptdatatable = Container(
+    var diemdanhmaindeptdatatable = SizedBox(
       width: double.infinity,
       height: 400 ,
       child: DiemDanhMainDeptTable(diemdanhmaindeptdata: _listDiemDanhMainDept));

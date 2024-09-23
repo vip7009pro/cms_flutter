@@ -1,9 +1,4 @@
-import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:cms_flutter/controller/APIRequest.dart';
-import 'package:cms_flutter/model/DataInterfaceClass.dart';
-import 'package:cms_flutter/pages/phongban/nhansu/screen/sub_dept_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import 'quan_ly_nhan_su.dart';
 import 'quan_ly_phong_ban.dart';

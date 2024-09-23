@@ -6,7 +6,7 @@ void main() {
   runApp(const MyApp());
 }
 class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
   @override
   // ignore: library_private_types_in_public_api
   _MyAppState createState() => _MyAppState();

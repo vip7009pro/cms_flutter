@@ -6,8 +6,7 @@ import 'package:get/get.dart';
 
 class WorkPositionScreen extends StatefulWidget {
   final int SUBDEPTCODE;
-  const WorkPositionScreen({Key? key, required this.SUBDEPTCODE})
-      : super(key: key);
+  const WorkPositionScreen({super.key, required this.SUBDEPTCODE});
 
   @override
   _WorkPositionScreenState createState() => _WorkPositionScreenState();
@@ -37,13 +36,13 @@ class _WorkPositionScreenState extends State<WorkPositionScreen> {
     });
   }
 
- Future<void> _addWorkPosition(int SUBDEPTCODE, int WORK_POSITION_CODE, String WORK_POSITION_NAME, String WORK_POSITION_NAME_KR, int ATT_GROUP_CODE ) async {
+ Future<void> _addWorkPosition(int SUBDEPTCODE, int workPositionCode, String workPositionName, String workPositionNameKr, int attGroupCode ) async {
     await API_Request.api_query('insertworkposition', {      
       'SUBDEPTCODE':SUBDEPTCODE,
-      'WORK_POSITION_CODE':WORK_POSITION_CODE,
-      'WORK_POSITION_NAME':WORK_POSITION_NAME,
-      'WORK_POSITION_NAME_KR':WORK_POSITION_NAME_KR,
-      'ATT_GROUP_CODE':ATT_GROUP_CODE,
+      'WORK_POSITION_CODE':workPositionCode,
+      'WORK_POSITION_NAME':workPositionName,
+      'WORK_POSITION_NAME_KR':workPositionNameKr,
+      'ATT_GROUP_CODE':attGroupCode,
     }).then((value) {
       if (value['tk_status'] == 'OK') {        
         AwesomeDialog(
@@ -67,12 +66,12 @@ class _WorkPositionScreenState extends State<WorkPositionScreen> {
       }
     });
   }
-  Future<void> _updateWorkPosition(int sUBDEPTCODE, int WORK_POSITION_CODE, String WORK_POSITION_NAME, String WORK_POSITION_NAME_KR) async {    
+  Future<void> _updateWorkPosition(int sUBDEPTCODE, int workPositionCode, String workPositionName, String workPositionNameKr) async {    
      await API_Request.api_query('updateworkposition', {
       'SUBDEPTCODE':sUBDEPTCODE,
-      'WORK_POSITION_CODE':WORK_POSITION_CODE,
-      'WORK_POSITION_NAME':WORK_POSITION_NAME,
-      'WORK_POSITION_NAME_KR':WORK_POSITION_NAME_KR,
+      'WORK_POSITION_CODE':workPositionCode,
+      'WORK_POSITION_NAME':workPositionName,
+      'WORK_POSITION_NAME_KR':workPositionNameKr,
     }).then((value) {
       if (value['tk_status'] == 'OK') {        
         AwesomeDialog(
@@ -97,9 +96,9 @@ class _WorkPositionScreenState extends State<WorkPositionScreen> {
     });
     
   }
-  Future<void> _deleteWorkPosition(int WORK_POSITION_CODE) async {
+  Future<void> _deleteWorkPosition(int workPositionCode) async {
     await API_Request.api_query('deleteworkposition', {
-      'WORK_POSITION_CODE':WORK_POSITION_CODE,      
+      'WORK_POSITION_CODE':workPositionCode,      
     }).then((value) {
       if (value['tk_status'] == 'OK') {        
         AwesomeDialog(
@@ -220,10 +219,10 @@ class _WorkPositionScreenState extends State<WorkPositionScreen> {
                                       showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
-                                            TextEditingController _workpositionnamevnctrl = TextEditingController();
-                                            TextEditingController _workpositionnamekrctrl = TextEditingController();
-                                            _workpositionnamevnctrl.text = _workPositionList[index].wORKPOSITIONNAME??"";
-                                            _workpositionnamekrctrl.text = _workPositionList[index].wORKPOSITIONNAMEKR??"";
+                                            TextEditingController workpositionnamevnctrl = TextEditingController();
+                                            TextEditingController workpositionnamekrctrl = TextEditingController();
+                                            workpositionnamevnctrl.text = _workPositionList[index].wORKPOSITIONNAME??"";
+                                            workpositionnamekrctrl.text = _workPositionList[index].wORKPOSITIONNAMEKR??"";
                                           return AlertDialog(
                                             title: const Text('Edit SubDeparment'),
                                             content: Column(
@@ -233,19 +232,19 @@ class _WorkPositionScreenState extends State<WorkPositionScreen> {
                                                   decoration:  const InputDecoration(
                                                     hintText: 'Work Pos Name VN',
                                                   ),
-                                                  controller: _workpositionnamevnctrl,
+                                                  controller: workpositionnamevnctrl,
                                                 ),
                                                  TextField(
                                                   decoration:  const  InputDecoration(
                                                     hintText: 'Work Pos Name KR',
                                                   ),
-                                                  controller: _workpositionnamekrctrl,
+                                                  controller: workpositionnamekrctrl,
                                                 ),
                                                 const SizedBox(height: 20),
                                                 ElevatedButton(
                                                   onPressed: () {
                                                     // Implement the button functionality here                                                   
-                                                    _updateWorkPosition(widget.SUBDEPTCODE, _workPositionList[index].wORKPOSITIONCODE ?? 111111, _workpositionnamevnctrl.text, _workpositionnamekrctrl.text);                                                     
+                                                    _updateWorkPosition(widget.SUBDEPTCODE, _workPositionList[index].wORKPOSITIONCODE ?? 111111, workpositionnamevnctrl.text, workpositionnamekrctrl.text);                                                     
 
                                                     Navigator.of(context).pop();
                                                   },
@@ -289,14 +288,14 @@ class _WorkPositionScreenState extends State<WorkPositionScreen> {
                             showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
-                                            TextEditingController _workpositioncodectrl = TextEditingController();
-                                            TextEditingController _workpositionnamevnctrl = TextEditingController();
-                                            TextEditingController _workpositionnamekrctrl = TextEditingController();
-                                            TextEditingController _attgroupctrl = TextEditingController();
-                                            _workpositioncodectrl.text = "";
-                                            _workpositionnamevnctrl.text = "";
-                                            _workpositionnamekrctrl.text = "";
-                                            _attgroupctrl.text = "";
+                                            TextEditingController workpositioncodectrl = TextEditingController();
+                                            TextEditingController workpositionnamevnctrl = TextEditingController();
+                                            TextEditingController workpositionnamekrctrl = TextEditingController();
+                                            TextEditingController attgroupctrl = TextEditingController();
+                                            workpositioncodectrl.text = "";
+                                            workpositionnamevnctrl.text = "";
+                                            workpositionnamekrctrl.text = "";
+                                            attgroupctrl.text = "";
                                           return AlertDialog(
                                             title: const Text('Add Work Position'),
                                             content: Column(
@@ -306,31 +305,31 @@ class _WorkPositionScreenState extends State<WorkPositionScreen> {
                                                   decoration:  const InputDecoration(
                                                     hintText: 'Work Pos Code',
                                                   ),
-                                                  controller: _workpositioncodectrl,
+                                                  controller: workpositioncodectrl,
                                                 ),
                                                  TextField(
                                                   decoration:  const InputDecoration(
                                                     hintText: 'Work Pos Name VN',
                                                   ),
-                                                  controller: _workpositionnamevnctrl,
+                                                  controller: workpositionnamevnctrl,
                                                 ),
                                                  TextField(
                                                   decoration:  const  InputDecoration(
                                                     hintText: 'Work Pos Name KR',
                                                   ),
-                                                  controller: _workpositionnamekrctrl,
+                                                  controller: workpositionnamekrctrl,
                                                 ),
                                                  TextField(
                                                   decoration:  const  InputDecoration(
                                                     hintText: 'ATT Group Code',
                                                   ),
-                                                  controller: _attgroupctrl,
+                                                  controller: attgroupctrl,
                                                 ),
                                                 const SizedBox(height: 20),
                                                 ElevatedButton(
                                                   onPressed: () {
                                                     // Implement the button functionality here
-                                                    _addWorkPosition(widget.SUBDEPTCODE, int.parse(_workpositioncodectrl.text), _workpositionnamevnctrl.text, _workpositionnamekrctrl.text, int.parse(_attgroupctrl.text));
+                                                    _addWorkPosition(widget.SUBDEPTCODE, int.parse(workpositioncodectrl.text), workpositionnamevnctrl.text, workpositionnamekrctrl.text, int.parse(attgroupctrl.text));
                                                     Navigator.of(context).pop();
                                                   },
                                                   child: const  Text('Create New'),

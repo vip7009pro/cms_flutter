@@ -2,7 +2,7 @@ import 'package:cms_flutter/components/DiemDanhNhomTable.dart';
 import 'package:flutter/material.dart';
 
 class DiemDanhNhom extends StatefulWidget {
-  const DiemDanhNhom({Key? key}) : super(key: key);
+  const DiemDanhNhom({super.key});
   @override
   _DiemDanhNhomState createState() => _DiemDanhNhomState();
 }

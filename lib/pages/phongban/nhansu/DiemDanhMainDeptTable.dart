@@ -8,8 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 class DiemDanhMainDeptTable extends StatefulWidget {
   final List<DIEMDANHMAINDEPT> diemdanhmaindeptdata;
-  const DiemDanhMainDeptTable({Key? key, required this.diemdanhmaindeptdata})
-      : super(key: key);
+  const DiemDanhMainDeptTable({super.key, required this.diemdanhmaindeptdata});
   @override
   _DiemDanhMainDeptTableState createState() => _DiemDanhMainDeptTableState();
 }
@@ -125,7 +124,7 @@ class DiemDanhMainDeptDataSource extends DataGridSource {
         alignment: Alignment.center,
         padding: const EdgeInsets.all(1.0),
         child: Text(e.value.toString(),
-            style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
       );
     }).toList());
   }

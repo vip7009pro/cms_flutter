@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class DieuChuyenTeam extends StatefulWidget {
-  const DieuChuyenTeam({Key? key}) : super(key: key);
+  const DieuChuyenTeam({super.key});
 
   @override
   _DieuChuyenTeamState createState() => _DieuChuyenTeamState();

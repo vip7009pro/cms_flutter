@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class NhanSu extends StatefulWidget {
-  const NhanSu({Key? key}) : super(key: key);
+  const NhanSu({super.key});
 
   @override
   _NhanSuState createState() => _NhanSuState();
