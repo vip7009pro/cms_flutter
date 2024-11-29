@@ -30,6 +30,7 @@ class API_Request {
     dio.interceptors.add(CookieManager(cookieJar));
     String savedToken = await LocalDataAccess.getVariable("token");
     data['token_string'] = savedToken;
+    data['CTR_CD'] = '002';
     final body = {'command': command, 'DATA': data};
     try {
       final response = await dio.post(url, data: jsonEncode(body));

@@ -15,12 +15,12 @@ import 'package:moment_dart/moment_dart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ota_update/ota_update.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
-class InputLieu extends StatefulWidget {
-  const InputLieu({super.key});
+class InputLieu2 extends StatefulWidget {
+  const InputLieu2({super.key});
   @override
-  _InputLieuState createState() => _InputLieuState();
+  _InputLieu2State createState() => _InputLieu2State();
 }
-class _InputLieuState extends State<InputLieu> {
+class _InputLieu2State extends State<InputLieu2> {
   bool _useScanner = false;
   String _token = "reset";
   String _planId = '';
@@ -386,7 +386,8 @@ class _InputLieuState extends State<InputLieu> {
     }
     if (!mounted) return;
     setState(() {
-            
+      _planId = barcodeScanRes;
+      _controllerPlanId.text = barcodeScanRes;
     });
   }
   Future<void> scanBarcodeNormal(String type) async {
@@ -473,215 +474,15 @@ class _InputLieuState extends State<InputLieu> {
         body: Container(
             alignment: Alignment.center,
             margin: const EdgeInsets.all(16),
-            child: ListView(children: <Widget>[
-              Form(
-                key: _formKey,
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      TextFormField(
-                        decoration: const InputDecoration(
-                          labelText: "EMPL_NO/사원ID:",
-                          hintText: "Quét EMPL_NO",
-                        ),
-                        onTap: () {
-                          if (_useScanner) {
-                            scanBarcodeNormal("EMPL_NO");
-                          }
-                        },
-                        validator: (value) {
-                          if (value == null ||
-                              value.isEmpty ||
-                              value.toString() == '-1') {
-                            return 'Phải quét mã vạch/ 바코드 스캔해야 합니다';
-                          }
-                          return null;
-                        },
-                        controller: _controllerEmplNo,
-                        onChanged: (value) {
-                          //Get.snackbar('Thông báo', value);
-                          setState(() {
-                            _emplNo = value;
-                            if (value.length >= 7) {
-                              checkEmplNo(value);
-                            }
-                          });
-                        },
-                      ),
-                      Text(
-                        'PIC: ${_userInfo?['MIDLAST_NAME'].toString() ?? ''} ${_userInfo?['FIRST_NAME'].toString() ?? ''}',
-                        style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Color.fromARGB(255, 30, 7, 233)),
-                      ),
-                      TextFormField(
-                        decoration: const InputDecoration(
-                          labelText: "PLAN_ID/지시 번호:",
-                          hintText: "Quét PLAN_ID",
-                        ),
-                        onTap: () {
-                          if (_useScanner) scanBarcodeNormal("PLAN_ID");
-                        },
-                        // The validator receives the text that the user has entered.
-                        validator: (value) {
-                          if (value == null ||
-                              value.isEmpty ||
-                              value.toString() == '-1') {
-                            return 'Phải quét mã vạch/ 바코드 스캔해야 합니다';
-                          }
-                          return null;
-                        },
-                        controller: _controllerPlanId,
-                        onChanged: (value) {
-                          //Get.snackbar('Thông báo', value);
-                          setState(() {
-                            _planId = value;
-                            if (value.length == 8) {
-                              checkPlanIdInfo(value);
-                            }
-                          });
-                        },
-                      ),
-                      TextFormField(
-                        decoration: const InputDecoration(
-                          labelText: "MACHINE/호기:",
-                          hintText: "Quét MACHINE",
-                        ),
-                        onTap: () {
-                          if (_useScanner) scanBarcodeNormal("MACHINE_NO");
-                        },
-                        // The validator receives the text that the user has entered.
-                        validator: (value) {
-                          if (value == null ||
-                              value.isEmpty ||
-                              value.toString() == '-1') {
-                            return 'Phải quét mã vạch/ 바코드 스캔해야 합니다';
-                          }
-                          return null;
-                        },
-                        controller: _controllerMachineNo,
-                        onChanged: (value) {
-                          //Get.snackbar('Thông báo', value);
-                          setState(() {
-                            _machineNo = value;
-                          });
-                        },
-                      ),
-                      Text(
-                        'CODE: ${_planInfo?['G_NAME'].toString() ?? ''} | ${_planInfo?['PLAN_EQ'].toString() ?? ''}',
-                        style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.green),
-                      ),
-                      TextFormField(
-                        decoration: const InputDecoration(
-                          labelText: "M_LOT_NO:",
-                          hintText: "Quét M_LOT_NO",
-                        ),
-                        onTap: () {
-                          if (_useScanner) scanBarcodeNormal("M_LOT_NO");
-                        },
-                        // The validator receives the text that the user has entered.
-                        validator: (value) {
-                          if (value == null ||
-                              value.isEmpty ||
-                              value.toString() == '-1') {
-                            return 'Phải quét mã vạch/ 바코드 스캔해야 합니다';
-                          }
-                          return null;
-                        },
-                        controller: _controllerMLotNo,
-                        onChanged: (value) {
-                          //Get.snackbar('Thông báo', value);
-                          setState(() {
-                            _mLotNo = value;
-                            _mLotNo2 = value;
-                            if (value.length == 10) {
-                              checkMLotNoInfo(value, _planId);
-                            }
-                          });
-                        },
-                      ),
-                      Text(
-                        'LIỆU: $_mName | SIZE: $_mSize',
-                        style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Color.fromARGB(255, 243, 8, 192)),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Checkbox(
-                            checkColor: Colors.green,
-                            fillColor:
-                                WidgetStateProperty.resolveWith(getColor),
-                            value: _useScanner,
-                            onChanged: (bool? value) {
-                              setState(() {
-                                _useScanner = value!;
-                                if (value == true) {
-                                  LocalDataAccess.saveVariable(
-                                      'useCamera', 'OK');
-                                } else {
-                                  LocalDataAccess.saveVariable('useCamera', '');
-                                }
-                              });
-                            },
-                          ),
-                          const Text('Dùng camera')
-                        ],
-                      ),
-                      const SizedBox(
-                        width: 10,
-                        height: 20,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          ElevatedButton(
-                              onPressed: () {
-                                if (_formKey.currentState!.validate()) {
-                                  if (_useScanner) {
-                                    //insertP500(_mLotNo, _planId);
-                                  } else {
-                                    insertP500NoCamera();
-                                  }
-                                  setState(() {
-                                    _controllerMLotNo.text = '';
-                                    _mLotNo = '';
-                                    _mName = '';
-                                    _mSize = '';
-                                  });
-                                }
-                              },
-                              child: const Text('Input')),
-                          ElevatedButton(
-                              onPressed: () {
-                                AwesomeDialog(
-                                  context: context,
-                                  dialogType: DialogType.question,
-                                  animType: AnimType.rightSlide,
-                                  title: 'Cảnh báo',
-                                  desc: 'Bạn muốn logout? / Logout 하시겠습니까?',
-                                  btnCancelOnPress: () {},
-                                  btnOkOnPress: () {
-                                    GlobalFunction.logout();
-                                    Get.off(() => const LoginPage());
-                                  },
-                                ).show();
-                              },
-                              child: const Text('Back')),
-                        ],
-                      ),
-                      InputMaterialList(
-                          planID: _planId, key: ValueKey(_planId)),
-                      /* Text(
-                          'OTA status: ${currentEvent.status} : ${currentEvent.value} \n'), */
-                    ]),
-              ),
-            ])));
+            child: ListView(  
+              children: [
+                Text('Input Material'),
+                ElevatedButton(onPressed: (){
+                  scanQR();
+
+                }, child: Text('Start Scan')),
+                Text('Scanned Data: $_planId'),
+              ],
+            )));
   }
 }
