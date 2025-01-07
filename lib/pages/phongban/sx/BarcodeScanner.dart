@@ -16,7 +16,7 @@ class _QRViewExampleState extends State<QRViewExample> {
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   DateTime? lastScan;
-  static const scanInterval = Duration(milliseconds: 500);
+  static const scanInterval = Duration(milliseconds: 1000);
 
   @override
   void reassemble() {
@@ -43,7 +43,7 @@ class _QRViewExampleState extends State<QRViewExample> {
                       itemCount: listBarcode.length,
                       itemBuilder: (context, index) {
                         return ListTile(
-                          title: Text('${index + 1} - ${listBarcode[index]}'),
+                          title: Text('${listBarcode.length -index} - ${listBarcode[index]}'),
                         );
                       },
                     ),
