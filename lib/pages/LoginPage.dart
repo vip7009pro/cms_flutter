@@ -48,7 +48,7 @@ Future<void> _loadAccount() async{
     return savedToken;
   }
   void _login(BuildContext context) {
-    API_Request.api_query('login2', {'user': _user, 'pass': _pass})
+    API_Request.api_query('login2', {'user': _user, 'pass': _pass, 'CTR_CD':'002'})
         .then((value) => {
               setState((() {
                 if (value['tk_status'] == 'ok') {

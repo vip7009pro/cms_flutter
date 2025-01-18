@@ -569,7 +569,8 @@ void initState() {
                   ),
                   title: const Text("Bắn Lot Liệu Sản Xuất"),
                   onTap: () {
-                    Get.to(() => const InputLieu());
+                    Get.to(() => const QRViewExample());
+                   // Get.to(() => const InputLieu());
                     //action on press
                   },
                 ),
